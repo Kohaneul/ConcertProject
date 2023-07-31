@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<link rel="stylesheet" type="text/css" th:href="@{/css/Error.css}"/>-->
+<!--<link rel="stylesheet" type="text/css" th:href="@{/css/All.css}"/>-->
+<title>조회</title>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+
+    function dataSend(){
+        let loginId = $("#loginId").val();
+
+        let sendDTO = {"loginId":loginId,"phone_number":null,"employee_name":null,"part_name":null};
+
+        $.ajax({
+            url: "/dinner/info/send",
+            data: JSON.stringify(sendDTO),
+            dataType: "json",
+            contentType: "application/json; charset=UTF",
+            type: 'POST',
+            success:function(data){
+                $("#loginId").val(data.loginId);
+                $("#phone_number").val(data.phone_number);
+                $("#employee_name").val(data.employee_name);
+                $("#part_name").val(data.part_name);
+
+            },
+            error:function(error){
+                alert("찾을 수 없습니다.");
+                $("#loginId").val("");
+                $("#phone_number").val("");
+                $("#employee_name").val("");
+                $("#part_name").val("");
+            }
+
+        });
+    }
+    /*]]>*/
+
+</script>
+
+</head>
+<body class="bg-primary">
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div id="layoutSidenav_content">
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">
+                                    <span>
+                                포스터 보기
+                                    </span>
+                                </h3>
+                                </div>
+                                <div id="AllContents">
+                                    <img th:src="${concertDetailInfo.concertData.poster}" width="200"/>
+                                    <div th:text="${concertDetailInfo.concertData.prfnm}"></div>
+                                    <div th:text="${concertDetailInfo.concertData.prfpdfrom}"></div>
+                                    <div th:text="${concertDetailInfo.concertData.prfpdto}"></div>
+                                    <div th:text="${concertDetailInfo.concertDetail.prfcast}"></div>
+                                    <div th:text="${concertDetailInfo.concertDetail.prfcrew}"></div>
+                                    <div th:text="${concertDetailInfo.concertDetail.prfruntime}"></div>
+                                    <div th:text="${concertDetailInfo.concertDetail.prfage}"></div>
+
+                                    <div th:if="${concertDetailInfo.styurls.size()>0}">
+                                        <div th:each="concertData,i :${concertDetailInfo.styurls}">
+                                            <img th:src="${concertData.styurl}" width="200"/>
+                                        </div>
+                                    </div>
+
+
+
+                                    <button type="button"  onclick="window.close();" >닫기</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+         </main>
+    </div>
+</div>
+</body>
+</html>

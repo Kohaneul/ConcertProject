@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<title>조회</title>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+<style>
+    table{
+    text-align:center;
+    }
+    #sortTab{
+    margin-left:5%;
+    }
+    input{
+        text-align:center;
+    }
+</style>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+
+<!--            let date = [[${concertSearchInfoDTO}]];-->
+
+<!--        window.onload = function(){-->
+<!--        document.getElementById('stDate').value = date.stDate.substr(0,4)+'-'+date.stDate.substr(4,2)+'-'+date.stDate.substr(6,2);-->
+<!--        document.getElementById('edDate').value = date.edDate.substr(0,4)+'-'+date.edDate.substr(4,2)+'-'+date.edDate.substr(6,2);-->
+
+<!--    }-->
+
+
+
+
+        let openWin;
+    function openChild(id){
+        window.name="parentForm";
+        let width = 400;
+        let height = 300;
+        let popupX = (window.screen.width / 2) - (width / 2);
+        let popupY= (window.screen.height / 2) - (height / 2);
+        let url ="/detailView/img?mt20id="+id;
+         openWin = window.open(url, "childForm", "width=570, height=350, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
+    }
+
+    function onClick(){
+            document.getElementById('stDate').addEventListener('change',function(){
+            let stDate = document.getElementById('stDate');
+            console.log(stDate.value);
+           document.getElementById('edDate').value = stDate.value;
+           })};
+
+
+
+    /*]]>*/
+    </script>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+<body class="bg-primary">
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div id="layoutSidenav_content">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">
+                                    <span>
+                                  조회 페이지
+                                    </span>
+                                </h3>
+                                </div>
+                                <div id="AllContents">
+                                    <div id="sortTab">
+                                        <div>
+                                            <form th:object="${concertSearchInfoDTO}" class="form-inline" name="sendfrm" >
+                                            <span class="form-group mb-2" id="sortId">
+                                                <span id = "DTO1">
+                                                    <input type="date" id="stDate" th:field="*{stDate}" th:onclick="onClick()"/> ~
+                                                    <input type="date" id="edDate" th:field="*{edDate}"/>
+                                                   <input type="text" id="cpage" th:field="*{cpage}" placeholder="페이지"/>
+                                                </span>
+                                                <button type="submit" class="btn btn-primary mb-2">검색</button>
+                                            </span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <span id = "dataIsNotNull" th:if="${concertDataList.size()>0}">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th class="mt20id">no</th>
+                                            <th class = "prfnm">제목</th>
+                                            <th class = "prfpdfrom">기간</th>
+                                            <th class = "fcltynm">위치</th>
+                                            <th class = "genrenm">장르</th>
+                                            <th class = "prfstate">공연완료</th>
+                                            <th class = "poster">포스터</th>
+                                            <th class = "openrun">오픈런여부</th>
+                                        </tr>
+                                        </thead>
+                                        <div th:if="${concertDataList.size()>0}">
+                                            <tbody>
+                                            <tr th:each="concertData,i :${concertDataList}">
+                                                <td class = "mt20id" th:text="${i.count}"></td>
+                                                <td class = "prfnm" th:text="${concertData.prfnm}"></td>
+                                                <td class = "prfpdfrom" th:text="${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
+                                                <td class = "fcltynm" th:text="${concertData.fcltynm}"></td>
+                                                <td class = "genrenm" th:text="${concertData.genrenm}"></td>
+                                                <td class = "prfstate" th:text="${concertData.prfstate}"></td>
+                                                <td class="poster"> <a th:onclick="openChild([[${concertData.mt20id}]])"><button>상세보기</button></a></td>
+                                                <td class = "openrun">
+                                                    <span th:if="${concertData.openrun.equals('Y')}">O</span>
+                                                    <span th:if="${concertData.openrun.equals('N')}">X</span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </div>
+                                    </table>
+                                    </span>
+                                    <span id = "dataIsNull" th:if="${concertDataList.size()<1}">
+                                            <h2>데이터가 존재하지 않습니다.</h2>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+         </main>
+    </div>
+</div>
+</body>
+</html>
