@@ -1,4 +1,4 @@
-package com.project.concertView.web.dto;
+package com.project.concertView.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;

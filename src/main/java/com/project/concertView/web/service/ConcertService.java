@@ -3,9 +3,10 @@ package com.project.concertView.web.service;
 import com.project.concertView.domain.dao.ConcertData;
 import com.project.concertView.domain.dao.ConcertDetailInfo;
 import com.project.concertView.domain.dao.ConcertPlace;
-import com.project.concertView.web.dto.ConcertPlaceInfoDTO;
+import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
+import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.web.repository.ConcertRepository;
-import com.project.concertView.web.dto.ConcertSearchInfoDTO;
+import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class ConcertService {
         return concertRepository.findAllDTO(concertSearchInfoDTO);
     }
 
-    public ConcertDetailInfo concertDetailInfo(String mt20id){
-        return concertRepository.findOne(mt20id);
+    public ConcertDetailInfo concertDetailInfo(ConcertDetailInfoDTO concertDetailInfoDTO){
+        return concertRepository.findOne(concertDetailInfoDTO);
     }
     public ConcertPlace findConcertHall(ConcertPlaceInfoDTO concertPlaceInfoDTO){
         return concertRepository.findConcertPlace(concertPlaceInfoDTO);
