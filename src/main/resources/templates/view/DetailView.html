@@ -23,23 +23,11 @@
 
     <script th:inline="javascript">
     /*<![CDATA[*/
-
-<!--            let date = [[${concertSearchInfoDTO}]];-->
-
-<!--        window.onload = function(){-->
-<!--        document.getElementById('stDate').value = date.stDate.substr(0,4)+'-'+date.stDate.substr(4,2)+'-'+date.stDate.substr(6,2);-->
-<!--        document.getElementById('edDate').value = date.edDate.substr(0,4)+'-'+date.edDate.substr(4,2)+'-'+date.edDate.substr(6,2);-->
-
-<!--    }-->
-
-
-
-
         let openWin;
     function openChild(id){
         window.name="parentForm";
-        let width = 400;
-        let height = 300;
+        let width = 500;
+        let height = 400;
         let popupX = (window.screen.width / 2) - (width / 2);
         let popupY= (window.screen.height / 2) - (height / 2);
         let url ="/detailView/img?mt20id="+id;

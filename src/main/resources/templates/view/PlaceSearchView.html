@@ -15,10 +15,6 @@
     <script th:inline="javascript">
     /*<![CDATA[*/
 
-       function NextPage(mt10id){
-        let url ="/detailView/place/"+mt10id;
-        window.location.href=url;
-    }
 
     /*]]>*/
 
@@ -37,36 +33,40 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">
                                     <span>
-                                포스터 보기
+                                공연장소 정보 보기
                                     </span>
                                 </h3>
                                 </div>
                                 <div id="AllContents">
-                                    <img th:src="${concertDetailInfo.concertData.poster}" width="200"/>
-                                    <div>
-                                        <li>제목 : <span th:text="${concertDetailInfo.concertData.prfnm}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 기간 : <span th:text="${concertDetailInfo.concertData.prfpdfrom} +'~'+ ${concertDetailInfo.concertData.prfpdto}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 캐스팅 :  <span th:text="${concertDetailInfo.concertDetail.prfcast}+', '+${concertDetailInfo.concertDetail.prfcrew}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 러닝타임 : <span th:text="${concertDetailInfo.concertDetail.prfruntime}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 연령 : <span th:text="${concertDetailInfo.concertDetail.prfage}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li>장소 : <a th:onclick="NextPage([[${concertDetailInfo.concertDetail.mt10id}]])"><span th:text="${concertDetailInfo.concertData.fcltynm}" style="text-decoration:underline; cursor: pointer;color=teal;"></span></a>
-                                        </li>
-                                    </div>
-
-                                    <div th:if="${concertDetailInfo.styurls.size()>0}">
-                                        <div th:each="concertData,i :${concertDetailInfo.styurls}">
-                                            <img th:src="${concertData.styurl}" width="400"/>
+                                    <div id="sortTab">
+                                        <div>
+                                            <form th:object="${concertPlaceInfoDTO}" class="form-inline" name="sendfrm" >
+                                            <span class="form-group mb-2" id="sortId">
+                                                <span id = "DTO1">
+                                                    <input type="text" id="cpage" th:field="*{cpage}"/> ~
+                                                    <input type="text" id="rows" th:field="*{rows}"/>
+                                                   <input type="text" id="shprfnmfct" th:field="*{shprfnmfct}"/>
+                                                </span>
+                                                <button type="submit" class="btn btn-primary mb-2">검색</button>
+                                            </span>
+                                            </form>
                                         </div>
+                                    </div>
+                                    <span id = "mt10id" th:value="${concertPlace.mt10id}"></span>
+                                    <div>
+                                        <li><span th:text="${concertPlace.fcltynm}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li><span th:text="${concertPlace.mt13cnt}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li><span th:text="${concertPlace.fcltychartr}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li><span th:text="${concertPlace.gugunnm}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li><span th:text="${concertPlace.opende}"></span></li>
                                     </div>
                                     <button type="button"  onclick="window.close();" >닫기</button>
 
