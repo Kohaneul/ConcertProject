@@ -7,7 +7,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 import java.util.Arrays;
-
+/**
+ * SPRING AOP
+ * 정해진 클래스가 호출될시 로그 표시
+ * 로그 내용 : 파라미터 타입
+ *
+ * */
 @Aspect
 @Slf4j
 public class ConcertAspect {
