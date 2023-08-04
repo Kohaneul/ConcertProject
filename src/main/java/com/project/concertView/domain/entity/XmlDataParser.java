@@ -34,7 +34,6 @@ import static java.lang.Boolean.TRUE;
 @NoArgsConstructor
 //@NoArgsConstructor
 public class XmlDataParser {
-    private ReqURL requestURL;
     private String stDate;      // 공연시작일
     private String edDate;      // 공연 종료일
     private int rows;           // 페이지 당 목록 수
@@ -300,7 +299,7 @@ public class XmlDataParser {
      * 해당 no 파라미터를 통하여 path 값이 결정되며 문자열 생성
      * */
     private StringBuilder reqURL(int no) {
-
+        ReqURL reqURL = new ReqURL();
         //각 넘버별 담아야할 파라미터 hashMap에 담아두게 하기 위하여 hashMap 객체 생성
         HashMap<String, Object> hashMap = new HashMap<>();
         String path = null;
@@ -309,7 +308,7 @@ public class XmlDataParser {
         //no : 3(공연 시설 정보 조회) 의 경우 path prfplc
         if(no==3){path = "prfplc";}
         sortNum(no, hashMap);  //각 번호별 파라미터 값 hashMap에 저장
-        return requestURL.setURL(hashMap, path);
+        return reqURL.setURL(hashMap, path);
     }
     /**
      * 요청 URL 전송시 필수적으로 필요한 쿼리스트링이나 path값에 대하여 HashMap에 담는 클래스
