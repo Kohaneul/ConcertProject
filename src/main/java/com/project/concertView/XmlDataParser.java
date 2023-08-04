@@ -87,7 +87,7 @@ public class XmlDataParser {
     }
 
     /**
-     * 정해진 파라미터에 따라서 반환되는 Document 객체 값이 달라짐
+     * 정해진 파라미터에 따라서 조회되는 데이터가 달라지도록 설정함
      * 1. no
      *    1) 1 : 공연 정보 조회
      *    2) 2 : 공연 정보 상세 조회
@@ -98,7 +98,7 @@ public class XmlDataParser {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            // url : reqURL(no)
+            // xml 데이터를 가져올 url : reqURL(no) 을 통해서 생성
             document = builder.parse(reqURL(no).toString());
             document.getDocumentElement().normalize();
         } catch (Exception e) {
@@ -107,48 +107,62 @@ public class XmlDataParser {
         return document;
     }
 
-
+    /**
+     * 요청한 url을 통해 가져온 공연 상세정보를
+     * 해당 메소드 호출시 ConcertDetailInfo 객체에 담아서 반환
+     */
     public ConcertDetailInfo setConcertDetailInfo() {
         Document document = buildUp(2);
         ConcertData concertData = new ConcertData();
         return setDetailInfo(document, concertData);
     }
 
-
+    /**
+     * 요청한 url을 통해 가져온 일자별 공연 정보를
+     * 해당 메소드 호출시 ConcertData 객체에 담아서 반환
+     */
     public List<ConcertData> setting() {
         List<ConcertData> concertDataList = new LinkedList<>();
-        stDate = stDate.replaceAll("-", "");
+        stDate = stDate.replaceAll("-", "");    //2023-08-04 로 url 입력시 조회가 되지 않아 -를 생략하도록 함
         edDate = edDate.replaceAll("-", "");
         Document document = buildUp(1);
-        setConcertData(document, concertDataList);
+        setConcertData(document, concertDataList);  //조회한 한개 이상의 데이터를 배열 타입으로 셋팅
         return concertDataList;
     }
 
-
+    /**
+     * 요청한 url을 통해 가져온 공연장 정보를
+     * 해당 메소드 호출시 ConcertPlace 객체에 담아서 반환
+     */
     public ConcertPlace setConcertPlace() {
         Document document = buildUp(3);
         ConcertPlace concertPlace = new ConcertPlace();
-        NodeList nodeList = getNodeList(document);
+        NodeList nodeList = getNodeList(document); //해당 document 안에 추가적으로 자식 노드가 존재하기 때문에 NodeList로 반환하여
         for (int i = 0; i < nodeList.getLength(); i++) {
             NodeList nodeList2 = nodeList.item(i).getChildNodes();
-            setPlace(nodeList2, concertPlace);
+            setPlace(nodeList2, concertPlace);//ConcertPlace 객체에 담아줌
         }
-
         return concertPlace;
     }
 
-
+    /**
+     * 파라미터로 받은 NodeList 를
+     * 해당 메소드 호출시 ConcertPlace 객체에 담아서 반환
+     */
     private void setPlace(NodeList childNodes, ConcertPlace concertPlace) {
-        log.info("concert={}", concertPlace.getFcltynm());
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node item = childNodes.item(i);
+            //리플랙션 기능 활용하여 ConcertPlace 멤버변수 추출 -> Node명과 동일할 경우 객체에 담아주도록 함
             if (item.getNodeType() == Node.ELEMENT_NODE) {
-                log.info("item={} : {}", item.getNodeName(), item.getTextContent());
                 setFieldsToData(concertPlace, item, i);
             }
         }
     }
 
+    /**
+     * 해당 메소드 호출시 파라미터로 받은 NodeList 를 추출하여 공연 상세 정보에 대한 내용을
+     * ConcertDetail 객체에 담아서 반환
+     */
     private ConcertDetail concertDetail(NodeList node) {
         ConcertDetail concertDetail = new ConcertDetail();
         for (int i = 0; i < node.getLength(); i++) {
@@ -159,21 +173,54 @@ public class XmlDataParser {
         }
         return concertDetail;
     }
+    /**
+     * ConcertDetailInfo 에 선언한 참조타입 멤버변수에 대하여 셋팅 후 반환하기 위한 클래스
+     * 예시 ) mt20id : PF222711의 경우 조회된 데이터
+     * <db> <-- 1. document 를 통하여 해당 데이터 추출
+         2. ConcertData 객체에 담음
+         <mt20id>PF222711</mt20id>
+         <prfnm>김창완밴드 전국투어: 아니벌써 [춘천]</prfnm>
+         <prfpdfrom>2023.10.14</prfpdfrom>
+         <prfpdto>2023.10.14</prfpdto>
+         <fcltynm>강원대학교 백령아트센터 (강원대학교 백령아트센터)</fcltynm>
+         <prfstate>공연예정</prfstate>
+         <openrun>N</openrun>
+         <poster>http://www.kopis.or.kr/upload/pfmPoster/PF_PF222711_230725_123147.gif</poster>
+        <genrenm>대중음악</genrenm>
 
+        3. ConcertDetai 객체에 담음
+         <prfcast>김창완, 이상훈, 최원식, 강윤기, 염민열</prfcast>
+         <prfcrew> </prfcrew>
+         <prfruntime>2시간</prfruntime>
+         <prfage>만 7세 이상</prfage>
+         <entrpsnm> </entrpsnm>
+         <mt10id>FC000521</mt10id>
+         <pcseguidance>R석 110,000원, S석 99,000원, A석 88,000원</pcseguidance>
+
+        4. styurl 객체에 배열로 담음
+         <sty> </sty>
+             <styurls>
+               <styurl>http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF222711_230725_1231470.jpg</styurl>
+             </styurls>
+         <dtguidance>토요일(18:00)</dtguidance>
+
+     * </db>
+     *
+     */
     private ConcertDetailInfo setDetailInfo(Document document, ConcertData concertData) {
-        List<StyURL> styURLList = new LinkedList<>();
-        ConcertDetail concertDetail = new ConcertDetail();
-        NodeList nodeList = getNodeList(document);
+        List<StyURL> styURLList = new LinkedList<>();       // 공연 상세 이미지 주소를 배열타입으로 선언
+        ConcertDetail concertDetail = new ConcertDetail();  // 콘서트 상세정보 선언
+        NodeList nodeList = getNodeList(document);          // 1. ConcertDetailInfo에 부합하는 NodeList 추출
         for (int i = 0; i < nodeList.getLength(); i++) {
-            NodeList nodeList2 = nodeList.item(i).getChildNodes();
-            concertDetail = concertDetail(nodeList2);
-            concertData = setData(nodeList2, i);
+            NodeList nodeList2 = nodeList.item(i).getChildNodes();  // db 이름의 노드 하위 노드리스트 조회
+            concertDetail = concertDetail(nodeList2);                // 3. ConcertDetail 객체에 xml 데이터 넣음
+            concertData = setData(nodeList2, i);                      // 2. ConcertData 객체에 xml 데이터 넣음
             for (int j = 0; j < nodeList2.getLength(); j++) {
                 NodeList childNodes = nodeList2.item(j).getChildNodes();
                 for (int d = 0; d < childNodes.getLength(); d++) {
-                    Node n = childNodes.item(d);
+                    Node n = childNodes.item(d);            //자식노드3 조회
                     if (n.getNodeType() == Node.ELEMENT_NODE) {
-                        styURLList.add(setStyURLNodeList(n));
+                        styURLList.add(setStyURLNodeList(n));   //4. List로 선언한 styURLList에 담기
                     }
                 }
             }
