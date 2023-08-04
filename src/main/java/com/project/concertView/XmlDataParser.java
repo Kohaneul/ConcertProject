@@ -225,51 +225,66 @@ public class XmlDataParser {
                 }
             }
         }
-
         return new ConcertDetailInfo(concertData, concertDetail, styURLList);
     }
 
-
+    /**
+     *  메소드 호출시 파라미터로부터 받은 Document 객체를 통하여 조회된 복수의 노드를 List<ConcertData> 객체에 담아줌
+     *
+     */
     private void setConcertData(Document document, List<ConcertData> concertDataList) {
+        //Document를 통한 NodeList 추출
         NodeList db = getNodeList(document);
-        ConcertData concertData;
+        ConcertData concertData;    //ConcertData 초기화
         int no = 0;
         for (int i = 0; i < db.getLength(); i++) {
-            NodeList childNodes = db.item(i).getChildNodes();
+            NodeList childNodes = db.item(i).getChildNodes();   //복수의 NodeList를 ConcertData 객체에 담아준 후
             concertData = setData(childNodes, no);
-            concertDataList.add(concertData);
+            concertDataList.add(concertData);//인자로 전달된 concertDataList에 넣어줌
         }
     }
 
-
+    /**
+     *  NodeList에 있는 node를 ConcertData 객체의 셋팅 한 뒤 반환
+     *
+     */
     private ConcertData setData(NodeList childNodes, int no) {
-        ConcertData concertData = new ConcertData();
+        ConcertData concertData = new ConcertData();    //ConcertData 초기화
         for (int j = 0; j < childNodes.getLength(); j++) {
-            Node item = childNodes.item(j);
-            setFieldsToData(concertData, item, no);
+            Node item = childNodes.item(j); //nodeList에서 각 노드 추출
+            setFieldsToData(concertData, item, no); //노드이름과 객체의 멤버변수 이름과 동일하면 해당 객체의 setter를 통하여 값 셋팅
         }
         return concertData;
     }
 
+    /**
+     *  node 에서 "styurl" 의 이름을 가진 노드의 값을 styURL 객체를 통하여 셋팅
+     */
     private StyURL setStyURLNodeList(Node item) {
         StyURL styURL = new StyURL();
         if (item.getNodeType() == Node.ELEMENT_NODE) {
-            if (item.getNodeName().equals("styurl")) {
+            if (item.getNodeName().equals("styurl")) {  //노드 이름이 styurl 일경우 > 선언한 styURL 객체의 styurl 멤버변수에 셋팅
                 styURL.setStyurl(item.getTextContent());
             }
         }
         return styURL;
     }
 
-
+    /**
+     *  매개변수로 주어진 객체의 멤버변수명과 노드의 이름과 동일하면
+     *  해당 객체에 셋팅하게 만들어주는 메소드
+     */
     private void setFieldsToData(Object concertData, Node item, int no) {
+        //리플랙션 기능을 통하여 매개변수에 주어진 concertData 의 선언된 멤버변수 조회
         Field[] declaredFields = concertData.getClass().getDeclaredFields();
         for (Field declaredField : declaredFields) {
             if (item.getNodeType() == Node.ELEMENT_NODE) {
                 String name = declaredField.getName();
                 declaredField.setAccessible(TRUE);
+                //node와 object 타입의 변수가 같다면
                 if (name.equals(item.getNodeName())) {
                     try {
+                        //setter 기능을 통하여 해당 멤버변수에 셋팅함
                         declaredField.set(concertData, item.getTextContent());
                         no++;
                     } catch (IllegalAccessException e) {
@@ -320,47 +335,69 @@ public class XmlDataParser {
     }
 
 
+    /**
+     * XmlDataParser 안에 내부클래스인 ReqURL 생성
+     *
+     * */
+
     @Slf4j
     @NoArgsConstructor
     static class ReqURL {
-        private final String SERVICE_KEY = "?service=e6dd15ac283d4534b2d9886c5328241e";
 
+        private final String SERVICE_KEY = "?service=e6dd15ac283d4534b2d9886c5328241e"; //URL 생성을 위한 문자열 결합기능을 위하여 SERVICE_KEY 선언
+
+        /**
+         * 요청 path에 따라서 쿼리파라미터값이 다름.
+         * 공통점은 쿼리파라미터 란에 service_key 를 넣어주게끔 되어있어
+         * 이를 공통적으로 처리하기위한 클래스
+         * */
         private void sortNum(StringBuilder sb, String path) {
             sb.append(path);
+            log.info("SERVICE_KEY={}",SERVICE_KEY);
             sb.append(SERVICE_KEY).append("&");
         }
 
-
+        /**
+         * 공통된 요청 URL : http://www.kopis.or.kr/openApi/restful/ 셋팅 후
+         * 필요한 쿼리파라미터, value를 HashMap에 넣어준 뒤
+         * paramMap의 사이즈가 1보다 큰 경우에
+         * ?key1=value1&key2=value2&...으로 문자열 결합
+         * */
         public StringBuilder setURL(HashMap<String, Object> paramMap, String path) {
             StringBuilder sb = new StringBuilder();
-            String REQUEST_URL = "http://www.kopis.or.kr/openApi/restful/";
-            sb.append(REQUEST_URL);
+            sb.append("http://www.kopis.or.kr/openApi/restful/");
             String paramVal = null;
+            //paramMap의 사이즈가 1인 경우에는
+            // http://www.kopis.or.kr/openApi/restful/ + path + / + paramMap.get(key)?service=서비스값
+            //그 이상인 경우
+            // http://www.kopis.or.kr/openApi/restful/ + path ? paramMap.key +  = + paramMap.get(key)....?service=서비스값
             if (paramMap.size() > 1) {
                 sortNum(sb, path);
                 int no = 0;
                 for (String s : paramMap.keySet()) {
                     no++;
-                    log.info("no={}", no);
                     if (no < paramMap.size()) {
                         sb.append(s).append("=").append(paramMap.get(s)).append("&");
                     } else {
                         sb.append(s).append("=").append(paramMap.get(s));
                     }
                 }
-                log.info("url={}", sb.toString());
                 return sb;
             } else {
+                //path가 pblprfr와 동일할 경우
                 if (path.equals("pblprfr")) {
+                    //key의 값이 mt20id의 value 값을 paramVal에 넣어줌
                     paramVal = paramMap.get("mt20id").toString();
                 }
+                //path가 prfplc와 동일할 경우
                 if (path.equals("prfplc")) {
+                    //key의 값이 mt10id의 value 값을 paramVal에 넣어줌
                     paramVal = paramMap.get("mt10id").toString();
                 }
+              //  http://www.kopis.or.kr/openApi/restful/pblprfr + / + paramVal + ?service=service_key
                 sb.append(path).append("/").append(paramVal).append(SERVICE_KEY);
             }
             log.info("url={}", sb.toString());
-
             return sb;
         }
     }
