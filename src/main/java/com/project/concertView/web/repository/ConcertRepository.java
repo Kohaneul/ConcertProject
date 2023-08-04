@@ -45,12 +45,5 @@ public class ConcertRepository {
         XmlDataParser xmlDataParser = new XmlDataParser(concertPlaceInfoDTO);
         return xmlDataParser.setConcertPlace();
     }
-    /**4. 공연 시설 조회 클래스
-     1)  파라미터
-     - ConcertPlaceInfoDTO : 공연 시설 조회하는 DTO 클래스
-     */
-    public ConcertPlace findConcertPlaceInfo(String mt10id){
-        XmlDataParser xmlDataParser = new XmlDataParser(new ConcertPlaceInfoDTO(mt10id));
-        return xmlDataParser.setConcertPlace();
-    }
+
 }

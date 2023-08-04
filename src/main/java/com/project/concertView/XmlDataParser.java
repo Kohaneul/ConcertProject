@@ -13,6 +13,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.w3c.dom.*;
 
 import java.lang.reflect.Field;
@@ -33,7 +34,9 @@ import static java.lang.Boolean.TRUE;
 @Setter
 @Slf4j
 public class XmlDataParser {
-    private String key = "e6dd15ac283d4534b2d9886c5328241e";    //공공 API KEY 값
+
+    @Value("${concert.key}")
+    private String key; //공공 API KEY 값
     private String stDate;      // 공연시작일
     private String edDate;      // 공연 종료일
     private int rows;           // 페이지 당 목록 수
