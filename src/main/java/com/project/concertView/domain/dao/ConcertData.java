@@ -1,6 +1,8 @@
 package com.project.concertView.domain.dao;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
+
 /**
  * 공연 목록 조회 클래스
  * 참고 : 공연예술통합전산망 API

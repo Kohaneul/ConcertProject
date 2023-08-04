@@ -1,12 +1,13 @@
 package com.project.concertView.web.repository;
 
-import com.project.concertView.XmlDataParser;
+import com.project.concertView.domain.entity.XmlDataParser;
 import com.project.concertView.domain.dao.ConcertData;
 import com.project.concertView.domain.dao.ConcertDetailInfo;
 import com.project.concertView.domain.dao.ConcertPlace;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import java.util.List;

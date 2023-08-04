@@ -1,7 +1,6 @@
 package com.project.concertView.domain;
 
 import com.project.concertView.domain.aop.ConcertAspect;
-import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
@@ -10,12 +9,6 @@ import org.springframework.context.annotation.Configuration;
  * */
 @Configuration
 public class ConcertConfig {
-
-//    @Bean
-//    public ConcertSearchInfoDTO concertSearchInfoDTO(){
-//        return new ConcertSearchInfoDTO();
-//    }
-
 
     /**
      * AOP : 클래스가 속해있는 패키지가 com.project.concertView.web에 속해있는 클래스의 메소드가 호출될시

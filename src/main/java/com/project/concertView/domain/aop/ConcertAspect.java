@@ -23,7 +23,8 @@ public class ConcertAspect {
     public Object execute(ProceedingJoinPoint joinPoint){
         Object result = null;
         try {
-            Arrays.stream(joinPoint.getArgs()).forEach(i->log.info("args={}",i.getClass().getTypeName()));
+            log.info("{} 호출",joinPoint.getSignature().getName());
+            Arrays.stream(joinPoint.getArgs()).forEach(i->log.info("매개변수 타입={}",i.getClass().getTypeName()));
             result = joinPoint.proceed();
         } catch (Throwable e) {
             throw new RuntimeException(e);

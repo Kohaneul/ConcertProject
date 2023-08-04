@@ -1,4 +1,4 @@
-package com.project.concertView;
+package com.project.concertView.domain.entity;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-
-import org.springframework.beans.factory.annotation.Value;
 import org.w3c.dom.*;
 
 import java.lang.reflect.Field;
@@ -33,10 +31,10 @@ import static java.lang.Boolean.TRUE;
 @Getter
 @Setter
 @Slf4j
+@NoArgsConstructor
+//@NoArgsConstructor
 public class XmlDataParser {
-
-    @Value("${concert.key}")
-    private String key; //공공 API KEY 값
+    private ReqURL requestURL;
     private String stDate;      // 공연시작일
     private String edDate;      // 공연 종료일
     private int rows;           // 페이지 당 목록 수
@@ -45,6 +43,7 @@ public class XmlDataParser {
     private String mt20id;      // 공연 ID
     private String entrpsnm;    //제작사명
     private String shprfnmfct;  //공연시설명
+
 
     /**
      * 1. 공연 정보 조회 요청시 해당 생성자 호출
@@ -140,7 +139,7 @@ public class XmlDataParser {
         NodeList nodeList = getNodeList(document); //해당 document 안에 추가적으로 자식 노드가 존재하기 때문에 NodeList로 반환하여
         for (int i = 0; i < nodeList.getLength(); i++) {
             NodeList nodeList2 = nodeList.item(i).getChildNodes();
-            setPlace(nodeList2, concertPlace);//ConcertPlace 객체에 담아줌
+            setPlace(nodeList2, concertPlace);      //ConcertPlace 객체에 담아줌
         }
         return concertPlace;
     }
@@ -173,6 +172,7 @@ public class XmlDataParser {
         }
         return concertDetail;
     }
+
     /**
      * ConcertDetailInfo 에 선언한 참조타입 멤버변수에 대하여 셋팅 후 반환하기 위한 클래스
      * 예시 ) mt20id : PF222711의 경우 조회된 데이터
@@ -300,7 +300,7 @@ public class XmlDataParser {
      * 해당 no 파라미터를 통하여 path 값이 결정되며 문자열 생성
      * */
     private StringBuilder reqURL(int no) {
-        ReqURL reqURL = new ReqURL();
+
         //각 넘버별 담아야할 파라미터 hashMap에 담아두게 하기 위하여 hashMap 객체 생성
         HashMap<String, Object> hashMap = new HashMap<>();
         String path = null;
@@ -309,7 +309,7 @@ public class XmlDataParser {
         //no : 3(공연 시설 정보 조회) 의 경우 path prfplc
         if(no==3){path = "prfplc";}
         sortNum(no, hashMap);  //각 번호별 파라미터 값 hashMap에 저장
-        return reqURL.setURL(hashMap, path);
+        return requestURL.setURL(hashMap, path);
     }
     /**
      * 요청 URL 전송시 필수적으로 필요한 쿼리스트링이나 path값에 대하여 HashMap에 담는 클래스
@@ -335,71 +335,6 @@ public class XmlDataParser {
     }
 
 
-    /**
-     * XmlDataParser 안에 내부클래스인 ReqURL 생성
-     *
-     * */
 
-    @Slf4j
-    @NoArgsConstructor
-    static class ReqURL {
-
-        private final String SERVICE_KEY = "?service=e6dd15ac283d4534b2d9886c5328241e"; //URL 생성을 위한 문자열 결합기능을 위하여 SERVICE_KEY 선언
-
-        /**
-         * 요청 path에 따라서 쿼리파라미터값이 다름.
-         * 공통점은 쿼리파라미터 란에 service_key 를 넣어주게끔 되어있어
-         * 이를 공통적으로 처리하기위한 클래스
-         * */
-        private void sortNum(StringBuilder sb, String path) {
-            sb.append(path);
-            log.info("SERVICE_KEY={}",SERVICE_KEY);
-            sb.append(SERVICE_KEY).append("&");
-        }
-
-        /**
-         * 공통된 요청 URL : http://www.kopis.or.kr/openApi/restful/ 셋팅 후
-         * 필요한 쿼리파라미터, value를 HashMap에 넣어준 뒤
-         * paramMap의 사이즈가 1보다 큰 경우에
-         * ?key1=value1&key2=value2&...으로 문자열 결합
-         * */
-        public StringBuilder setURL(HashMap<String, Object> paramMap, String path) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("http://www.kopis.or.kr/openApi/restful/");
-            String paramVal = null;
-            //paramMap의 사이즈가 1인 경우에는
-            // http://www.kopis.or.kr/openApi/restful/ + path + / + paramMap.get(key)?service=서비스값
-            //그 이상인 경우
-            // http://www.kopis.or.kr/openApi/restful/ + path ? paramMap.key +  = + paramMap.get(key)....?service=서비스값
-            if (paramMap.size() > 1) {
-                sortNum(sb, path);
-                int no = 0;
-                for (String s : paramMap.keySet()) {
-                    no++;
-                    if (no < paramMap.size()) {
-                        sb.append(s).append("=").append(paramMap.get(s)).append("&");
-                    } else {
-                        sb.append(s).append("=").append(paramMap.get(s));
-                    }
-                }
-                return sb;
-            } else {
-                //path가 pblprfr와 동일할 경우
-                if (path.equals("pblprfr")) {
-                    //key의 값이 mt20id의 value 값을 paramVal에 넣어줌
-                    paramVal = paramMap.get("mt20id").toString();
-                }
-                //path가 prfplc와 동일할 경우
-                if (path.equals("prfplc")) {
-                    //key의 값이 mt10id의 value 값을 paramVal에 넣어줌
-                    paramVal = paramMap.get("mt10id").toString();
-                }
-              //  http://www.kopis.or.kr/openApi/restful/pblprfr + / + paramVal + ?service=service_key
-                sb.append(path).append("/").append(paramVal).append(SERVICE_KEY);
-            }
-            log.info("url={}", sb.toString());
-            return sb;
-        }
-    }
 }
 

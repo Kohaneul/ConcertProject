@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
+
 /**
  * 공연시설 상세 조회 클래스
  * 참고 : 공연예술통합전산망 API
