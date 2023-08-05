@@ -1,4 +1,4 @@
-package com.project.concertView.domain.entity;
+package com.project.concertView;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -7,6 +7,7 @@ import com.project.concertView.domain.dao.*;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
+import com.project.concertView.domain.entity.ReqURL;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -187,7 +188,7 @@ public class XmlDataParser {
          <poster>http://www.kopis.or.kr/upload/pfmPoster/PF_PF222711_230725_123147.gif</poster>
         <genrenm>대중음악</genrenm>
 
-        3. ConcertDetai 객체에 담음
+        3. ConcertDetail 객체에 담음
          <prfcast>김창완, 이상훈, 최원식, 강윤기, 염민열</prfcast>
          <prfcrew> </prfcrew>
          <prfruntime>2시간</prfruntime>
@@ -244,7 +245,7 @@ public class XmlDataParser {
     }
 
     /**
-     *  NodeList에 있는 node를 ConcertData 객체의 셋팅 한 뒤 반환
+     *  NodeList에 있는 node를 ConcertData 객체 셋팅 한 뒤 반환
      *
      */
     private ConcertData setData(NodeList childNodes, int no) {

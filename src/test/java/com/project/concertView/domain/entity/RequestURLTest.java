@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Slf4j
 class RequestURLTest {
     @Autowired
-    private KeyValue reqURL;
+    private SerialKey reqURL;
 
     @Test
     void test1(){
