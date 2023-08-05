@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<title>조회</title>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    function pageOpen(url){
+            window.open(url, '_blank');
+
+    }
+    /*]]>*/
+</script>
+</head>
+<body class="bg-primary">
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div id="layoutSidenav_content">
+
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">
+                                    <span>
+                                공연장소 정보 보기
+                                    </span>
+                                </h3>
+                                </div>
+                                <div id="AllContents">
+                                    <div>
+                                        <li>장소명 : <span th:text="${concertPlace.fcltynm}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li>구분 : <span th:text="${concertPlace.fcltychartr}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li>오픈일자 : <span th:text="${concertPlace.opende}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li>좌석 수 : <span th:text="${concertPlace.seatscale}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li>연락처 : <span th:text="${concertPlace.telno}"></span></li>
+                                    </div>
+                                    <div>
+                                        <li>참고 사이트 <a th:onclick="pageOpen([[${concertPlace.relateurl}]])" style="text-decoration:underline; cursor: pointer; font-color=teal;">클릭</a>
+                                    </div>
+                                    <div>
+                                        <li>위치 : <span th:text="${concertPlace.adres}"></span></li>
+                                    </div>
+                                    <button type="button"  onclick="window.close();" >닫기</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+         </main>
+    </div>
+</div>
+</body>
+</html>
