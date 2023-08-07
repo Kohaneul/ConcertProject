@@ -20,9 +20,20 @@
         window.location.href=url;
     }
 
+   let openWin;
+    function openChild(id){
+        window.name="parentForm";
+        let width = 500;
+        let height = 400;
+        let popupX = (window.screen.width / 2) - (width / 2);
+        let popupY= (window.screen.height / 2) - (height / 2);
+        let url ="/detailView/poster?mt20id="+id;
+         openWin = window.open(url, "childForm", "width=570, height=350, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
+    }
     /*]]>*/
 
 </script>
+
 
 </head>
 <body class="bg-primary">
@@ -62,11 +73,12 @@
                                         <li>장소 : <a th:onclick="NextPage([[${concertDetailInfo.concertDetail.mt10id}]])"><span th:text="${concertDetailInfo.concertData.fcltynm}" style="text-decoration:underline; cursor: pointer;color=teal;"></span></a>
                                         </li>
                                     </div>
-
                                     <div th:if="${concertDetailInfo.styurls.size()>0}">
-                                        <div th:each="concertData,i :${concertDetailInfo.styurls}">
-                                            <img th:src="${concertData.styurl}" width="400"/>
-                                        </div>
+                                        <li>포스터 보기 :
+                                        <a th:onclick="openChild([[${concertDetailInfo.concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a></li>
+                                    </div>
+                                    <div th:if="${concertDetailInfo.styurls.size()<1}">
+                                        <span>포스터 없음</span>
                                     </div>
                                     <button type="button"  onclick="window.close();" >닫기</button>
 

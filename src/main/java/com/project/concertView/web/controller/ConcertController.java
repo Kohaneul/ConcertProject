@@ -3,8 +3,10 @@ package com.project.concertView.web.controller;
 import com.project.concertView.domain.dao.ConcertData;
 import com.project.concertView.domain.dao.ConcertDetailInfo;
 import com.project.concertView.domain.dao.ConcertPlace;
+import com.project.concertView.domain.dao.StyURL;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
+import com.project.concertView.domain.entity.SerialKey;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConcertController {
     private final ConcertService concertService;
+
+
+
 
     /**1. 공연 정보 조회 클래스
         1)  파라미터
@@ -53,6 +58,14 @@ public class ConcertController {
         //Model 객체를 통하여 화면단에 보내 해당 정보 표시
         model.addAttribute("concertDetailInfo",concertDetailInfo);
         return "view/ImageView";
+    }
+
+    @GetMapping("/detailView/poster")
+    public String posterDetailView(@Param("mt20id")String mt20id,Model model){
+        ConcertDetailInfo concertDetailInfo = concertService.concertDetailInfo(new ConcertDetailInfoDTO(mt20id));
+        List<StyURL> styurl = concertDetailInfo.getStyurls();
+        model.addAttribute("styurl",styurl);
+        return "view/PosterClickView";
     }
 
     /**3. 공연 시설 상세 조회 클래스

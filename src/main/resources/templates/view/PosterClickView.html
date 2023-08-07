@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<title>조회</title>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+
+       function NextPage(mt10id){
+        let url ="/detailView/place/"+mt10id;
+        window.location.href=url;
+    }
+
+    /*]]>*/
+
+</script>
+
+</head>
+<body class="bg-primary">
+<div>
+
+    <div th:each="styurl,i : ${styurl}">
+        <img th:src="${styurl.styurl}" width="400"/>
+    </div>
+    <button type="button"  onclick="window.close();" >닫기</button>
+
+</div>
+</body>
+</html>

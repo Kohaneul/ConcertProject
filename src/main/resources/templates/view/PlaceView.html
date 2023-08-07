@@ -23,9 +23,9 @@
 <body>
 
 <div id="AllContents">
-    <div id="map" style="width:80%;height:200px;"></div>
+    <div id="map" style="width:90%;height:300px;"></div>
     <div>
-        <li>장소명 : <span th:text="${concertPlace.fcltynm} +'('+ ${concertPlace.adres} + ')'"></span></li>
+        <li>주소 : <span th:text="${concertPlace.adres}"></span></li>
     </div>
     <div>
         <li>구분 : <span th:text="${concertPlace.fcltychartr}"></span></li>
@@ -42,18 +42,12 @@
     <div>
         <li>참고 사이트 <a th:onclick="pageOpen([[${concertPlace.relateurl}]])" style="text-decoration:underline; cursor: pointer; font-color=teal;">클릭</a>
     </div>
-<!--    <div>-->
-<!--        <li>위치 : <span th:text="${concertPlace.adres}"></span></li>-->
-<!--    </div>-->
     <button type="button"  onclick="window.close();" >닫기</button>
 </div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8800e7024fb23ec08385f1384cbd3f73"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
-
-<!--    let la = [[${concertPlace.la}]];-->
-<!--    let lo = [[${concertPlace.lo}]];-->
 
     let mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
