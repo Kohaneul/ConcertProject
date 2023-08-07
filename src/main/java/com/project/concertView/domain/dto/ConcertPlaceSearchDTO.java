@@ -14,13 +14,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ConcertPlaceSearchDTO {
-    private String cpage;
-    private String rows;
-    private String shprfnmfct;
+    private int cpage;  //현재페이지
+    private int rows;   //페이지 당 목록수
+    private String shprfnmfct;  //공연시설명
 
     public ConcertPlaceSearchDTO() {
-        this.cpage = "1";
-        this.rows="5";
+        this.cpage = 1;
+        this.rows=100;
         this.shprfnmfct = "예술의전당";
     }
 }

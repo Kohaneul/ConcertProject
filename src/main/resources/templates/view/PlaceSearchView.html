@@ -12,14 +12,6 @@
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-    <script th:inline="javascript">
-    /*<![CDATA[*/
-
-
-    /*]]>*/
-
-</script>
-
 </head>
 <body class="bg-primary">
 <div id="layoutAuthentication">
@@ -37,10 +29,11 @@
                                     </span>
                                 </h3>
                                 </div>
+
                                 <div id="AllContents">
                                     <div id="sortTab">
                                         <div>
-                                            <form th:object="${concertPlaceInfoDTO}" class="form-inline" name="sendfrm" >
+                                            <form th:object="${concertPlaceSearchDTO}" class="form-inline" name="sendfrm" >
                                             <span class="form-group mb-2" id="sortId">
                                                 <span id = "DTO1">
                                                     <input type="text" id="cpage" th:field="*{cpage}"/> ~
@@ -52,29 +45,39 @@
                                             </form>
                                         </div>
                                     </div>
-                                    <span id = "mt10id" th:value="${concertPlace.mt10id}"></span>
-                                    <div>
-                                        <li><span th:text="${concertPlace.fcltynm}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li><span th:text="${concertPlace.mt13cnt}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li><span th:text="${concertPlace.fcltychartr}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li><span th:text="${concertPlace.gugunnm}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li><span th:text="${concertPlace.opende}"></span></li>
-                                    </div>
-                                    <button type="button"  onclick="window.close();" >닫기</button>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
+
+                                <span id = "dataIsNotNull" th:if="${concertPlaceList.size()>0}">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>no</th>
+                                            <th class = "fcltychartr">분류</th>
+                                            <th class = "sidonm">지역(시도)</th>
+                                            <th class = "fcltynm">시설명</th>
+                                            <th class = "mt13cnt">공연장 수</th>
+                                            <th class = "gugunnm">지역(구군)</th>
+                                            <th class = "opende">개관연도</th>
+                                        </tr>
+                                        </thead>
+                                        <div th:if="${concertPlaceList.size()>0}">
+                                            <tbody>
+                                            <tr th:each="concertPlaceList,i :${concertPlaceList}">
+                                                <td th:text="${i.count}"></td>
+                                               <td class = "fcltychartr" th:text="${concertPlaceList.fcltychartr}"></td>
+                                                <td class = "sidonm" th:text="${concertPlaceList.sidonm}"></td>
+                                                <td class = "fcltynm" th:text="${concertPlaceList.fcltynm}"></td>
+                                                <td class = "mt13cnt" th:text="${concertPlaceList.mt13cnt}"></td>
+                                                <td class = "gugunnm" th:text="${concertPlaceList.gugunnm}"></td>
+                                                <td class = "opende" th:text="${concertPlaceList.opende}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </div>
+                                    </table>
+                                    </span>
+                                <span id = "dataIsNull" th:if="${concertPlaceList.size()<1}">
+                                            <h2>데이터가 존재하지 않습니다.</h2>
+                                </span>
          </main>
     </div>
 </div>

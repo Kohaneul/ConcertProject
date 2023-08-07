@@ -4,8 +4,10 @@ import com.project.concertView.XmlDataParser;
 import com.project.concertView.domain.dao.ConcertData;
 import com.project.concertView.domain.dao.ConcertDetailInfo;
 import com.project.concertView.domain.dao.ConcertPlace;
+import com.project.concertView.domain.dao.ConcertPlaceSearch;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
+import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -44,6 +46,11 @@ public class ConcertRepository {
     public ConcertPlace findConcertPlace(ConcertPlaceInfoDTO concertPlaceInfoDTO){
         XmlDataParser xmlDataParser = new XmlDataParser(concertPlaceInfoDTO);
         return xmlDataParser.setConcertPlace();
+    }
+
+    public List<ConcertPlaceSearch> findConcertPlaceList(ConcertPlaceSearchDTO concertPlaceSearchDTO){
+        XmlDataParser xmlDataParser = new XmlDataParser(concertPlaceSearchDTO);
+        return xmlDataParser.setConcertHallList();
     }
 
 }

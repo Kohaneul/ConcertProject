@@ -6,8 +6,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import com.project.concertView.domain.dao.*;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
+import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import com.project.concertView.domain.entity.ReqURL;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +30,7 @@ import static java.lang.Boolean.TRUE;
  * - 공연목록 조회 URL : http://www.kopis.or.kr/openApi/restful/pblprfr?service={서비스키}&stdate={stdate}&eddate={eddate}&rows={rows}&cpage={cpage}
  * - 공연 상세 조회 URL : http://www.kopis.or.kr/openApi/restful/pblprfr/{공연아이디}?service=서비스키
  * - 공연 시설 상세 조회 URL : http://www.kopis.or.kr/openApi/restful/prfplc/{공연시설아이디}?service={서비스키}
+ * - 공연 시설 조회 URL : http://www.kopis.or.kr/openApi/restful/prfplc?service={서비스키}&cpage={cpage}&rows={rows}&shprfnmfct={shprfnmfct}
  */
 
 @Getter
@@ -74,6 +78,11 @@ public class XmlDataParser {
     public XmlDataParser(ConcertPlaceInfoDTO dto) {
         this.mt10id = dto.getMt10id();
     }
+    public XmlDataParser(ConcertPlaceSearchDTO dto){
+        this.rows = dto.getRows();
+        this.cpage = dto.getCpage();
+        this.shprfnmfct = dto.getShprfnmfct();
+    }
 
     /**
      * Document 객체에서 특정 노드명 가져와서 해당 노드에 속한 리스트를 NodeList 로 반환하는 클래스
@@ -91,6 +100,7 @@ public class XmlDataParser {
      *    1) 1 : 공연 정보 조회
      *    2) 2 : 공연 정보 상세 조회
      *    3) 3 : 공연 시설 상세 조회
+     *    4) 4 : 공연 시설 조회
      */
     private Document buildUp(Integer no) {
         Document document = null;
@@ -104,6 +114,14 @@ public class XmlDataParser {
             e.printStackTrace();
         }
         return document;
+    }
+
+
+    public List<ConcertPlaceSearch> setConcertHallList(){
+        List<ConcertPlaceSearch> concertPlaceSearches = new LinkedList<>();
+        Document document = buildUp(4);
+        setConcertPlaceData(document, concertPlaceSearches);  //조회한 한개 이상의 데이터를 배열 타입으로 셋팅
+        return concertPlaceSearches;
     }
 
     /**
@@ -214,7 +232,7 @@ public class XmlDataParser {
         for (int i = 0; i < nodeList.getLength(); i++) {
             NodeList nodeList2 = nodeList.item(i).getChildNodes();  // db 이름의 노드 하위 노드리스트 조회
             concertDetail = concertDetail(nodeList2);                // 3. ConcertDetail 객체에 xml 데이터 넣음
-            concertData = setData(nodeList2, i);                      // 2. ConcertData 객체에 xml 데이터 넣음
+            concertData = (ConcertData) NodeListToData(nodeList2, i);                      // 2. ConcertData 객체에 xml 데이터 넣음
             for (int j = 0; j < nodeList2.getLength(); j++) {
                 NodeList childNodes = nodeList2.item(j).getChildNodes();
                 for (int d = 0; d < childNodes.getLength(); d++) {
@@ -228,6 +246,7 @@ public class XmlDataParser {
         return new ConcertDetailInfo(concertData, concertDetail, styURLList);
     }
 
+
     /**
      *  메소드 호출시 파라미터로부터 받은 Document 객체를 통하여 조회된 복수의 노드를 List<ConcertData> 객체에 담아줌
      *
@@ -235,21 +254,43 @@ public class XmlDataParser {
     private void setConcertData(Document document, List<ConcertData> concertDataList) {
         //Document를 통한 NodeList 추출
         NodeList db = getNodeList(document);
-        ConcertData concertData;    //ConcertData 초기화
+          //ConcertData 초기화
         int no = 0;
         for (int i = 0; i < db.getLength(); i++) {
             NodeList childNodes = db.item(i).getChildNodes();   //복수의 NodeList를 ConcertData 객체에 담아준 후
-            concertData = setData(childNodes, no);
+            ConcertData concertData = NodeListToData(childNodes, no);
             concertDataList.add(concertData);//인자로 전달된 concertDataList에 넣어줌
         }
     }
+
+    private void setConcertPlaceData(Document document, List<ConcertPlaceSearch> concertDataList) {
+        //Document를 통한 NodeList 추출
+        NodeList db = getNodeList(document);
+        ConcertPlaceSearch concertData;    //ConcertData 초기화
+        int no = 0;
+        for (int i = 0; i < db.getLength(); i++) {
+            NodeList childNodes = db.item(i).getChildNodes();   //복수의 NodeList를 ConcertData 객체에 담아준 후
+            concertData = NodeListToConcertPlaceSearch(childNodes, no);
+            concertDataList.add(concertData);//인자로 전달된 concertDataList에 넣어줌
+        }
+    }
+
 
     /**
      *  NodeList에 있는 node를 ConcertData 객체 셋팅 한 뒤 반환
      *
      */
-    private ConcertData setData(NodeList childNodes, int no) {
+    private ConcertData NodeListToData(NodeList childNodes, int no) {
         ConcertData concertData = new ConcertData();    //ConcertData 초기화
+        for (int j = 0; j < childNodes.getLength(); j++) {
+            Node item = childNodes.item(j); //nodeList에서 각 노드 추출
+            setFieldsToData(concertData, item, no); //노드이름과 객체의 멤버변수 이름과 동일하면 해당 객체의 setter를 통하여 값 셋팅
+        }
+        return concertData;
+    }
+
+    private ConcertPlaceSearch NodeListToConcertPlaceSearch(NodeList childNodes, int no) {
+        ConcertPlaceSearch concertData = new ConcertPlaceSearch();    //ConcertData 초기화
         for (int j = 0; j < childNodes.getLength(); j++) {
             Node item = childNodes.item(j); //nodeList에서 각 노드 추출
             setFieldsToData(concertData, item, no); //노드이름과 객체의 멤버변수 이름과 동일하면 해당 객체의 setter를 통하여 값 셋팅
@@ -292,7 +333,6 @@ public class XmlDataParser {
                     }
                 }
             }
-
         }
     }
     /**
@@ -307,7 +347,7 @@ public class XmlDataParser {
         //no : 1(일자별 공연정보 조회), 2(공연 정보 상세조회)인 경우 path가 pblprfr로 동일함
         if(no==1 || no==2){ path  = "pblprfr";}
         //no : 3(공연 시설 정보 조회) 의 경우 path prfplc
-        if(no==3){path = "prfplc";}
+        if(no==3 || no==4){path = "prfplc";}
         sortNum(no, hashMap);  //각 번호별 파라미터 값 hashMap에 저장
         return reqURL.setURL(hashMap, path);
     }
@@ -325,16 +365,20 @@ public class XmlDataParser {
                 hashMap.put("rows", String.valueOf(rows));
                 hashMap.put("cpage", String.valueOf(cpage));
                 break;
-            case 2://공연 정보 상세조회
+            case 2: //공연 정보 상세조회
                 hashMap.put("mt20id", mt20id);
                 break;
-            case 3://공연 장소 상세 조회
+            case 3: //공연 장소 상세 조회
                 hashMap.put("mt10id", mt10id);
                 break;
+            case 4: //공연 장소 조회
+                hashMap.put("cpage",cpage);
+                hashMap.put("rows",rows);
+                hashMap.put("shprfnmfct",shprfnmfct);
+                break;
+
         }
     }
 
 
-
 }
-

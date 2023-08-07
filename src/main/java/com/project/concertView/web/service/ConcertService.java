@@ -3,8 +3,10 @@ package com.project.concertView.web.service;
 import com.project.concertView.domain.dao.ConcertData;
 import com.project.concertView.domain.dao.ConcertDetailInfo;
 import com.project.concertView.domain.dao.ConcertPlace;
+import com.project.concertView.domain.dao.ConcertPlaceSearch;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
+import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
 import com.project.concertView.web.repository.ConcertRepository;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,14 @@ public class ConcertService {
      */
     public ConcertPlace findConcertHall(ConcertPlaceInfoDTO concertPlaceInfoDTO){
         return concertRepository.findConcertPlace(concertPlaceInfoDTO);
+    }
+    /**
+     * 4. 공연 시설 조회 클래스
+     * 1)  파라미터
+     * - ConcertPlaceSearchDTO : 조회하고자 하는 공연시설의 현재페이지, 페이지당 목록 수, 공연 시설명
+     */
+    public List<ConcertPlaceSearch> findConcertPlaceList(ConcertPlaceSearchDTO concertPlaceSearchDTO){
+        return concertRepository.findConcertPlaceList(concertPlaceSearchDTO);
     }
 
 

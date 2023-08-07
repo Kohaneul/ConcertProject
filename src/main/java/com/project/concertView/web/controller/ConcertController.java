@@ -1,11 +1,9 @@
 package com.project.concertView.web.controller;
 
-import com.project.concertView.domain.dao.ConcertData;
-import com.project.concertView.domain.dao.ConcertDetailInfo;
-import com.project.concertView.domain.dao.ConcertPlace;
-import com.project.concertView.domain.dao.StyURL;
+import com.project.concertView.domain.dao.*;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
+import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
 import com.project.concertView.domain.entity.SerialKey;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
@@ -28,9 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConcertController {
     private final ConcertService concertService;
-
-
-
 
     /**1. 공연 정보 조회 클래스
         1)  파라미터
@@ -60,15 +55,19 @@ public class ConcertController {
         return "view/ImageView";
     }
 
+    /**3. 포스터 자세히 보기
+     1)  파라미터
+     - mt20id : 공연 id 값 ->
+     - Model :  id 조회하여 이미지 주소값 리스트 화면단에 보내주는 model 클래스
+     */
     @GetMapping("/detailView/poster")
     public String posterDetailView(@Param("mt20id")String mt20id,Model model){
         ConcertDetailInfo concertDetailInfo = concertService.concertDetailInfo(new ConcertDetailInfoDTO(mt20id));
-        List<StyURL> styurl = concertDetailInfo.getStyurls();
-        model.addAttribute("styurl",styurl);
+        model.addAttribute("styurl",concertDetailInfo.getStyurls());
         return "view/PosterClickView";
     }
 
-    /**3. 공연 시설 상세 조회 클래스
+    /**4. 공연 시설 상세 조회 클래스
      1)  파라미터
      - mt10id : 공연 시설 id 값
      - Model :  id 값과 부합하는 객체를 화면단에 보내주는 model 클래스
@@ -82,16 +81,16 @@ public class ConcertController {
         return "view/PlaceView";
     }
 
-    /**4. 공연 시설 조회 클래스
+    /**5. 공연 시설 조회 클래스
      1)  파라미터
      - ConcertPlaceInfoDTO : 공연 시설 조회하는 DTO 클래스
      - Model :  id 값과 부합하는 객체를 화면단에 보내주는 model 클래스
      */
     @GetMapping("/place")
-    public String placeSearch(@ModelAttribute("concertPlaceInfoDTO")ConcertPlaceInfoDTO concertPlaceInfoDTO,Model model){
-        ConcertPlace concertPlace = concertService.findConcertHall(concertPlaceInfoDTO);
-        model.addAttribute("concertPlace",concertPlace);
-        return "view/PlaceSearch";
+    public String placeSearch(@ModelAttribute("concertPlaceSearchDTO") ConcertPlaceSearchDTO concertPlaceSearchDTO, Model model){
+        List<ConcertPlaceSearch> concertPlaceList = concertService.findConcertPlaceList(concertPlaceSearchDTO);
+        model.addAttribute("concertPlaceList",concertPlaceList);
+        return "view/PlaceSearchView";
     }
 
 }

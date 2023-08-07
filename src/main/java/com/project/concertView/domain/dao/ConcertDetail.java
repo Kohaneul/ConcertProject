@@ -2,7 +2,6 @@ package com.project.concertView.domain.dao;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 /**
  * 공연 상세 조회 클래스
