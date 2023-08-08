@@ -23,26 +23,30 @@
 <body>
 
 <div id="AllContents">
+    <div style="text-align:center;">
     <div id="map" style="width:90%;height:300px;"></div>
+    </div>
+    <div style="margin-left:33%;">
     <div>
-        <li>주소 : <span th:text="${concertPlace.adres}"></span></li>
+      주소 : <span th:text="${concertPlace.adres}"></span></li>
     </div>
     <div>
-        <li>구분 : <span th:text="${concertPlace.fcltychartr}"></span></li>
+      구분 : <span th:text="${concertPlace.fcltychartr}"></span></li>
     </div>
     <div>
-        <li>오픈일자 : <span th:text="${concertPlace.opende}"></span></li>
+      오픈일자 : <span th:text="${concertPlace.opende}"></span></li>
     </div>
     <div>
-        <li>좌석 수 : <span th:text="${concertPlace.seatscale}"></span></li>
+      좌석 수 : <span th:text="${concertPlace.seatscale}"></span></li>
     </div>
     <div>
-        <li>연락처 : <span th:text="${concertPlace.telno}"></span></li>
+      연락처 : <span th:text="${concertPlace.telno}"></span></li>
     </div>
     <div>
-        <li>참고 사이트 <a th:onclick="pageOpen([[${concertPlace.relateurl}]])" style="text-decoration:underline; cursor: pointer; font-color=teal;">클릭</a>
+      참고 사이트 <a th:onclick="pageOpen([[${concertPlace.relateurl}]])" style="text-decoration:underline; cursor: pointer; font-color=teal;">클릭</a>
     </div>
-    <button type="button"  onclick="window.close();" >닫기</button>
+        <button type="button"  class="btn btn-primary mb-2" onclick="window.close();">닫기</button>
+    </div>
 </div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8800e7024fb23ec08385f1384cbd3f73"></script>

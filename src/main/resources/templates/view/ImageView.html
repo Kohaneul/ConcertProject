@@ -8,9 +8,9 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Register - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
     <script th:inline="javascript">
     /*<![CDATA[*/
@@ -23,12 +23,12 @@
    let openWin;
     function openChild(id){
         window.name="parentForm";
-        let width = 800;
-        let height = 500;
+        let width = 1000;
+        let height = 800;
         let popupX = (window.screen.width / 2) - (width / 2);
         let popupY= (window.screen.height / 2) - (height / 2);
         let url ="/detailView/poster?mt20id="+id;
-         openWin = window.open(url, "childForm", "width=570, height=350, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
+         openWin = window.open(url, "childForm", "width=1000, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
     }
     /*]]>*/
 
@@ -40,55 +40,136 @@
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
         <main>
-            <div id="layoutSidenav_content">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header"><h3 class="text-center font-weight-light my-4">상세조회</h3></div>
+                            <div class="card-body">
+                          <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
 
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">
-                                    <span>
-                                포스터 보기
-                                    </span>
-                                </h3>
-                                </div>
-                                <div id="AllContents">
-                                    <img th:src="${concertDetailInfo.concertData.poster}" width="200"/>
-                                    <div>
-                                        <li>제목 : <span th:text="${concertDetailInfo.concertData.prfnm}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 기간 : <span th:text="${concertDetailInfo.concertData.prfpdfrom} +'~'+ ${concertDetailInfo.concertData.prfpdto}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 캐스팅 :  <span th:text="${concertDetailInfo.concertDetail.prfcast}+', '+${concertDetailInfo.concertDetail.prfcrew}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 러닝타임 : <span th:text="${concertDetailInfo.concertDetail.prfruntime}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li> 연령 : <span th:text="${concertDetailInfo.concertDetail.prfage}"></span></li>
-                                    </div>
-                                    <div>
-                                        <li>장소 : <a th:onclick="NextPage([[${concertDetailInfo.concertDetail.mt10id}]])"><span th:text="${concertDetailInfo.concertData.fcltynm}" style="text-decoration:underline; cursor: pointer;color=teal;"></span></a>
-                                        </li>
-                                    </div>
-                                    <div th:if="${concertDetailInfo.styurls.size()>0}">
-                                        <li>포스터 보기 :
-                                        <a th:onclick="openChild([[${concertDetailInfo.concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a></li>
-                                    </div>
-                                    <div th:if="${concertDetailInfo.styurls.size()<1}">
-                                        <span>포스터 없음</span>
-                                    </div>
-                                    <button type="button"  onclick="window.close();" >닫기</button>
+                              <div>
+                                  <div style="text-align:center;">
+                                  <img th:src="${concertDetailInfo.concertData.poster}" width="400"/>
+                                  </div>
+                                  <div style="margin-left:30%;">
+                                  <div>
+                                      제목 : <span th:text="${concertDetailInfo.concertData.prfnm}"></span>
+                                  </div>
+                                  <div>
+                                       기간 : <span th:text="${concertDetailInfo.concertData.prfpdfrom} +'~'+ ${concertDetailInfo.concertData.prfpdto}"></span>
+                                  </div>
+                                  <div>
+                                       캐스팅 :  <span th:text="${concertDetailInfo.concertDetail.prfcast}+', '+${concertDetailInfo.concertDetail.prfcrew}"></span>
+                                  </div>
+                                  <div>
+                                      러닝타임 : <span th:text="${concertDetailInfo.concertDetail.prfruntime}"></span>
+                                  </div>
+                                  <div>
+                                     연령 : <span th:text="${concertDetailInfo.concertDetail.prfage}"></span>
+                                  </div>
+                                  <div>
+                                      장소 : <a th:onclick="NextPage([[${concertDetailInfo.concertDetail.mt10id}]])"><span th:text="${concertDetailInfo.concertData.fcltynm}" style="text-decoration:underline; cursor: pointer;color=teal;"></span></a>
+                                  </div>
+                                  <div th:if="${concertDetailInfo.styurls.size()>0}">
+                                      포스터 보기 :
+                                          <a th:onclick="openChild([[${concertDetailInfo.concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a>
+                                  </div>
+                                  <div th:if="${concertDetailInfo.styurls.size()<1}">
+                                      <span>포스터 없음</span>
+                                  </div>
+                                  <button type="button"  onclick="window.close();" class="btn btn-primary mb-2" style="margin-left:20%;">닫기</button>
+                              </div>
+                              </div>
 
-                                </div>
+                            </div>
+                            <div class="card-footer text-center py-3">
+<!--                                <div class="small"><a href="register.html">Need an account? Sign up!</a></div>-->
                             </div>
                         </div>
                     </div>
-                    </div>
-         </main>
+                </div>
+            </div>
+        </main>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<body class="bg-primary">-->
+<!--<div id="layoutAuthentication">-->
+<!--    <div id="layoutAuthentication_content">-->
+<!--        <main>-->
+<!--            <div id="layoutSidenav_content">-->
+
+<!--                <div class="container">-->
+<!--                    <div class="row justify-content-center">-->
+<!--                        <div class="col-lg-7">-->
+<!--                            <div class="card shadow-lg border-0 rounded-lg mt-5">-->
+<!--                                <div class="card-header"><h3 class="text-center font-weight-light my-4">-->
+<!--                                    <span>-->
+<!--                                포스터 보기-->
+<!--                                    </span>-->
+<!--                                </h3>-->
+<!--                                </div>-->
+<!--                                <div id="AllContents">-->
+<!--                                    <img th:src="${concertDetailInfo.concertData.poster}" width="200"/>-->
+<!--                                    <div>-->
+<!--                                       제목 : <span th:text="${concertDetailInfo.concertData.prfnm}"></span></li>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <li> 기간 : <span th:text="${concertDetailInfo.concertData.prfpdfrom} +'~'+ ${concertDetailInfo.concertData.prfpdto}"></span></li>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <li> 캐스팅 :  <span th:text="${concertDetailInfo.concertDetail.prfcast}+', '+${concertDetailInfo.concertDetail.prfcrew}"></span></li>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <li> 러닝타임 : <span th:text="${concertDetailInfo.concertDetail.prfruntime}"></span></li>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <li> 연령 : <span th:text="${concertDetailInfo.concertDetail.prfage}"></span></li>-->
+<!--                                    </div>-->
+<!--                                    <div>-->
+<!--                                        <li>장소 : <a th:onclick="NextPage([[${concertDetailInfo.concertDetail.mt10id}]])"><span th:text="${concertDetailInfo.concertData.fcltynm}" style="text-decoration:underline; cursor: pointer;color=teal;"></span></a>-->
+<!--                                        </li>-->
+<!--                                    </div>-->
+<!--                                    <div th:if="${concertDetailInfo.styurls.size()>0}">-->
+<!--                                        <li>포스터 보기 :-->
+<!--                                        <a th:onclick="openChild([[${concertDetailInfo.concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a></li>-->
+<!--                                    </div>-->
+<!--                                    <div th:if="${concertDetailInfo.styurls.size()<1}">-->
+<!--                                        <span>포스터 없음</span>-->
+<!--                                    </div>-->
+<!--                                    <button type="button"  onclick="window.close();" >닫기</button>-->
+
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    </div>-->
+<!--         </main>-->
+<!--    </div>-->
+<!--</div>-->
+<!--</body>-->
 </html>

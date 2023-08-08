@@ -29,12 +29,12 @@
 </head>
 <body class="bg-primary">
 <div>
-
-    <div th:each="styurl,i : ${styurl}">
+    <div style="text-align:center;">
+    <div th:each="styurl,i : ${styurl}" >
         <img th:src="${styurl.styurl}" width="400"/>
     </div>
-    <button type="button"  onclick="window.close();" >닫기</button>
-
+    <button type="button"  onclick="window.close();">닫기</button>
+    </div>
 </div>
 </body>
 </html>
