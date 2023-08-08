@@ -35,8 +35,8 @@
         let openWin;
         function openChild(id){
             window.name="parentForm";
-            let width = 500;
-            let height = 400;
+            let width = 1000;
+            let height = 800;
             let popupX = (window.screen.width / 2) - (width / 2);
             let popupY= (window.screen.height / 2) - (height / 2);
             let url ="/detailView/img?mt20id="+id;
@@ -121,6 +121,19 @@
                                 <br>
                                 <button type="button" class="btn btn-primary mb-2" th:onclick="'location.href=\'' + @{place} + '\''">공연장 정보</button>
         </main>
+
+        <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid px-4">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright &copy; HaneulKo 2023</div>
+                                <div>
+                                    <a href="/detailView">Home</a>
+                                    <!--                <a href="#">Terms &amp; Conditions</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+
     </div>
 </div>
 

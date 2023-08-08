@@ -14,15 +14,14 @@ import java.time.format.DateTimeFormatter;
 public class ConcertSearchInfoDTO {
     private String stDate;
     private String edDate;
-    private int rows;
+    private int rows = 10;
     private int cpage;
 
     //기본생성자 호출시 현일자 공연정보 ~ 일주일 뒤 공연정보에 대한 내용이 셋팅되도록 설정함
     public ConcertSearchInfoDTO() {
         this.stDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
         this.edDate = LocalDateTime.now().plusDays(7).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        this.rows = 10;
-        this.cpage = 5;
+        this.cpage = 1;
     }
 
 
