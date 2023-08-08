@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<title>조회</title>
+<title>공연 장소 조회</title>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,78 +8,108 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Register - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <style>
 
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+   table {
+    width: 100%;
+    border-top: 3px solid #999999;
+    border-bottom: 3px solid #999999;
+    border-collapse: collapse;
+  }
+  th, td {
+     text-align:center;
+    border-bottom: 1px solid #999999;
+    border-left: 1px solid #999999;
+    padding: 10px;
+  }
+  th:first-child, td:first-child {
+    border-left: none;
+  }
+</style>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
 </head>
+
 <body class="bg-primary">
+
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
         <main>
             <div id="layoutSidenav_content">
-
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">
-                                    <span>
-                                공연장소 정보 보기
-                                    </span>
-                                </h3>
-                                </div>
-
-                                <div id="AllContents">
-                                    <div id="sortTab">
-                                        <div>
-                                            <form th:object="${concertPlaceSearchDTO}" class="form-inline" name="sendfrm" >
-                                            <span class="form-group mb-2" id="sortId">
-                                                <span id = "DTO1">
-                                                    <input type="text" id="cpage" th:field="*{cpage}"/> ~
-                                                    <input type="text" id="rows" th:field="*{rows}"/>
-                                                   <input type="text" id="shprfnmfct" th:field="*{shprfnmfct}"/>
-                                                </span>
-                                                <button type="submit" class="btn btn-primary mb-2">검색</button>
-                                            </span>
-                                            </form>
-                                        </div>
-                                    </div>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4"></h1>
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            공연 장소 조회
+                        </div>
+                        <div id="dtoSearch">
+                            <br>
 
 
-                                <span id = "dataIsNotNull" th:if="${concertPlaceList.size()>0}">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th>no</th>
-                                            <th class = "fcltychartr">분류</th>
-                                            <th class = "sidonm">지역(시도)</th>
-                                            <th class = "fcltynm">시설명</th>
-                                            <th class = "mt13cnt">공연장 수</th>
-                                            <th class = "gugunnm">지역(구군)</th>
-                                            <th class = "opende">개관연도</th>
-                                        </tr>
-                                        </thead>
-                                        <div th:if="${concertPlaceList.size()>0}">
-                                            <tbody>
-                                            <tr th:each="concertPlaceList,i :${concertPlaceList}">
-                                                <td th:text="${i.count}"></td>
-                                               <td class = "fcltychartr" th:text="${concertPlaceList.fcltychartr}"></td>
-                                                <td class = "sidonm" th:text="${concertPlaceList.sidonm}"></td>
-                                                <td class = "fcltynm" th:text="${concertPlaceList.fcltynm}"></td>
-                                                <td class = "mt13cnt" th:text="${concertPlaceList.mt13cnt}"></td>
-                                                <td class = "gugunnm" th:text="${concertPlaceList.gugunnm}"></td>
-                                                <td class = "opende" th:text="${concertPlaceList.opende}"></td>
-                                            </tr>
-                                            </tbody>
-                                        </div>
-                                    </table>
-                                    </span>
-                                <span id = "dataIsNull" th:if="${concertPlaceList.size()<1}">
-                                            <h2>데이터가 존재하지 않습니다.</h2>
-                                </span>
-         </main>
-    </div>
+                            <form th:object="${concertPlaceSearchDTO}" class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                            <div class="input-group">
+                                <input type=text class="form-control" placeholder="페이지 조회" id="cpage" th:field="*{cpage}"/>
+                                <input  type="text" class="form-control" placeholder="조회 순번" id="rows" th:field="*{rows}"/>
+                                <input  type="text" class="form-control" placeholder="조회장소"  id="shprfnmfct" th:field="*{shprfnmfct}"/>
+                                <button type="submit" class="btn btn-primary" id="btnNavbarSearch"><i class="fas fa-search"></i></button>
+                            </div>
+                           </form>
+<!--                            -->
+<!--                            <form th:object="${concertPlaceSearchDTO}"  class="form-inline ms-auto me-0 me-md-3 my-2 my-md-0" name="sendfrm" >-->
+<!--                                            <span class="form-group mb-2" id="sortId">-->
+<!--                                                    <input type="text" id="cpage" th:field="*{cpage}"/> ~-->
+<!--                                                    <input type="text" id="rows" th:field="*{rows}"/>-->
+<!--                                                   <input type="text" id="shprfnmfct" th:field="*{shprfnmfct}"/>-->
+<!--                                                </span>-->
+<!--                                <button type="submit" class="btn btn-primary mb-2">검색</button>-->
+<!--                                </span>-->
+<!--                            </form>-->
+
+                        </div>
+                        <div class="card-body">
+                            <table id="datatablesSimple">
+                                <thead>
+                                <tr>
+                                    <th>no</th>
+                                    <th class = "fcltychartr">분류</th>
+                                    <th class = "sidonm">지역(시도)</th>
+                                    <th class = "fcltynm">시설명</th>
+                                    <th class = "mt13cnt">공연장 수</th>
+                                    <th class = "gugunnm">지역(구군)</th>
+                                    <th class = "opende">개관연도</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <div th:if="${concertPlaceList.size()>0}">
+                                    <tr th:each="concertPlaceList,i :${concertPlaceList}">
+                                        <td th:text="${i.count}"></td>
+                                        <td class = "fcltychartr" th:text="${concertPlaceList.fcltychartr}"></td>
+                                        <td class = "sidonm" th:text="${concertPlaceList.sidonm}"></td>
+                                        <td class = "fcltynm" th:text="${concertPlaceList.fcltynm}"></td>
+                                        <td class = "mt13cnt" th:text="${concertPlaceList.mt13cnt}"></td>
+                                        <td class = "gugunnm" th:text="${concertPlaceList.gugunnm}"></td>
+                                        <td class = "opende" th:text="${concertPlaceList.opende}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id = "dataIsNull" th:if="${concertPlaceList.size()<1}">
+                            <h2>데이터가 존재하지 않습니다.</h2>
+                        </div>
+                        <button type="button" class="btn btn-primary mb-2" style="width:10%; margin-left:1%;" th:onclick="'location.href=\'' + @{detailView} + '\''">공연 정보</button>
+                    </div>
+                </div>
+
+                </div>
+</div>
+</div>
+</main>
 </div>
 </body>
 </html>

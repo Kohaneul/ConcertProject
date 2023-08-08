@@ -20,7 +20,7 @@ public class ConcertPlaceSearchDTO {
 
     public ConcertPlaceSearchDTO() {
         this.cpage = 1;
-        this.rows=100;
+        this.rows=10;
         this.shprfnmfct = "예술의전당";
     }
 }

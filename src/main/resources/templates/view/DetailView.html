@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<title>조회</title>
+<title>공연 정보 조회</title>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,119 +8,122 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Register - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <style>
-    table{
-    text-align:center;
-    }
-    #sortTab{
-    margin-left:5%;
-    }
-    input{
-        text-align:center;
-    }
+   table {
+    width: 100%;
+    border-top: 3px solid #999999;
+    border-bottom: 3px solid #999999;
+    border-collapse: collapse;
+  }
+  th, td {
+     text-align:center;
+    border-bottom: 1px solid #999999;
+    border-left: 1px solid #999999;
+    padding: 10px;
+  }
+  th:first-child, td:first-child {
+    border-left: none;
+  }
 </style>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <script th:inline="javascript">
     /*<![CDATA[*/
         let openWin;
-    function openChild(id){
-        window.name="parentForm";
-        let width = 500;
-        let height = 400;
-        let popupX = (window.screen.width / 2) - (width / 2);
-        let popupY= (window.screen.height / 2) - (height / 2);
-        let url ="/detailView/img?mt20id="+id;
-         openWin = window.open(url, "childForm", "width=570, height=350, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
-    }
+        function openChild(id){
+            window.name="parentForm";
+            let width = 500;
+            let height = 400;
+            let popupX = (window.screen.width / 2) - (width / 2);
+            let popupY= (window.screen.height / 2) - (height / 2);
+            let url ="/detailView/img?mt20id="+id;
+             openWin = window.open(url, "childForm", "width=570, height=350, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
+            }
 
-    function onClick(){
-            document.getElementById('stDate').addEventListener('change',function(){
-            let stDate = document.getElementById('stDate');
-            console.log(stDate.value);
-           document.getElementById('edDate').value = stDate.value;
-           })};
-
-
-
+        function onClick(){
+                document.getElementById('stDate').addEventListener('change',function(){
+                let stDate = document.getElementById('stDate');
+                console.log(stDate.value);
+               document.getElementById('edDate').value = stDate.value;
+               })};
     /*]]>*/
     </script>
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
 </head>
+
 <body class="bg-primary">
+
 <div id="layoutAuthentication">
     <div id="layoutAuthentication_content">
         <main>
-            <div id="layoutSidenav_content">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">
-                                    <span>
-                                  조회 페이지
-                                    </span>
-                                </h3>
-                                </div>
-                                <div id="AllContents">
-                                    <div id="sortTab">
-                                        <div>
-                                            <form th:object="${concertSearchInfoDTO}" class="form-inline" name="sendfrm" >
-                                            <span class="form-group mb-2" id="sortId">
-                                                <span id = "DTO1">
-                                                    <input type="date" id="stDate" th:field="*{stDate}" th:onclick="onClick()"/> ~
-                                                    <input type="date" id="edDate" th:field="*{edDate}"/>
-                                                   <input type="text" id="cpage" th:field="*{cpage}" placeholder="페이지"/>
-                                                </span>
-                                                <button type="submit" class="btn btn-primary mb-2">검색</button>
-                                            </span>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <span id = "dataIsNotNull" th:if="${concertDataList.size()>0}">
-                                    <table>
-                                        <thead>
+<div id="layoutSidenav_content">
+        <div class="container-fluid px-4">
+            <h1 class="mt-4"></h1>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    공연 정보 조회
+                </div>
+                <div id="dtoSearch">
+                <br>
+                    <form th:object="${concertSearchInfoDTO}" class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                        <div class="input-group">
+                            <input type="date" class="form-control"th:field="*{stDate}" th:onclick="onClick()"/>
+                            <input  type="date" class="form-control"  id="edDate" th:field="*{edDate}" placeholder="조회 순번" />
+                            <input  type="text" class="form-control" id="cpage" th:field="*{cpage}" />
+                            <button type="submit" class="btn btn-primary" id="btnNavbarSearch"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body">
+                                 <span id = "dataIsNotNull" th:if="${concertDataList.size()>0}">
+
+                                <table id="datatablesSimple">
+                                    <thead>
                                         <tr>
-                                            <th class="mt20id">no</th>
-                                            <th class = "prfnm">제목</th>
-                                            <th class = "prfpdfrom">기간</th>
-                                            <th class = "fcltynm">위치</th>
-                                            <th class = "genrenm">장르</th>
-                                            <th class = "prfstate">공연완료</th>
-                                            <th class = "poster">포스터</th>
-                                            <th class = "openrun">오픈런</th>
+                                            <th >no</th>
+                                            <th>제목</th>
+                                            <th>기간</th>
+                                            <th>위치</th>
+                                            <th>장르</th>
+                                            <th>공연완료</th>
+                                            <th>상세정보</th>
+                                            <th>오픈런</th>
                                         </tr>
-                                        </thead>
-                                        <div th:if="${concertDataList.size()>0}">
-                                            <tbody>
+                                    </thead>
+                                    <tfoot>
+                                    </tfoot>
+                                    <tbody>
+                                           <div th:if="${concertDataList.size()>0}">
                                             <tr th:each="concertData,i :${concertDataList}">
-                                                <td class = "mt20id" th:text="${i.count}"></td>
-                                                <td class = "prfnm" th:text="${concertData.prfnm}"></td>
-                                                <td class = "prfpdfrom" th:text="${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
-                                                <td class = "fcltynm" th:text="${concertData.fcltynm}"></td>
-                                                <td class = "genrenm" th:text="${concertData.genrenm}"></td>
-                                                <td class = "prfstate" th:text="${concertData.prfstate}"></td>
-                                                <td class="poster"> <a th:onclick="openChild([[${concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a></td>
-                                                <td class = "openrun">
+                                                <td th:text="${i.count}"></td>
+                                                <td th:text="${concertData.prfnm}"></td>
+                                                <td th:text="${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
+                                                <td th:text="${concertData.fcltynm}"></td>
+                                                <td th:text="${concertData.genrenm}"></td>
+                                                <td th:text="${concertData.prfstate}"></td>
+                                                <td> <a th:onclick="openChild([[${concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a></td>
+                                                <td>
                                                     <span th:if="${concertData.openrun.equals('Y')}">O</span>
                                                     <span th:if="${concertData.openrun.equals('N')}">X</span>
                                                 </td>
                                             </tr>
-                                            </tbody>
-                                        </div>
+                                           </div>
+                                      </span>
+                                    <div id = "dataIsNull" th:if="${concertDataList.size()<1}">
+                                        <h2>데이터가 존재하지 않습니다.</h2>
+                                    </div>
                                     </table>
-                                    </span>
-                                <span id = "dataIsNull" th:if="${concertDataList.size()<1}">
-                                            <h2>데이터가 존재하지 않습니다.</h2>
-                                    </span>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-         </main>
+                                <br>
+                                <button type="button" class="btn btn-primary mb-2" th:onclick="'location.href=\'' + @{place} + '\''">공연장 정보</button>
+        </main>
     </div>
+</div>
+
 </div>
 </body>
 </html>
