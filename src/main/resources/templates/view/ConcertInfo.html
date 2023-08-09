@@ -114,7 +114,6 @@
                                                 <td th:text="${concertData.prfnm}"></td>
                                                 <td th:text="${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
                                                 <td th:text="${concertData.fcltynm}"></td>
-<!--                                                <td th:text="${concertData.genrenm}"></td>-->
                                                 <td th:text="${concertData.prfstate}"></td>
                                                 <td> <a th:onclick="openChild([[${concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a></td>
                                                 <td>
@@ -133,7 +132,8 @@
                                  <button type="button" class="btn btn-primary mb-2" th:onclick="'location.href=\'' + @{place} + '\''">공연장 정보</button>
 
         </main>
-
+    </div>
+</div>
                     <footer class="py-4 bg-light mt-auto">
                         <div class="container-fluid px-4">
                             <div class="d-flex align-items-center justify-content-between small">

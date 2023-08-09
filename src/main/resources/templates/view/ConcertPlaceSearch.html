@@ -55,27 +55,17 @@
                             <form th:object="${concertPlaceSearchDTO}" class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                             <div class="input-group">
                                 <input type=text class="form-control" placeholder="페이지 조회" id="cpage" th:field="*{cpage}"/>
-                                <div class="form-group mx-sm-1 mb-2" id="sortGrade">
                                     <select th:field="*{signgucode}" class="form-control">
                                         <option value="">지역선택</option>
                                         <option th:each="signgucode : ${signgucode}" th:value="${signgucode.getValue()}"
                                                 th:text="${signgucode.getKey()}">OPT</option>
-
-<!--                                        <option th:each=-->
-<!--                                                        "singgucode : ${T(com.project.concertView.domain.entity.SinguCode).values}"-->
-<!--                                                th:value="${singgucode.value}"-->
-<!--                                                th:text="${singgucode.key}">option-->
-<!--                                        </option>-->
                                     </select>
-                                </div>
-
                                 <input  type="text" class="form-control" placeholder="조회장소"  id="shprfnmfct" th:field="*{shprfnmfct}"/>
                                 <button type="submit" class="btn btn-primary" id="btnNavbarSearch"><i class="fas fa-search"></i></button>
                             </div>
                            </form>
 
 
-                        </div>
                         <div class="card-body">
                             <table id="datatablesSimple">
                                 <thead>
@@ -106,14 +96,14 @@
                         <div id = "dataIsNull" th:if="${concertPlaceList.size()<1}">
                             <h2 style="text-align:center;">데이터가 존재하지 않습니다.</h2>
                         </div>
-                        <button type="button" class="btn btn-primary mb-2" style="width:10%; margin-left:1%;" th:onclick="'location.href=\'' + @{detailView} + '\''">공연 정보</button>
+                        <button type="button" class="btn btn-primary mb-2" style="width:10%;" th:onclick="'location.href=\'' + @{detailView} + '\''">공연 정보</button>
                     </div>
                 </div>
                 </div>
 </div>
-</div>
 </main>
-
+    </div>
+</div>
 <footer class="py-4 bg-light mt-auto">
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">

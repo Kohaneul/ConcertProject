@@ -4,17 +4,21 @@ import com.project.concertView.domain.dao.*;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
+import com.project.concertView.domain.entity.SerialKey;
 import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.util.List;
 
 /**
@@ -99,3 +103,5 @@ public class ConcertController {
     }
 
 }
+
+
