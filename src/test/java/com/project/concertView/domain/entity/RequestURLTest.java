@@ -8,13 +8,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 @Slf4j
 class RequestURLTest {
-    @Autowired
-    private SerialKey reqURL;
-
-    @Test
-    void test1(){
-        String serviceKey = reqURL.getServiceKey();
-        log.info("service={}",serviceKey);
-    }
 
 }

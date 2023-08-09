@@ -8,9 +8,9 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Register - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="css/styles.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
     <script th:inline="javascript">
     /*<![CDATA[*/
@@ -21,30 +21,33 @@
 </script>
 </head>
 <body>
-
-<div id="AllContents">
+<div>
     <div style="text-align:center;">
-    <div id="map" style="width:90%;height:300px;"></div>
+
+    <h2><span th:text="'['+${concertPlace.fcltynm}+'] 정보'"></span></h2>
+    <div id="map" style="width:80%;height:400px; margin-left:10%;"></div>
     </div>
     <div style="margin-left:33%;">
-    <div>
-      주소 : <span th:text="${concertPlace.adres}"></span></li>
+    <br>
+        <div>
+      주소 : <span th:text="${concertPlace.adres}"></span>
     </div>
     <div>
-      구분 : <span th:text="${concertPlace.fcltychartr}"></span></li>
+      구분 : <span th:text="${concertPlace.fcltychartr}"></span>
     </div>
     <div>
-      오픈일자 : <span th:text="${concertPlace.opende}"></span></li>
+      오픈일자 : <span th:text="${concertPlace.opende}"></span>
     </div>
     <div>
-      좌석 수 : <span th:text="${concertPlace.seatscale}"></span></li>
+      좌석 수 : <span th:text="${concertPlace.seatscale}"></span>
     </div>
     <div>
-      연락처 : <span th:text="${concertPlace.telno}"></span></li>
+      연락처 : <span th:text="${concertPlace.telno}"></span>
     </div>
     <div>
       참고 사이트 <a th:onclick="pageOpen([[${concertPlace.relateurl}]])" style="text-decoration:underline; cursor: pointer; font-color=teal;">클릭</a>
     </div>
+        <br>
         <button type="button"  class="btn btn-primary mb-2" onclick="window.close();">닫기</button>
     </div>
 </div>

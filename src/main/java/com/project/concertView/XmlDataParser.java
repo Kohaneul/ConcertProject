@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.*;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +46,8 @@ public class XmlDataParser {
     private String mt20id;      // 공연 ID
     private String entrpsnm;    //제작사명
     private String shprfnmfct;  //공연시설명
-
+    private final String shcate = "CCCD"; //공연 장르
+    private String signgucode;
 
     /**
      * 1. 공연 정보 조회 요청시 해당 생성자 호출
@@ -59,6 +59,7 @@ public class XmlDataParser {
         this.edDate = dto.getEdDate();
         this.rows = dto.getRows();
         this.cpage = dto.getCpage();
+        this.signgucode = dto.getSigngucode();
     }
 
     /**
@@ -82,6 +83,7 @@ public class XmlDataParser {
         this.rows = dto.getRows();
         this.cpage = dto.getCpage();
         this.shprfnmfct = dto.getShprfnmfct();
+        this.signgucode = dto.getSigngucode();
     }
 
     /**
@@ -232,7 +234,7 @@ public class XmlDataParser {
         for (int i = 0; i < nodeList.getLength(); i++) {
             NodeList nodeList2 = nodeList.item(i).getChildNodes();  // db 이름의 노드 하위 노드리스트 조회
             concertDetail = concertDetail(nodeList2);                // 3. ConcertDetail 객체에 xml 데이터 넣음
-            concertData = (ConcertData) NodeListToData(nodeList2, i);                      // 2. ConcertData 객체에 xml 데이터 넣음
+            concertData = NodeListToData(nodeList2, i);                      // 2. ConcertData 객체에 xml 데이터 넣음
             for (int j = 0; j < nodeList2.getLength(); j++) {
                 NodeList childNodes = nodeList2.item(j).getChildNodes();
                 for (int d = 0; d < childNodes.getLength(); d++) {
@@ -364,6 +366,8 @@ public class XmlDataParser {
                 hashMap.put("eddate", edDate);
                 hashMap.put("rows", String.valueOf(rows));
                 hashMap.put("cpage", String.valueOf(cpage));
+                hashMap.put("shcate", shcate);
+                hashMap.put("signgucode",signgucode);
                 break;
             case 2: //공연 정보 상세조회
                 hashMap.put("mt20id", mt20id);
@@ -375,8 +379,8 @@ public class XmlDataParser {
                 hashMap.put("cpage",cpage);
                 hashMap.put("rows",rows);
                 hashMap.put("shprfnmfct",shprfnmfct);
+                hashMap.put("signgucode",signgucode);
                 break;
-
         }
     }
 

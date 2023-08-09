@@ -4,7 +4,7 @@ import com.project.concertView.domain.dao.*;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
-import com.project.concertView.domain.entity.SerialKey;
+import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class ConcertController {
         List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchInfoDTO);
         //Model 객체를 통하여 화면단 표시
         model.addAttribute("concertDataList",concertDataList);
-        return "view/DetailView";
+        return "view/ConcertInfo";
     }
 
     /**2. 공연 상세 조회 클래스
@@ -52,7 +52,7 @@ public class ConcertController {
         ConcertDetailInfo concertDetailInfo = concertService.concertDetailInfo(new ConcertDetailInfoDTO(mt20id));
         //Model 객체를 통하여 화면단에 보내 해당 정보 표시
         model.addAttribute("concertDetailInfo",concertDetailInfo);
-        return "view/ImageView";
+        return "view/ConcertImage";
     }
 
     /**3. 포스터 자세히 보기
@@ -78,7 +78,7 @@ public class ConcertController {
         ConcertPlace concertPlace = concertService.findConcertHall(new ConcertPlaceInfoDTO(mt10id));
         //Model 객체를 통하여 화면단에 보내 해당 정보 표시
         model.addAttribute("concertPlace",concertPlace);
-        return "view/PlaceView";
+        return "view/ConcertPlaceDetail";
     }
 
     /**5. 공연 시설 조회 클래스
@@ -90,7 +90,12 @@ public class ConcertController {
     public String placeSearch(@ModelAttribute("concertPlaceSearchDTO") ConcertPlaceSearchDTO concertPlaceSearchDTO, Model model){
         List<ConcertPlaceSearch> concertPlaceList = concertService.findConcertPlaceList(concertPlaceSearchDTO);
         model.addAttribute("concertPlaceList",concertPlaceList);
-        return "view/PlaceSearchView";
+        return "view/ConcertPlaceSearch";
+    }
+
+    @ModelAttribute("signgucode")
+    public Signgucode[] signguCode(){
+        return Signgucode.values();
     }
 
 }

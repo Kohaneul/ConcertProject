@@ -36,7 +36,7 @@
         function openChild(id){
             window.name="parentForm";
              let width = 1000;
-        let height = 800;
+             let height = 800;
             let popupX = (window.screen.width / 2) - (width / 2);
             let popupY= (window.screen.height / 2) - (height / 2);
             let url ="/detailView/img?mt20id="+id;
@@ -75,6 +75,16 @@
                             <input type="date" class="form-control"th:field="*{stDate}" th:onclick="onClick()"/>
                             <input  type="date" class="form-control"  id="edDate" th:field="*{edDate}" placeholder="조회 순번" />
                             <input  type="text" class="form-control" id="cpage" th:field="*{cpage}" />
+                                <select th:field="*{signgucode}" class="form-control">
+                                    <option value="">지역선택</option>
+                                    <option th:each="signgucode : ${signgucode}" th:value="${signgucode.getValue()}"
+                                            th:text="${signgucode.getKey()}">OPT</option>
+<!--                                    <option th:each=-->
+<!--                                                    "singgucode : ${T(com.project.concertView.domain.entity.SinguCode).values}"-->
+<!--                                            th:value="${singgucode.value}"-->
+<!--                                            th:text="${singgucode.key}">option-->
+<!--                                    </option>-->
+                                </select>
                             <button type="submit" class="btn btn-primary" id="btnNavbarSearch"><i class="fas fa-search"></i></button>
                         </div>
                     </form>
@@ -89,7 +99,7 @@
                                             <th>제목</th>
                                             <th>기간</th>
                                             <th>위치</th>
-                                            <th>장르</th>
+<!--                                            <th>장르</th>-->
                                             <th>공연완료</th>
                                             <th>상세정보</th>
                                             <th>오픈런</th>
@@ -104,7 +114,7 @@
                                                 <td th:text="${concertData.prfnm}"></td>
                                                 <td th:text="${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
                                                 <td th:text="${concertData.fcltynm}"></td>
-                                                <td th:text="${concertData.genrenm}"></td>
+<!--                                                <td th:text="${concertData.genrenm}"></td>-->
                                                 <td th:text="${concertData.prfstate}"></td>
                                                 <td> <a th:onclick="openChild([[${concertData.mt20id}]])" style="cursor:pointer; text-decoration: underline;">클릭</a></td>
                                                 <td>
@@ -120,7 +130,9 @@
                                     </table>
                                 <br>
                                 <button type="button" class="btn btn-primary mb-2" th:onclick="'location.href=\'' + @{place} + '\''">공연장 정보</button>
-            </main>
+                                 <button type="button" class="btn btn-primary mb-2" th:onclick="'location.href=\'' + @{place} + '\''">공연장 정보</button>
+
+        </main>
 
                     <footer class="py-4 bg-light mt-auto">
                         <div class="container-fluid px-4">
