@@ -51,9 +51,6 @@ public class ReqURL {
                     sb.append(s).append("=").append(paramMap.get(s));
                 }
             }
-            log.info("url={}", sb.toString());
-
-            return sb;
         } else {
             //path가 pblprfr와 동일할 경우
             if (path.equals("pblprfr")) {
@@ -69,7 +66,6 @@ public class ReqURL {
             sb.append(path).append("/").append(paramVal).append("?service=").append(SERVICE_KEY);
         }
         log.info("url={}", sb.toString());
-
         return sb;
     }
 }

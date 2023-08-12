@@ -1,4 +1,4 @@
-package com.project.concertView.domain.dao;
+package com.project.concertView.domain.dao.concert;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

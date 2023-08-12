@@ -46,7 +46,6 @@
         function onClick(){
                 document.getElementById('stDate').addEventListener('change',function(){
                 let stDate = document.getElementById('stDate');
-                console.log(stDate.value);
                document.getElementById('edDate').value = stDate.value;
                })};
     /*]]>*/
@@ -129,11 +128,9 @@
                                     </table>
                                 <br>
                                 <button type="button" class="btn btn-primary mb-2" th:onclick="'location.href=\'' + @{place} + '\''">공연장 정보</button>
-                                 <button type="button" class="btn btn-primary mb-2" th:onclick="'location.href=\'' + @{place} + '\''">공연장 정보</button>
-
-        </main>
-    </div>
-</div>
+                            </main>
+                        </div>
+                    </div>
                     <footer class="py-4 bg-light mt-auto">
                         <div class="container-fluid px-4">
                             <div class="d-flex align-items-center justify-content-between small">

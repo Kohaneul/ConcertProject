@@ -1,9 +1,9 @@
 package com.project.concertView.web.service;
 
-import com.project.concertView.domain.dao.ConcertData;
-import com.project.concertView.domain.dao.ConcertDetailInfo;
-import com.project.concertView.domain.dao.ConcertPlace;
-import com.project.concertView.domain.dao.ConcertPlaceSearch;
+import com.project.concertView.domain.dao.concert.ConcertData;
+import com.project.concertView.domain.dao.concert.ConcertDetailInfo;
+import com.project.concertView.domain.dao.concert.ConcertPlace;
+import com.project.concertView.domain.dao.concert.ConcertPlaceSearch;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
