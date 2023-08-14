@@ -26,8 +26,7 @@ public class MemberService {
        return memberRepository.saveInfo(member);
     };
     public String findLoginId(String loginId){
-        log.info("MemberService={}",loginId);
-        return memberRepository.findLoginId(loginId);
+        return memberRepository.findLoginId(loginId)!=null ? null : loginId ;
     }
 
 }

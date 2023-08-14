@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class MemberController {
     @PostMapping("/save")
     public String saveMember(@Valid @ModelAttribute("member")SaveMember saveMember, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-
+           log.info("error={}",bindingResult.getTarget());
             return "view/member/Register";
         }
         Long memberId = memberService.saveInfo(saveMember);
@@ -40,9 +41,9 @@ public class MemberController {
     @ResponseBody
     public HashMap<String,Object> send(@RequestBody HashMap<String,Object> sendDTO){
         log.info("log={}",sendDTO.get("loginId").toString());
-        String loginId = memberService.findLoginId((String)sendDTO.get("loginId"));
+        String loginId = memberService.findLoginId((String) sendDTO.get("loginId"));
         log.info("loginId={}",loginId);
-            sendDTO.replace("loginId",loginId);
+        sendDTO.replace("loginId",loginId);
          return sendDTO;
     }
 

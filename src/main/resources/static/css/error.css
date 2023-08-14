@@ -5,13 +5,10 @@ color: #dc3545;
 
 .field-error {
   color: #dc3545;
-    font-size:14px;
+  font-size:14px;
   margin-left:10%;
 }
 
-#wrongPhoneNumber{ font-size:20px;
-                   margin-top:0.5%;
-                   margin-left:5%;}
 
 #globalError{
   font-size:20px;
