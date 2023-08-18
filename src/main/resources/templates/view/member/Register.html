@@ -34,11 +34,11 @@
                   if(data.loginId==null){
                   alert("아이디를 다시입력해주세요");
                    $("#loginId").val("");
-                   $("#duplicateIdCheck").val("");
+                   $("#duplicateIdCheck").val(false);
                   }
                   if(data.loginId!="" && data.loginId!=null){
                      alert('등록가능한 아이디 입니다.');
-                      $("#duplicateIdCheck").val("SUCCESS");
+                      $("#duplicateIdCheck").val(true);
                   }
                 },
                 error:function(error){
@@ -46,6 +46,16 @@
                    }
             })
         };
+
+
+         function infoSave(){
+             let infoForm = document.createElement('form');
+                infoForm.setAttribute('method', 'post');
+                infoForm.setAttribute('action', '/member/save');
+                document.body.appendChild(infoForm);
+                infoForm.submit();
+                }
+
 
         /*]]>*/
     </script>
@@ -58,20 +68,15 @@
                     if(password!=passwordCheck){
                         alert('비밀번호가 일치하지 않습니다.');
                         document.getElementById('passwordCheck').value = '';
-                        document.getElementById('passwordEqualsCheck').value = '';
                     }
                     else{
-                     document.getElementById('passwordEqualsCheck').value = 'SUCCESS';
+                     document.getElementById('passwordEqualsCheck').value = true;
 
                     alert('확인 완료');
                     }
                    };
 
 
-                   function addressSearch(){
-
-
-                   }
 
                 /*]]>*/
 
@@ -88,7 +93,7 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">회원가입 페이지</h3></div>
                                     <div class="card-body">
-                                        <form th:object="${member}" class="form-inline">
+                                        <form th:object="${saveMember}" class="form-inline">
                                             <div><span th:if="${#fields.hasGlobalErrors()}">
                                                <p class="field-error" id="globalError" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
                                             </span>
@@ -143,10 +148,14 @@
                                                     <label th:for="address">주소</label>
                                                     <p class="field-error" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Incorrect date</p>
                                                     <input type="hidden" th:field="*{searchAddrCheck}" value="">
+                                                    <input type="hidden" th:field="*{joinDay}">
+
                                                 </div>
                                             </div>
+
                                             <div class="mt-4 mb-0">
-                                                <div class="d-grid"><input type="submit" class="btn btn-primary btn-block" value="저장"/>
+                                                <button type="button" class="btn btn-primary btn-block" onclick="infoSave()">저장</button>
+                                                <div class="d-grid">
                                                 </div>
                                             </div>
                                         </form>
@@ -183,14 +192,14 @@
                 oncomplete: function(data) {
                   if(data.jibunAddress) {
                    document.getElementById('address').value = data.jibunAddress;
-                   document.getElementById('searchAddrCheck').value = "SUCCESS";
+                   document.getElementById('searchAddrCheck').value = true;
                 } else if(data.roadAddress) {
                     document.getElementById('address').value = data.roadAddress;
-                   document.getElementById('searchAddrCheck').value = "SUCCESS";
+                   document.getElementById('searchAddrCheck').value = true;
                 }
                 else{
                    document.getElementById('address').value = "";
-                   document.getElementById('searchAddrCheck').value = "";
+                   document.getElementById('searchAddrCheck').value = false;
                 }
                 }
             }).open();

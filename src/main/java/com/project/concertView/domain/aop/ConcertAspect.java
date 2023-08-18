@@ -5,8 +5,10 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+
 /**
  * SPRING AOP
  * 정해진 클래스가 호출될시 로그 표시
@@ -15,21 +17,27 @@ import java.util.Arrays;
  * */
 @Aspect
 @Slf4j
+@Component
 public class ConcertAspect {
     @Pointcut("execution(* com.project.concertView.web..*.*(..))")
-    private void setPointCuts(){};
+    private void setPointCuts() {
+    };
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+    private void setPostMappingLog(){};
 
-    @Around("setPointCuts()")
-    public Object execute(ProceedingJoinPoint joinPoint){
+    @Around("setPointCuts() && setPostMappingLog()")
+    public Object execute(ProceedingJoinPoint joinPoint) {
         Object result = null;
         try {
-            log.info("{} 호출",joinPoint.getSignature().getName());
-            Arrays.stream(joinPoint.getArgs()).forEach(i->log.info("매개변수 타입={}",i.getClass().getTypeName()));
-            result = joinPoint.proceed();
+            result = joinPoint.proceed(joinPoint.getArgs());
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
+        finally{
+            Arrays.stream(joinPoint.getArgs()).forEach(i -> log.info("매개변수 타입={}", i.getClass().getTypeName()));
+        }
         return result;
     }
+
 
 }

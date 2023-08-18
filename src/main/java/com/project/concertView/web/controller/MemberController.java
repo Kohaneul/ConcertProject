@@ -12,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Controller
@@ -27,20 +28,36 @@ public class MemberController {
     }
 
     @PostMapping("/save")
-    public String saveMember(@Valid @ModelAttribute("member")SaveMember saveMember, BindingResult bindingResult){
+    public String saveMember(@Valid @ModelAttribute("saveMember")SaveMember saveMember, BindingResult bindingResult){
+        checkOrNot(saveMember,bindingResult);
         if(bindingResult.hasErrors()){
-           log.info("error={}",bindingResult.getTarget());
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                log.info("error field ={} cause={}",fieldError.getField(),fieldError.getRejectedValue());
+            }
             return "view/member/Register";
         }
+        log.info("저장 진행 중");
         Long memberId = memberService.saveInfo(saveMember);
+        log.info("memberId={}",memberId);
         log.info("저장 완료");
         return "redirect:/member/info/"+memberId;
+    }
+
+    private void checkOrNot(@ModelAttribute("saveMember")SaveMember saveMember,BindingResult bindingResult){
+        if(!saveMember.getDuplicateIdCheck()){
+            bindingResult.addError(new FieldError("member", "duplicateIdCheck", saveMember.getDuplicateIdCheck(), false, new String[]{"required.loginId.check"}, null, null));
+        }
+        if(!saveMember.getPasswordEqualsCheck()){
+            bindingResult.addError(new FieldError("member", "passwordEqualsCheck", saveMember.getPasswordEqualsCheck(), false, new String[]{"required.password.check"}, null, null));
+        }
+        if(!saveMember.getSearchAddrCheck()){
+            bindingResult.addError(new FieldError("member", "searchAddrCheck", saveMember.getSearchAddrCheck(), false, new String[]{"required.address.check"}, null, null));
+        }
     }
 
     @PostMapping("/send")
     @ResponseBody
     public HashMap<String,Object> send(@RequestBody HashMap<String,Object> sendDTO){
-        log.info("log={}",sendDTO.get("loginId").toString());
         String loginId = memberService.findLoginId((String) sendDTO.get("loginId"));
         log.info("loginId={}",loginId);
         sendDTO.replace("loginId",loginId);
