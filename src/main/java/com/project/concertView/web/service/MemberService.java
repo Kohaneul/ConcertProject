@@ -6,6 +6,7 @@ import com.project.concertView.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,11 +23,16 @@ public class MemberService {
     public Member findOne(Long id){
         return memberRepository.findOne(id);
     };
-    public Long saveInfo(SaveMember member){
-       return memberRepository.saveInfo(member);
+    private void saveInfo(SaveMember member){
+       memberRepository.saveInfo(member);
     };
     public String findLoginId(String loginId){
         return memberRepository.findLoginId(loginId)!=null ? null : loginId ;
+    }
+    public Long findById(SaveMember member){
+        saveInfo(member);
+        return memberRepository.findById(member);
+
     }
 
 }

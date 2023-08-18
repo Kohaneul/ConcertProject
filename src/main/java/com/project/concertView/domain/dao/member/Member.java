@@ -20,5 +20,5 @@ public class Member {
     private String address;
     private String loginId;
     private String password;
-    private LocalDateTime joinDay = LocalDateTime.now();
+    private LocalDateTime joinDay;
 }

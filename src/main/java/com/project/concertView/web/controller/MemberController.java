@@ -1,5 +1,4 @@
 package com.project.concertView.web.controller;
-
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
 import com.project.concertView.web.service.MemberService;
@@ -12,7 +11,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Controller
@@ -23,7 +21,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/save")
-    public String saveMember(@ModelAttribute("member") SaveMember saveMember){
+    public String saveMember(@ModelAttribute("saveMember") SaveMember saveMember){
         return "view/member/Register";
     }
 
@@ -37,21 +35,21 @@ public class MemberController {
             return "view/member/Register";
         }
         log.info("저장 진행 중");
-        Long memberId = memberService.saveInfo(saveMember);
-        log.info("memberId={}",memberId);
+        Long id = memberService.findById(saveMember);
         log.info("저장 완료");
-        return "redirect:/member/info/"+memberId;
+
+        return "redirect:/member/info/"+id;
     }
 
     private void checkOrNot(@ModelAttribute("saveMember")SaveMember saveMember,BindingResult bindingResult){
         if(!saveMember.getDuplicateIdCheck()){
-            bindingResult.addError(new FieldError("member", "duplicateIdCheck", saveMember.getDuplicateIdCheck(), false, new String[]{"required.loginId.check"}, null, null));
+            bindingResult.addError(new FieldError("saveMember", "duplicateIdCheck", saveMember.getDuplicateIdCheck(), false, new String[]{"required.loginId.check"}, null, null));
         }
         if(!saveMember.getPasswordEqualsCheck()){
-            bindingResult.addError(new FieldError("member", "passwordEqualsCheck", saveMember.getPasswordEqualsCheck(), false, new String[]{"required.password.check"}, null, null));
+            bindingResult.addError(new FieldError("saveMember", "passwordEqualsCheck", saveMember.getPasswordEqualsCheck(), false, new String[]{"required.password.check"}, null, null));
         }
         if(!saveMember.getSearchAddrCheck()){
-            bindingResult.addError(new FieldError("member", "searchAddrCheck", saveMember.getSearchAddrCheck(), false, new String[]{"required.address.check"}, null, null));
+            bindingResult.addError(new FieldError("saveMember", "searchAddrCheck", saveMember.getSearchAddrCheck(), false, new String[]{"required.address.check"}, null, null));
         }
     }
 

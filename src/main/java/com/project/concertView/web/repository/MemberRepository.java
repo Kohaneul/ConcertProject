@@ -10,13 +10,13 @@ import java.util.List;
 
 @Repository
 @Mapper
-@Transactional(readOnly = true)
 public interface MemberRepository {
 
     List<Member> findAll();
 
     Member findOne(Long id);
+    Long findById(SaveMember member);
     @Transactional
-    Long saveInfo(SaveMember member);
+    void saveInfo(SaveMember member);
     String findLoginId(String loginId);
 }

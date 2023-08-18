@@ -7,13 +7,16 @@
         SELECT * FROM member
     </select>
 
-    <insert id="saveInfo" parameterType="com.project.concertView.domain.dao.member.SaveMember" useGeneratedKeys="true" keyProperty="id">
+    <insert id="saveInfo" parameterType="com.project.concertView.domain.dao.member.SaveMember" keyProperty="id">
          insert into member(name,address,loginId,password,joinDay)
-         values (#{name}, #{address},#{loginId},#{password},#{joinDay});
+         values (#{name}, #{address}, #{loginId}, #{password}, now());
     </insert>
 
     <select id="findOne" resultType="com.project.concertView.domain.dao.member.Member">
         SELECT * FROM member where id = #{id};
+    </select>
+    <select id="findById" parameterType="com.project.concertView.domain.dao.member.SaveMember" resultType="java.lang.Long">
+        SELECT id FROM member where loginId = #{loginId};
     </select>
 
     <select id="findLoginId" resultType="java.lang.String">
