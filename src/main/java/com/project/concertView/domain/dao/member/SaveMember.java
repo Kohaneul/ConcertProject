@@ -14,6 +14,10 @@ public class SaveMember {
     private String name;
     @NotBlank(message = "주소를 입력해주세요")
     private String address;
+
+    @NotBlank(message = "상세 주소를 입력해주세요")
+    private String detailAddress;
+
     @NotBlank(message = "로그인 아이디를 입력해주세요")
     private String loginId;
     @NotBlank(message = "비밀번호를 입력해주세요")
@@ -30,9 +34,11 @@ public class SaveMember {
         this.searchAddrCheck = false;
     }
 
-    public SaveMember(String name, String address, String loginId, String password, Boolean duplicateIdCheck, Boolean passwordEqualsCheck, Boolean searchAddrCheck) {
+    public SaveMember(String name, String address, String loginId, String password, Boolean duplicateIdCheck, Boolean passwordEqualsCheck, Boolean searchAddrCheck,
+                      String detailAddress) {
         this.name = name;
         this.address = address;
+        this.detailAddress = detailAddress;
         this.loginId = loginId;
         this.password = password;
         this.duplicateIdCheck = duplicateIdCheck;

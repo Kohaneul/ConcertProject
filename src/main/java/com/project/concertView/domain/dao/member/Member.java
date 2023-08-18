@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +16,7 @@ public class Member {
     private Long id;
     private String name;
     private String address;
+    private String detailAddress;
     private String loginId;
     private String password;
     private LocalDateTime joinDay;
