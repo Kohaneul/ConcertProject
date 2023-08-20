@@ -17,7 +17,11 @@ public class Member {
     private String name;
     private String address;
     private String detailAddress;
+    private String email;
+    private String email2;
     private String loginId;
     private String password;
     private LocalDateTime joinDay;
+    private String emailAccountWrite;
+    private String phoneNumber;
 }

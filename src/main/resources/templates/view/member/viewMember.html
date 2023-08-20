@@ -33,10 +33,16 @@
       이름 : <span th:text="${member.name}"></span>
     </div>
     <div>
-      주소 : <span th:text="${member.address}"></span>
+      주소 : <span th:text="${member.address} + ${member.detailAddress}"></span>
     </div>
     <div>
-      가입일자 : <span th:text="${member.joinDay.toString()}"></span>
+      메일 : <span th:text="${member.email} + ${member.email2}+${member.emailAccountWrite}"></span>
+    </div>
+    <div>
+       연락처 : <span th:text="${member.email} + ${member.email2}+${member.emailAccountWrite}"></span>
+    </div>
+        <div>
+        가입일자 : <span th:text="${member.joinDay.toString()}"></span>
     </div>
         <button type="button"  class="btn btn-primary mb-2" onclick="window.close();">닫기</button>
     </div>

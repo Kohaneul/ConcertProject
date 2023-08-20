@@ -1,6 +1,8 @@
 package com.project.concertView.web.controller;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
+import com.project.concertView.domain.entity.EmailAddr;
+import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +36,7 @@ public class MemberController {
             }
             return "view/member/Register";
         }
-        log.info("저장 진행 중");
         Long id = memberService.findById(saveMember);
-        log.info("저장 완료");
-
         return "redirect:/member/info/"+id;
     }
 
@@ -51,6 +50,11 @@ public class MemberController {
         if(!saveMember.getSearchAddrCheck()){
             bindingResult.addError(new FieldError("saveMember", "searchAddrCheck", saveMember.getSearchAddrCheck(), false, new String[]{"required.address.check"}, null, null));
         }
+    }
+
+    @ModelAttribute("email2")
+    public EmailAddr[] emailAddrs(){
+        return EmailAddr.values();
     }
 
     @PostMapping("/send")
