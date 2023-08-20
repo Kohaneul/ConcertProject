@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
@@ -35,16 +36,19 @@ public class SaveMember {
     private Boolean duplicateIdCheck;
     private Boolean passwordEqualsCheck;
     private Boolean searchAddrCheck;
+    @NotBlank(message = "생년월일을 입력해주세요")
+    @Pattern(regexp = "^([12]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01]))$", message = "형식에 맞게 입력해주세요")
+    private String birth;
+
 
     public SaveMember() {
         this.duplicateIdCheck = false;
         this.passwordEqualsCheck = false;
         this.searchAddrCheck = false;
-        this.email2 = EmailAddr.NAVER.getValue();
     }
 
     public SaveMember(String name, String address, String loginId, String password, Boolean duplicateIdCheck, Boolean passwordEqualsCheck, Boolean searchAddrCheck,
-                      String detailAddress,String email, String email2, String emailAccountWrite) {
+                      String detailAddress,String email, String email2, String emailAccountWrite,String birth) {
         this.name = name;
         this.address = address;
         this.detailAddress = detailAddress;
@@ -56,5 +60,6 @@ public class SaveMember {
         this.email = email;
         this.email2 = email2;
         this.emailAccountWrite = emailAccountWrite;
+        this.birth = birth;
     }
 }

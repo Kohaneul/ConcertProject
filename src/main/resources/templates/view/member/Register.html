@@ -213,13 +213,23 @@
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
                                                         <select th:field="*{email2}" class="form-control"  onchange="mailClick(this.value);">
-                                                            <option value="" >==메일계정 선택==</option>
+                                                            <option value="" style="text-align-last: center;text-align: center;-ms-text-align-last: center;-moz-text-align-last: center;">==메일계정 선택==</option>
                                                             <option th:each="email2 : ${email2}" th:value="${email2.getKey()}"
                                                                     th:text="${email2.getValue()}" >OPT</option>
                                                         </select>
                                                         <p class="field-error" th:if="${#fields.hasErrors('email2')}" th:errors="*{email2}">Incorrect date</p>
                                                     </div>
                                                     <input type="hidden" class="form-control"   th:field="*{emailAccountWrite}" value="">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input type="text" th:field="*{birth}" class="form-control"
+                                                               th:class="${#fields.hasErrors('birth')}? 'form-control fieldError' : 'form-control'">
+                                                        <label th:for="birth">생년월일</label>
+                                                        <p class="field-error" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}">Incorrect date</p>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -229,10 +239,6 @@
                                                         <input type="hidden" class="form-control"   th:field="*{emailAccountWrite}" value="" style="margin-top:10px; width:20px;">
                                                     </div>
                                                 </div>
-
-
-
-
                                             <div class="mt-4 mb-0">
                                                 <button type="button" class="btn btn-primary btn-block" onclick="document.forms['registerForm'].submit();">저장</button>
                                                 <button type="reset" class="btn btn-primary btn-block" >다시 입력</button>

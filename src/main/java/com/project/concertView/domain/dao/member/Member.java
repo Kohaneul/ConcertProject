@@ -24,4 +24,6 @@ public class Member {
     private LocalDateTime joinDay;
     private String emailAccountWrite;
     private String phoneNumber;
+    private String birth;
+
 }
