@@ -1,53 +1,54 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th = "http://www.thymeleaf.org">
 <title>조회</title>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset = "utf-8"/>
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name = "description" content = ""/>
+    <meta name = "author" content = ""/>
     <title>Register - SB Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="css/styles.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
+    <link href = "css/styles.css" rel = "stylesheet"/>
+    <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
 
-    <script th:inline="javascript">
+    <script th:inline = "javascript">
     /*<![CDATA[*/
     function pageOpen(url){
             window.open(url, '_blank');
     }
     /*]]>*/
-</script>
+
+    </script>
 </head>
 <body>
 <div>
-    <div style="text-align:center;">
+    <div style = "text-align:center;">
 
-    <h2><span th:text="'['+${member.loginId}+'] 정보'"></span></h2>
-<!--    <div id="map" style="width:80%;height:400px; margin-left:10%;"></div>-->
+        <h2><span th:text = "'['+${member.loginId}+'] 정보'"></span></h2>
+        <!--    <div id="map" style="width:80%;height:400px; margin-left:10%;"></div>-->
     </div>
-    <div style="margin-left:33%;">
-    <br>
+    <div style = "margin-left:33%;">
+        <br>
         <div>
-      이름 : <span th:text="${member.name}"></span>
-    </div>
-        <div>
-             생년월일(YYMMDD) : <span th:text="${member.birth}"></span>
+            이름 : <span th:text = "${member.name}"></span>
         </div>
-    <div>
-      주소 : <span th:text="${member.address} + ${member.detailAddress}"></span>
-    </div>
-    <div>
-      메일 : <span th:text="${member.email} + ${member.email2}+${member.emailAccountWrite}"></span>
-    </div>
-    <div>
-       연락처 : <span th:text="${member.email} + ${member.email2}+${member.emailAccountWrite}"></span>
-    </div>
         <div>
-        가입일자 : <span th:text="${member.joinDay.toString()}"></span>
-    </div>
-        <button type="button"  class="btn btn-primary mb-2" onclick="window.close();">닫기</button>
+            생년월일(YYMMDD) : <span th:text = "${member.birth}"></span>
+        </div>
+        <div>
+            주소 : <span th:text = "${member.address} + ${member.detailAddress}"></span>
+        </div>
+        <div>
+            메일 : <span th:text = "${member.email} + ${member.email2}+${member.emailAccountWrite}"></span>
+        </div>
+        <div>
+            연락처 : <span th:text = "${member.phoneNumber}"></span>
+        </div>
+        <div>
+            가입일자 : <span th:text = "${member.joinDay.toString()}"></span>
+        </div>
+        <button type = "button" class = "btn btn-primary mb-2" onclick = "window.close();">닫기</button>
     </div>
 </div>
 </body>

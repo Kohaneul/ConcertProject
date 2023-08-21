@@ -31,13 +31,20 @@ public class SaveMember {
     @NotBlank(message = "비밀번호(확인용)를 입력해주세요")
     private String passwordCheck;
 
+    @NotBlank(message = "연락처를 입력해주세요")
+    @Pattern(regexp = "^(01\\d{1}\\d{3,4}\\d{4})$", message = "01000000000형식에 맞게 입력해주세요")
+    private String phoneNumber;
+
     private String emailAccountWrite;
 
     private Boolean duplicateIdCheck;
     private Boolean passwordEqualsCheck;
     private Boolean searchAddrCheck;
+    private Boolean phoneNumberDuplicateCheck;
+    private Boolean emailDuplicateCheck;
+
     @NotBlank(message = "생년월일을 입력해주세요")
-    @Pattern(regexp = "^([12]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01]))$", message = "형식에 맞게 입력해주세요")
+    @Pattern(regexp = "^([12]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01]))$", message = "형식에 맞게 입력해주세요(YYYYMMDD)")
     private String birth;
 
 
@@ -45,10 +52,13 @@ public class SaveMember {
         this.duplicateIdCheck = false;
         this.passwordEqualsCheck = false;
         this.searchAddrCheck = false;
+        this.phoneNumberDuplicateCheck = false;
+        this.emailDuplicateCheck = false;
     }
 
     public SaveMember(String name, String address, String loginId, String password, Boolean duplicateIdCheck, Boolean passwordEqualsCheck, Boolean searchAddrCheck,
-                      String detailAddress,String email, String email2, String emailAccountWrite,String birth) {
+                      Boolean emailDuplicateCheck,Boolean phoneNumberDuplicateCheck,
+                      String detailAddress,String email, String email2, String emailAccountWrite,String birth,String phoneNumber) {
         this.name = name;
         this.address = address;
         this.detailAddress = detailAddress;
@@ -61,5 +71,9 @@ public class SaveMember {
         this.email2 = email2;
         this.emailAccountWrite = emailAccountWrite;
         this.birth = birth;
+        this.phoneNumber = phoneNumber;
+        this.emailDuplicateCheck = emailDuplicateCheck;
+        this.phoneNumberDuplicateCheck = phoneNumberDuplicateCheck;
     }
+
 }

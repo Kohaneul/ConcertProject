@@ -32,7 +32,13 @@ public class MemberService {
     public Long findById(SaveMember member){
         saveInfo(member);
         return memberRepository.findById(member);
+    }
+    public String findEmail(String email){
+        return memberRepository.findEmail(email)!=null ? null : email;
+    }
 
+    public String findPhoneNumber(String phoneNumber){
+        return memberRepository.findPhoneNumber(phoneNumber) !=null ? null : phoneNumber;
     }
 
 }

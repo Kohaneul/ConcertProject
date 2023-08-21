@@ -50,6 +50,13 @@ public class MemberController {
         if(!saveMember.getSearchAddrCheck()){
             bindingResult.addError(new FieldError("saveMember", "searchAddrCheck", saveMember.getSearchAddrCheck(), false, new String[]{"required.address.check"}, null, null));
         }
+        if(!saveMember.getEmailDuplicateCheck()){
+            bindingResult.addError(new FieldError("saveMember", "emailDuplicateCheck", saveMember.getEmailDuplicateCheck(), false, new String[]{"required.email.check"}, null, null));
+        }
+        if(!saveMember.getPhoneNumberDuplicateCheck()){
+            bindingResult.addError(new FieldError("saveMember", "phoneNumberDuplicateCheck", saveMember.getPhoneNumberDuplicateCheck(), false, new String[]{"required.phoneNumber.check"}, null, null));
+        }
+
     }
 
     @ModelAttribute("email2")
@@ -65,6 +72,25 @@ public class MemberController {
         sendDTO.replace("loginId",loginId);
          return sendDTO;
     }
+
+    @PostMapping("/phoneNumberCheck")
+    @ResponseBody
+    public HashMap<String,Object> phoneNumberSend(@RequestBody HashMap<String,Object> sendDTO){
+        String phoneNumber = memberService.findPhoneNumber((String) sendDTO.get("phoneNumber"));
+        log.info("phoneNumber={}",phoneNumber);
+        sendDTO.replace("phoneNumber",phoneNumber);
+        return sendDTO;
+    }
+
+    @PostMapping("/emailCheck")
+    @ResponseBody
+    public HashMap<String,Object> emailSend(@RequestBody HashMap<String,Object> sendDTO){
+        String loginId = memberService.findPhoneNumber((String) sendDTO.get("email"));
+        log.info("phoneNumber={}",loginId);
+        sendDTO.replace("phoneNumber",loginId);
+        return sendDTO;
+    }
+
 
     @GetMapping("/info/{memberId}")
     public String findOne(@PathVariable("memberId")Long memberId,Model model){

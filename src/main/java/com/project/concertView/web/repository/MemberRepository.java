@@ -19,4 +19,6 @@ public interface MemberRepository {
     @Transactional
     void saveInfo(SaveMember member);
     String findLoginId(String loginId);
+    String findEmail(String emaiil);
+    String findPhoneNumber(String phoneNumber);
 }

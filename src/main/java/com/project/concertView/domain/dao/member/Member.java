@@ -1,6 +1,5 @@
 package com.project.concertView.domain.dao.member;
 
-import com.project.concertView.domain.dao.concert.ConcertData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ public class Member {
     private String address;
     private String detailAddress;
     private String email;
-    private String email2;
     private String loginId;
     private String password;
     private LocalDateTime joinDay;

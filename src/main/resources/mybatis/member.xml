@@ -8,8 +8,8 @@
     </select>
 
     <insert id="saveInfo" parameterType="com.project.concertView.domain.dao.member.SaveMember" keyProperty="id">
-         insert into member(name,address,detailAddress,email, email2, emailAccountWrite,loginId,password,joinDay,birth)
-         values (#{name}, #{address},#{detailAddress}, #{email},#{email2},#{emailAccountWrite}, #{loginId}, #{password}, now(),#{birth});
+         insert into member(name,address,detailAddress,email, email2, emailAccountWrite,loginId,password,joinDay,birth,phoneNumber)
+         values (#{name}, #{address},#{detailAddress}, #{email},#{email2},#{emailAccountWrite}, #{loginId}, #{password}, now(),#{birth},#{phoneNumber});
     </insert>
 
     <select id="findOne" resultType="com.project.concertView.domain.dao.member.Member">
@@ -22,6 +22,18 @@
     <select id="findLoginId" resultType="java.lang.String">
         SELECT loginId FROM member where loginId = #{loginId};
     </select>
+
+    <select id="findPhoneNumber" resultType="java.lang.String">
+        SELECT phoneNumber FROM member where phoneNumber = #{phoneNumber};
+    </select>
+
+    <select id="findEmail" resultType="java.lang.String">
+        SELECT email FROM member where email = #{email};
+    </select>
+
+<!--    <select id="findEmail" resultType="java.lang.String">-->
+<!--        SELECT loginId FROM member where loginId = #{loginId};-->
+<!--    </select>-->
 
 <!--    <select id="deleteInfo">-->
 <!--        delete from visitor where id = #{id};-->
