@@ -34,10 +34,11 @@ public class MemberService {
         return memberRepository.findById(member);
     }
     public String findEmail(String email){
-        return memberRepository.findEmail(email)!=null ? null : email;
+        return memberRepository.findEmail(email)!=null ? "1" : email;
     }
 
     public String findPhoneNumber(String phoneNumber){
+        log.info("phoneNumber={}",phoneNumber);
         return memberRepository.findPhoneNumber(phoneNumber) !=null ? null : phoneNumber;
     }
 

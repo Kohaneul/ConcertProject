@@ -60,8 +60,9 @@
        function emailChecking(){
                     let email = $("#email").val();
                     let email2 = $("#email2").val();
-                    let emailAccountWrite = $("#emailAccountWrite").val();
+                    let emailAccountWrite =$("#emailAccountWrite").val();
                     let sendDTO = {"email":email,"email2":email2,"emailAccountWrite":emailAccountWrite};
+
                    $.ajax({
                     url: "/member/emailCheck/",
                     data: JSON.stringify(sendDTO),
@@ -69,12 +70,13 @@
                     contentType: "application/json; charset=UTF",
                     type: 'POST',
                     success:function(data){
-                        email = data.email+data.emailAccountWrite;
-                        console.log(email);
-                      if(data.email=="" || data.email2==""){
+                      if( data.email=="" || data.emailAccountWrite==""){
                       alert("빈값은 허용하지 않습니다.");
+                      $("#email").val()
                       }
-                      if(data.email==null){
+                      else{
+
+                      if(data.email=="1"){
                       alert("등록된 메일계정 입니다. 다시 입력해주세요");
                        $("#email").val("");
                        $("#email2").val("");
@@ -82,8 +84,9 @@
                        $("#emailDuplicateCheck").val(false);
                       }
                       if(data.email!="" && data.email!=null){
-                         alert('등록가능한 아이디 입니다.');
+                         alert('등록가능한 메일계정 입니다.');
                           $("#emailDuplicateCheck").val(true);
+                      }
                       }
                     },
                     error:function(error){
@@ -107,14 +110,16 @@
                 success:function(data){
                   if(data.phoneNumber==""){
                   alert("빈값은 허용하지 않습니다.");
+                  $("#phoneNumberDuplicateCheck").val(false);
+
                   }
                   if(data.phoneNumber==null){
                   alert("등록된 연락처입니다. 다시 입력해주세요");
                    $("#phoneNumber").val("");
                    $("#phoneNumberDuplicateCheck").val(false);
                   }
-                  if(data.loginId!="" && data.loginId!=null){
-                     alert('등록가능한 아이디 입니다.');
+                  if(data.phoneNumber!="" && data.phoneNumber!=null){
+                     alert('등록가능한 휴대폰 번호 입니다.');
                       $("#phoneNumberDuplicateCheck").val(true);
                   }
                 },
@@ -126,9 +131,8 @@
 
                function mailClick(val){
                let emailAccountWrite = document.getElementById("emailAccountWrite");
-               if(!val.includes('@')){
+               if(val=="" || val==null){
                   emailAccountWrite.value= "";
-
                     emailAccountWrite.type= "text";
                }
                else{
@@ -138,8 +142,6 @@
                    emailAccountWrite.type= "hidden";
                }
                 };
-
-
 
                 function passwordChecking(){
                    let passwordCheck = document.getElementById('passwordCheck').value;
@@ -155,11 +157,7 @@
                     }
                    };
 
-
-
-
                 /*]]>*/
-
 
     </script>
 
@@ -311,7 +309,7 @@
                                                     <option value = "">==메일계정 선택==</option>
                                                     <option th:each = "email2 : ${email2}"
                                                             th:value = "${email2.getValue()}"
-                                                            th:text = "${email2.getValue()}">OPT
+                                                            th:text = "${email2.getKey()}">OPT
                                                     </option>
                                                 </select>
                                                 <button type = "button" class = "btn btn-primary btn-block"

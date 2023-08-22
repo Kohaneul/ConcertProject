@@ -2,7 +2,6 @@ package com.project.concertView.web.controller;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
 import com.project.concertView.domain.entity.EmailAddr;
-import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,9 +84,12 @@ public class MemberController {
     @PostMapping("/emailCheck")
     @ResponseBody
     public HashMap<String,Object> emailSend(@RequestBody HashMap<String,Object> sendDTO){
-        String loginId = memberService.findPhoneNumber((String) sendDTO.get("email"));
-        log.info("phoneNumber={}",loginId);
-        sendDTO.replace("phoneNumber",loginId);
+        String email = memberService.findEmail((String) sendDTO.get("email"));
+        String emailAccountWrite = "@"+ memberService.findPhoneNumber((String) sendDTO.get("emailAccountWrite"));
+        log.info("emailAccountWrite={}",emailAccountWrite);
+        email = email+emailAccountWrite;
+        log.info("email={}",email);
+        sendDTO.replace("email",email);
         return sendDTO;
     }
 
