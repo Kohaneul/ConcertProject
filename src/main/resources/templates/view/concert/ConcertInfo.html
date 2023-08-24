@@ -1,17 +1,19 @@
 <!DOCTYPE HTML>
 <html xmlns:th = "http://www.thymeleaf.org">
 <title>공연 정보 조회</title>
+<link th:href = "@{/css/styles.css}" rel = "stylesheet"/>
+<link th:href = "@{/css/error.css}" rel = "stylesheet"/>
 <head>
     <meta charset = "utf-8"/>
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
     <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name = "description" content = ""/>
     <meta name = "author" content = ""/>
-    <title>Register - SB Admin</title>
-    <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
-    <link href = "css/styles.css" rel = "stylesheet"/>
-    <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
-    <style>
+</head>
+
+<link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
+<script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
+<style>
    table {
     width: 100%;
     border-top: 3px solid #999999;
@@ -28,10 +30,11 @@
     border-left: none;
   }
 
-    </style>
-    <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-    <script th:inline = "javascript">
+</style>
+<script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script th:inline = "javascript">
     /*<![CDATA[*/
         let openWin;
         function openChild(id){
@@ -40,7 +43,7 @@
              let height = 800;
             let popupX = (window.screen.width / 2) - (width / 2);
             let popupY= (window.screen.height / 2) - (height / 2);
-            let url ="/detailView/img?mt20id="+id;
+            let url ="/concert/detailView/img?mt20id="+id;
              openWin = window.open(url, "childForm", "width=1000, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
             }
 
@@ -51,8 +54,9 @@
                })};
     /*]]>*/
 
-    </script>
-    <script src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin = "anonymous"></script>
+
+</script>
+<script src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin = "anonymous"></script>
 
 </head>
 
@@ -60,8 +64,10 @@
 
 <div id = "layoutAuthentication">
     <div id = "layoutAuthentication_content">
+
         <main>
             <div id = "layoutSidenav_content">
+
                 <div class = "container-fluid px-4">
                     <h1 class = "mt-4"></h1>
                     <div class = "card mb-4">
@@ -69,8 +75,16 @@
                             <i class = "fas fa-table me-1"></i>
                             공연 정보 조회
                         </div>
+                        <div>
+                         <span th:if = "${session.LOGIN_SESSION!=null}">
+                           <span>[<span th:text = "${session.LOGIN_SESSION}"></span>]님 환영합니다.</span>
+                         </span>
+                          <span th:if = "${session.LOGIN_SESSION==null}">
+                            <span>[GUEST]님 환영합니다.</span>
+                          </span>
+                         </div>
                         <div id = "dtoSearch">
-                            <br>
+
                             <form th:object = "${concertSearchInfoDTO}"
                                   class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                 <div class = "input-group">
@@ -85,11 +99,6 @@
                                                 th:value = "${signgucode.getValue()}"
                                                 th:text = "${signgucode.getKey()}">OPT
                                         </option>
-                                        <!--                                    <option th:each=-->
-                                        <!--                                                    "singgucode : ${T(com.project.concertView.domain.entity.SinguCode).values}"-->
-                                        <!--                                            th:value="${singgucode.value}"-->
-                                        <!--                                            th:text="${singgucode.key}">option-->
-                                        <!--                                    </option>-->
                                     </select>
                                     <button type = "submit" class = "btn btn-primary" id = "btnNavbarSearch"><i
                                             class = "fas fa-search"></i></button>
@@ -137,7 +146,7 @@
                             </table>
                             <br>
                             <button type = "button" class = "btn btn-primary mb-2"
-                                    th:onclick = "'location.href=\'' + @{place} + '\''">공연장 정보
+                                    th:onclick = "'location.href=\'' + @{/concert/place} + '\''">공연장 정보
                             </button>
         </main>
     </div>

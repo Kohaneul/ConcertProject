@@ -1,16 +1,25 @@
 package com.project.concertView.web.controller;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
+import com.project.concertView.domain.dao.member.annotation.log.LogRecord;
+import com.project.concertView.domain.dao.member.annotation.login.LoginCheck;
+import com.project.concertView.domain.dto.LoginMemberDTO;
 import com.project.concertView.domain.entity.EmailAddr;
+import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 
@@ -67,7 +76,6 @@ public class MemberController {
     @ResponseBody
     public HashMap<String,Object> send(@RequestBody HashMap<String,Object> sendDTO){
         String loginId = memberService.findLoginId((String) sendDTO.get("loginId"));
-        log.info("loginId={}",loginId);
         sendDTO.replace("loginId",loginId);
          return sendDTO;
     }
@@ -76,7 +84,6 @@ public class MemberController {
     @ResponseBody
     public HashMap<String,Object> phoneNumberSend(@RequestBody HashMap<String,Object> sendDTO){
         String phoneNumber = memberService.findPhoneNumber((String) sendDTO.get("phoneNumber"));
-        log.info("phoneNumber={}",phoneNumber);
         sendDTO.replace("phoneNumber",phoneNumber);
         return sendDTO;
     }
@@ -86,18 +93,62 @@ public class MemberController {
     public HashMap<String,Object> emailSend(@RequestBody HashMap<String,Object> sendDTO){
         String email = memberService.findEmail((String) sendDTO.get("email"));
         String emailAccountWrite = "@"+ memberService.findPhoneNumber((String) sendDTO.get("emailAccountWrite"));
-        log.info("emailAccountWrite={}",emailAccountWrite);
         email = email+emailAccountWrite;
-        log.info("email={}",email);
         sendDTO.replace("email",email);
         return sendDTO;
     }
 
-
     @GetMapping("/info/{memberId}")
+    @LogRecord
     public String findOne(@PathVariable("memberId")Long memberId,Model model){
         Member member =  memberService.findOne(memberId);
         model.addAttribute("member",member);
         return "view/member/viewMember";
     }
+
+//    @LoginCheck
+
+
+    @GetMapping("/login")
+    public String login(@ModelAttribute("loginMember")LoginMemberDTO loginMemberDTO){
+        return "view/member/Login";
+    }
+    @PostMapping("/login")
+    public String login(@Valid @ModelAttribute("loginMember")LoginMemberDTO loginMemberDTO, BindingResult bindingResult, HttpSession session){
+        String loginId = memberService.findLoginId(loginMemberDTO.getLoginId());
+        loginIdNotFound(loginId,bindingResult);
+
+        Long memberId = memberService.loginMember(loginMemberDTO);
+        loginFail(memberId,bindingResult);
+
+        if(bindingResult.hasErrors()){
+            return "view/member/Login";
+        }
+        session.setAttribute(SessionValue.LOGIN.getKey(),memberId );
+        return "redirect:/concert/detailView";
+    }
+
+    private void loginIdNotFound(String loginId, BindingResult bindingResult) {
+        if(loginId!=null){
+            bindingResult.addError(new ObjectError("memberLogin","존재하지 않거나 없는 아이디입니다."));
+        }
+
+    }
+
+    private void loginFail(Long memberId, BindingResult bindingResult) {
+      if(memberId==null){
+          bindingResult.addError(new ObjectError("memberLogin", "아이디/비밀번호가 틀렸습니다."));
+      }
+    }
+
+
+
+//    @LoginCheck
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginMemberDTO> memberDTO(){
+//        Long memberId = memberService.getLoginUser();
+//        LoginMemberDTO member = memberService.findLoginMemberDTO(memberId);
+//        return ResponseEntity.ok(member);
+//    }
+
 }

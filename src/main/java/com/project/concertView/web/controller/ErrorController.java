@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping("/ex")
 public class ErrorController {
   @GetMapping("/500")
-    public String INTERNAL_SERVER_ERROR() throws Exception{
+  public String INTERNAL_SERVER_ERROR() throws Exception{
       throw new Error500();
   }
 

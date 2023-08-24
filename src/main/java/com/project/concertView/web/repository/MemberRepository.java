@@ -1,5 +1,6 @@
 package com.project.concertView.web.repository;
 
+import com.project.concertView.domain.dto.LoginMemberDTO;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,5 @@ public interface MemberRepository {
     String findLoginId(String loginId);
     String findEmail(String emaiil);
     String findPhoneNumber(String phoneNumber);
+    Long loginMember(LoginMemberDTO loginMember);
 }

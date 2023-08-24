@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th = "http://www.thymeleaf.org">
 <title>공연 장소 조회</title>
+<link th:href = "@{/css/styles.css}" rel = "stylesheet"/>
+<link th:href = "@{/css/error.css}" rel = "stylesheet"/>
 <head>
     <meta charset = "utf-8"/>
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
@@ -9,7 +11,8 @@
     <meta name = "author" content = ""/>
     <title>Register - SB Admin</title>
     <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
-    <link href = "css/styles.css" rel = "stylesheet"/>
+</head>
+
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
     <style>
 
@@ -104,7 +107,7 @@
                                 <h2 style = "text-align:center;">데이터가 존재하지 않습니다.</h2>
                             </div>
                             <button type = "button" class = "btn btn-primary mb-2" style = "width:10%;"
-                                    th:onclick = "'location.href=\'' + @{detailView} + '\''">공연 정보
+                                    th:onclick = "'location.href=\'' + @{/concert/detailView} + '\''">공연 정보
                             </button>
                         </div>
                     </div>

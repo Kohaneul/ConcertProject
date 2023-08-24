@@ -1,4 +1,4 @@
-package com.project.concertView.domain.aop;
+package com.project.concertView.domain.config.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,12 +17,11 @@ import java.util.Arrays;
  * */
 @Aspect
 @Slf4j
-@Component
 public class ConcertAspect {
     @Pointcut("execution(* com.project.concertView.web..*.*(..))")
     private void setPointCuts() {
     };
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)")
     private void setPostMappingLog(){};
 
     @Around("setPointCuts() && setPostMappingLog()")
@@ -34,7 +33,7 @@ public class ConcertAspect {
             throw new RuntimeException(e);
         }
         finally{
-            Arrays.stream(joinPoint.getArgs()).forEach(i -> log.info("매개변수 타입={}", i.getClass().getTypeName()));
+            Arrays.stream(joinPoint.getArgs()).forEach(i -> log.info("Args={}", i.getClass().getTypeName()));
         }
         return result;
     }

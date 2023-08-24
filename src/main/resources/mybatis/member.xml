@@ -30,6 +30,11 @@
         SELECT email FROM member where email = #{email};
     </select>
 
+    <select id="loginMember" parameterType="com.project.concertView.domain.dto.LoginMemberDTO" resultType="java.lang.Long">
+        SELECT id FROM member where loginId=#{loginId} and password=#{password};
+    </select>
+
+
 <!--    <select id="findEmail" resultType="java.lang.String">-->
 <!--        SELECT loginId FROM member where loginId = #{loginId};-->
 <!--    </select>-->

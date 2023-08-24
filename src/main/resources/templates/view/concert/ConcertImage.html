@@ -1,6 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th = "http://www.thymeleaf.org">
 <title>조회</title>
+
+<link th:href = "@{/css/styles.css}" rel = "stylesheet"/>
+<link th:href = "@{/css/error.css}" rel = "stylesheet"/>
 <head>
     <meta charset = "utf-8"/>
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
@@ -8,6 +11,7 @@
     <meta name = "description" content = ""/>
     <meta name = "author" content = ""/>
     <title>Register - SB Admin</title>
+  </head>
     <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
     <link href = "css/styles.css" rel = "stylesheet"/>
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
@@ -16,7 +20,7 @@
     /*<![CDATA[*/
 
        function NextPage(mt10id){
-        let url ="/detailView/place/"+mt10id;
+        let url ="/concert/detailView/place/"+mt10id;
         window.location.href=url;
     }
 
@@ -27,7 +31,7 @@
         let height = 800;
         let popupX = (window.screen.width / 2) - (width / 2);
         let popupY= (window.screen.height / 2) - (height / 2);
-        let url ="/detailView/poster?mt20id="+id;
+        let url ="/concert/detailView/poster?mt20id="+id;
          openWin = window.open(url, "childForm", "width=1000, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
     }
     /*]]>*/

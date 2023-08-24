@@ -4,6 +4,7 @@ import com.project.concertView.domain.dao.concert.ConcertData;
 import com.project.concertView.domain.dao.concert.ConcertDetailInfo;
 import com.project.concertView.domain.dao.concert.ConcertPlace;
 import com.project.concertView.domain.dao.concert.ConcertPlaceSearch;
+import com.project.concertView.domain.dao.member.annotation.log.LogRecord;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ import java.util.List;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/concert")
 public class ConcertController {
     private final ConcertService concertService;
 
@@ -37,6 +40,7 @@ public class ConcertController {
           - Model : 해당 DTO를 적용한 객체를 화면단에 보내주는 model 클래스
      */
     @GetMapping("/detailView")
+    @LogRecord
     public String concertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO, Model model){
         //DTO 클래스에 부합하는 정보만 LIST로 반환하여
         List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchInfoDTO);
@@ -91,6 +95,7 @@ public class ConcertController {
      - Model :  id 값과 부합하는 객체를 화면단에 보내주는 model 클래스
      */
     @GetMapping("/place")
+    @LogRecord
     public String placeSearch(@ModelAttribute("concertPlaceSearchDTO") ConcertPlaceSearchDTO concertPlaceSearchDTO, Model model){
         List<ConcertPlaceSearch> concertPlaceList = concertService.findConcertPlaceList(concertPlaceSearchDTO);
         model.addAttribute("concertPlaceList",concertPlaceList);

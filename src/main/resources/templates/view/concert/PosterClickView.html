@@ -1,6 +1,9 @@
 <!DOCTYPE HTML>
 <html xmlns:th = "http://www.thymeleaf.org">
 <title>조회</title>
+
+<link th:href = "@{/css/styles.css}" rel = "stylesheet"/>
+<link th:href = "@{/css/error.css}" rel = "stylesheet"/>
 <head>
     <meta charset = "utf-8"/>
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
@@ -8,18 +11,14 @@
     <meta name = "description" content = ""/>
     <meta name = "author" content = ""/>
     <title>Register - SB Admin</title>
-
-
-    <link href = "css/styles.css" rel = "stylesheet"/>
-    <script src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin = "anonymous"></script>
-
-    <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-    <script th:inline = "javascript">
+  </head>
+<script src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin = "anonymous"></script>
+<script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script th:inline = "javascript">
     /*<![CDATA[*/
 
        function NextPage(mt10id){
-        let url ="/detailView/place/"+mt10id;
+        let url ="/concert/detailView/place/"+mt10id;
         window.location.href=url;
     }
 
