@@ -1,15 +1,8 @@
 package com.project.concertView.domain.entity;
 
-import lombok.Getter;
+public abstract class SessionValue {
 
-public enum SessionValue {
-    LOGIN("LOGIN_SESSION");
+    public final static String LOGIN_SESSION="LOGIN_SESSION_ID";
 
-    @Getter
-    private final String key;
-
-    SessionValue(String key){
-        this.key = key;
-    }
 
 }

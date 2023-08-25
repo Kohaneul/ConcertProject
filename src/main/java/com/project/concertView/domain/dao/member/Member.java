@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,6 +25,7 @@ public class Member {
     private String emailAccountWrite;
     private String phoneNumber;
     private String birth;
+    private List<Long> likeList;
 
     public Member(String name, String address, String detailAddress, String email, String loginId, String password, LocalDateTime joinDay, String emailAccountWrite, String phoneNumber, String birth) {
         this.name = name;
@@ -35,5 +38,10 @@ public class Member {
         this.emailAccountWrite = emailAccountWrite;
         this.phoneNumber = phoneNumber;
         this.birth = birth;
+        this.likeList = new ArrayList<>();
+    }
+
+    public void setList(Long concertId){
+        likeList.add(concertId);
     }
 }

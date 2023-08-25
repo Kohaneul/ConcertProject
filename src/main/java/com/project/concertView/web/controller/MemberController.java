@@ -1,4 +1,5 @@
 package com.project.concertView.web.controller;
+import com.project.concertView.domain.dao.concert.LikeConcertInsert;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
 import com.project.concertView.domain.dao.member.annotation.log.LogRecord;
@@ -106,8 +107,6 @@ public class MemberController {
         return "view/member/viewMember";
     }
 
-//    @LoginCheck
-
 
     @GetMapping("/login")
     public String login(@ModelAttribute("loginMember")LoginMemberDTO loginMemberDTO){
@@ -115,24 +114,28 @@ public class MemberController {
     }
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("loginMember")LoginMemberDTO loginMemberDTO, BindingResult bindingResult, HttpSession session){
-        String loginId = memberService.findLoginId(loginMemberDTO.getLoginId());
-        loginIdNotFound(loginId,bindingResult);
-
-        Long memberId = memberService.loginMember(loginMemberDTO);
-        loginFail(memberId,bindingResult);
-
+        bindingResultInsert(loginMemberDTO,bindingResult);
         if(bindingResult.hasErrors()){
             return "view/member/Login";
         }
-        session.setAttribute(SessionValue.LOGIN.getKey(),memberId );
+        session.setAttribute(SessionValue.LOGIN_SESSION,loginMemberDTO.getLoginId() );
+        log.info("SessionValue={} : {}",SessionValue.LOGIN_SESSION,session.getAttribute(SessionValue.LOGIN_SESSION));
         return "redirect:/concert/detailView";
     }
+
+
+    private void bindingResultInsert(LoginMemberDTO loginMemberDTO,BindingResult bindingResult){
+        String loginId = memberService.findLoginId(loginMemberDTO.getLoginId());
+        loginIdNotFound(loginId,bindingResult);
+        Long memberId = memberService.loginMember(loginMemberDTO);
+        loginFail(memberId,bindingResult);
+    }
+
 
     private void loginIdNotFound(String loginId, BindingResult bindingResult) {
         if(loginId!=null){
             bindingResult.addError(new ObjectError("memberLogin","존재하지 않거나 없는 아이디입니다."));
         }
-
     }
 
     private void loginFail(Long memberId, BindingResult bindingResult) {
@@ -140,6 +143,27 @@ public class MemberController {
           bindingResult.addError(new ObjectError("memberLogin", "아이디/비밀번호가 틀렸습니다."));
       }
     }
+
+    @PostMapping("/likeConcert")
+    @ResponseBody
+    public void mt20idSave(@RequestBody HashMap<String,Object> sendDTO,@SessionAttribute("LOGIN_SESSION_ID")Long memberId){
+        log.info("{}",memberId);
+        String mt20id = (String) sendDTO.get("mt20id");
+        memberService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
+        log.info("저장 성공={}",mt20id);
+    }
+
+
+//    @PostMapping("/emailCheck")
+//    @ResponseBody
+//    public HashMap<String,Object> emailSend(@RequestBody HashMap<String,Object> sendDTO){
+//        String email = memberService.findEmail((String) sendDTO.get("email"));
+//        String emailAccountWrite = "@"+ memberService.findPhoneNumber((String) sendDTO.get("emailAccountWrite"));
+//        email = email+emailAccountWrite;
+//        sendDTO.replace("email",email);
+//        return sendDTO;
+//    }
+
 
 
 
