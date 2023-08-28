@@ -24,6 +24,7 @@
         SELECT loginId FROM member where loginId = #{loginId};
     </select>
 
+
     <select id="findByLoginId" resultType="java.lang.Long">
         SELECT loginId FROM member where id = #{id};
     </select>

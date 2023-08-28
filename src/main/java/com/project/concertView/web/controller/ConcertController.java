@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -103,12 +104,16 @@ public class ConcertController {
     public Signgucode[] signguCode(){
         return Signgucode.values();
     }
-
-    @GetMapping("/like/{mt20id}")
-    public String likeConcert(@PathVariable("mt20id")String mt20id, @SessionAttribute(SessionValue.LOGIN_ID_SESSION)Long id){
-        memberService.insertLikeConcert(new LikeConcertInsert(id,mt20id));
+    @RequestMapping("/like/{mt20id}")
+    public String likeConcert(@PathVariable("mt20id")String mt20id, @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
+        memberService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
+        log.info("저장완료={} : {}",memberId, mt20id);
         return "redirect:/concert/detailView";
     }
+
+
+
+
 }
 
 

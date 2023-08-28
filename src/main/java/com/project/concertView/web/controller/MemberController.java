@@ -118,8 +118,9 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "view/member/Login";
         }
+        session.setAttribute(SessionValue.LOGIN_PK_ID_SESSION, memberService.loginMember(loginMemberDTO));
         session.setAttribute(SessionValue.LOGIN_ID_SESSION,loginMemberDTO.getLoginId() );
-        log.info("SessionValue={} : {}",SessionValue.LOGIN_ID_SESSION,session.getAttribute(SessionValue.LOGIN_ID_SESSION));
+        log.info("SessionValue={} : {}",SessionValue.LOGIN_PK_ID_SESSION,session.getAttribute(SessionValue.LOGIN_ID_SESSION));
         return "redirect:/concert/detailView";
     }
 

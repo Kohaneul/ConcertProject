@@ -30,22 +30,15 @@
     border-left: none;
   }
 
-
-
-
-
 </style>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script th:inline = "javascript">
         /*<![CDATA[*/
 
-    function likeConcertClick(data,count) {
-            console.log(this.src);
-            }
-
-
-
+  function likeConcertClick(data){
+       location.href= "/concert/like/"+data;
+        };
 
                 /*]]>*/
 
@@ -169,10 +162,11 @@
                                                 </td>
                                                 <span th:if = "${session.LOGIN_ID_SESSION!=null}">
                                                     <td>
-                                                        <a href = "" >
-                                                             <img src="/image/heart1.png" th:onclick = "likeConcertClick([[${concertData.mt20id}]],[[${i.count}]])" class="clickHeart" width="25px">
-                                                        </a>
-                                                     </td>
+                                                      <a th:onclick ="likeConcertClick([[${concertData.mt20id}]])" >
+                                                       <img src="/image/heart1.png" name="clickHeart" width="25px" >
+                                                       </a>
+
+                                                    </td>
                                                 </span>
                             </tr>
                         </div>
