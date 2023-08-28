@@ -51,13 +51,13 @@
                         <div class = "card shadow-lg border-0 rounded-lg mt-5">
                             <div class = "card-header"><h3 class = "text-center font-weight-light my-4">상세조회</h3></div>
                             <div class = "card-body">
-                                <div class = "d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <div class = "d-flex align-items-center justify-content-between mb-0">
 
                                     <div>
                                         <div style = "text-align:center;">
-                                            <img th:src = "${concertDetailInfo.concertData.poster}" width = "400"/>
+                                            <img th:src = "${concertDetailInfo.concertData.poster}"/>
                                         </div>
-                                        <div style = "margin-left:30%;">
+                                        <div>
                                             <div>
                                                 제목 : <span th:text = "${concertDetailInfo.concertData.prfnm}"></span>
                                             </div>

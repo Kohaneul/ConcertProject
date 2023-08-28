@@ -71,7 +71,7 @@ public class MemberService {
     }
 
     public Long getLoginUser() {
-        return (Long) session.getAttribute(SessionValue.LOGIN_SESSION);
+        return (Long) session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION);
     }
     public void insertLikeConcert(LikeConcertInsert likeConcertInsert){
         memberRepository.insertLikeConcert(likeConcertInsert);

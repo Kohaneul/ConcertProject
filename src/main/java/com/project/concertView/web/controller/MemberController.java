@@ -118,8 +118,15 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             return "view/member/Login";
         }
-        session.setAttribute(SessionValue.LOGIN_SESSION,loginMemberDTO.getLoginId() );
-        log.info("SessionValue={} : {}",SessionValue.LOGIN_SESSION,session.getAttribute(SessionValue.LOGIN_SESSION));
+        session.setAttribute(SessionValue.LOGIN_ID_SESSION,loginMemberDTO.getLoginId() );
+        log.info("SessionValue={} : {}",SessionValue.LOGIN_ID_SESSION,session.getAttribute(SessionValue.LOGIN_ID_SESSION));
+        return "redirect:/concert/detailView";
+    }
+
+
+    @RequestMapping("/logOut")
+    public String logOut(HttpSession session){
+        session.removeAttribute(SessionValue.LOGIN_ID_SESSION);
         return "redirect:/concert/detailView";
     }
 
@@ -144,24 +151,12 @@ public class MemberController {
       }
     }
 
-    @PostMapping("/likeConcert")
-    @ResponseBody
-    public void mt20idSave(@RequestBody HashMap<String,Object> sendDTO,@SessionAttribute("LOGIN_SESSION_ID")Long memberId){
-        log.info("{}",memberId);
-        String mt20id = (String) sendDTO.get("mt20id");
-        memberService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
-        log.info("저장 성공={}",mt20id);
-    }
-
-
-//    @PostMapping("/emailCheck")
-//    @ResponseBody
-//    public HashMap<String,Object> emailSend(@RequestBody HashMap<String,Object> sendDTO){
-//        String email = memberService.findEmail((String) sendDTO.get("email"));
-//        String emailAccountWrite = "@"+ memberService.findPhoneNumber((String) sendDTO.get("emailAccountWrite"));
-//        email = email+emailAccountWrite;
-//        sendDTO.replace("email",email);
-//        return sendDTO;
+//    @RequestMapping("/likeConcertSend/{mt20id}")
+//    public void mt20idSave(@PathVariable("mt20id") String mt20id,@SessionAttribute("LOGIN_SESSION_ID")Long memberId){
+//        log.info("{} like {} ",memberId,{});
+//        String mt20id = (String) sendDTO.get("mt20id");
+//        memberService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
+//        log.info("저장 성공={}",mt20id);
 //    }
 
 

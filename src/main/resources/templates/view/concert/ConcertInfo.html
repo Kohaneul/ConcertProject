@@ -31,33 +31,28 @@
   }
 
 
+
+
+
 </style>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 <script th:inline = "javascript">
         /*<![CDATA[*/
 
-        function likeConcertClick(mt20id){
-            let sendDTO = {"mt20id":mt20id};
-            $.ajax({
-                url: "/member/likeConcert",
-                data: JSON.stringify(sendDTO),
-                dataType: "json",
-                contentType: "application/json; charset=UTF",
-                type: 'POST',
-                success:function(data){
-                alert('저장되었습니다.'+mt20id);
-                },
-                error:function(error){
-                alert('에러 발생');
-                   }
-            })
-        };
+    function likeConcertClick(data,count) {
+            console.log(this.src);
+            }
+
+
 
 
                 /*]]>*/
 
-    </script>
+
+
+
+</script>
 
 
 <script th:inline = "javascript">
@@ -102,16 +97,21 @@
                             <i class = "fas fa-table me-1"></i>
                             공연 정보 조회
                         </div>
-                        <div style="margin-top:5px; margin-left:5px;">
-                           <span>[<span th:text = "${session.LOGIN_SESSION_ID}!=null  ? '${session.LOGIN_SESSION_ID}' : 'GUEST'"></span>]님 환영합니다.</span>
-                          <span th:if = "${session.LOGIN_SESSION_ID==null}">
-                                <button type = "button" class = "btn btn-primary mb-2" th:onclick = "'location.href=\'' + @{/member/login} + '\''">로그인</button>
+                        <div style = "margin-top:5px; margin-left:5px;">
+                        <span>[<span
+                                th:text = "${session.LOGIN_ID_SESSION}!=null ? ${session.LOGIN_ID_SESSION} : 'GUEST'"></span>]님 환영합니다.
+                            <span th:if = "${session.LOGIN_ID_SESSION!=null}">
+                                <button type = "button" class = "btn btn-primary mb-2"
+                                        th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
+                            </span>
+                            <span th:if = "${session.LOGIN_ID_SESSION==null}">
+                                <button type = "button" class = "btn btn-primary mb-2"
+                                        th:onclick = "'location.href=\'' + @{/member/login} + '\''">로그인</button>
                           </span>
-                         </div>
+                        </div>
                         <div id = "dtoSearch">
-
                             <form th:object = "${concertSearchInfoDTO}"
-                                  class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" >
+                                  class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                 <div class = "input-group">
                                     <input type = "date" class = "form-control" th:field = "*{stDate}"
                                            th:onclick = "onClick()"/>
@@ -130,13 +130,12 @@
                                 </div>
                             </form>
                         </div>
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+                        <!--                    </div>-->
+                        <!--                </div>-->
+                        <!--            </div>-->
                         <div class = "card-body">
-                                 <span id = "dataIsNotNull" th:if = "${concertDataList.size()>0}">
-
-                                <table id = "datatablesSimple">
+                           <span id = "dataIsNotNull" th:if = "${concertDataList.size()>0}">
+                                  <table id = "datatablesSimple">
                                     <thead>
                                         <tr>
                                             <th>no</th>
@@ -147,7 +146,7 @@
                                             <th>공연완료</th>
                                             <th>상세정보</th>
                                             <th>오픈런</th>
-                                            <span th:if = "${session.LOGIN_SESSION!=null}">
+                                            <span th:if = "${session.LOGIN_ID_SESSION!=null}">
                                                 <th>찜하기</th>
                                             </span>
                                         </tr>
@@ -157,7 +156,7 @@
                                     <tbody>
                                            <div th:if = "${concertDataList.size()>0}">
                                             <tr th:each = "concertData,i :${concertDataList}">
-                                                <td th:text = "${i.count}"></td>
+                                                <td th:text = "${i.index+1}"></td>
                                                 <td th:text = "${concertData.prfnm}"></td>
                                                 <td th:text = "${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
                                                 <td th:text = "${concertData.fcltynm}"></td>
@@ -168,27 +167,33 @@
                                                     <span th:if = "${concertData.openrun.equals('Y')}">O</span>
                                                     <span th:if = "${concertData.openrun.equals('N')}">X</span>
                                                 </td>
-                                                  <span th:if = "${session.LOGIN_SESSION_ID!=null}">
-                                                      <td><button th:value="${i.mt20id}" class = "btn btn-primary btn-block"
-                                                                  th:onclick = "likeConcertClick(this.value)"></button>좋아요</td>
-                                                  </span>
+                                                <span th:if = "${session.LOGIN_ID_SESSION!=null}">
+                                                    <td>
+                                                        <a href = "" >
+                                                             <img src="/image/heart1.png" th:onclick = "likeConcertClick([[${concertData.mt20id}]],[[${i.count}]])" class="clickHeart" width="25px">
+                                                        </a>
+                                                     </td>
                                                 </span>
-                                            </tr>
-                                           </div>
-                            <div id = "dataIsNull" th:if = "${concertDataList.size()<1}">
-                                <h2>데이터가 존재하지 않습니다.</h2>
-                            </div>
-                            </table>
-                            <br>
-                            <button type = "button" class = "btn btn-primary mb-2"
-                                    th:onclick = "'location.href=\'' + @{/concert/place} + '\''">공연장 정보
-                            </button>
+                            </tr>
                         </div>
+                        </tbody>
+                        </table>
+                        </span>
+                        <div id = "dataIsNull" th:if = "${concertDataList.size()<1}">
+                            <h2>데이터가 존재하지 않습니다.</h2>
+                        </div>
+                        <br>
+                        <button type = "button" class = "btn btn-primary mb-2"
+                                th:onclick = "'location.href=\'' + @{/concert/place} + '\''">공연장 정보
+                        </button>
+                    </div>
         </main>
     </div>
 </div>
+<script>
 
 
+</script>
 
 <footer class = "py-4 bg-light mt-auto">
     <div class = "container-fluid px-4">
@@ -201,14 +206,16 @@
         </div>
     </div>
 </footer>
+
 <script th:inline = "javascript">
     /*<![CDATA[*/
-        let heartBtn = document.getElementById('');
+
+
 
     /*]]>*/
 
-
 </script>
+
 </div>
 </div>
 

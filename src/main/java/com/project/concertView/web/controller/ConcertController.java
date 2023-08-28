@@ -1,25 +1,21 @@
 package com.project.concertView.web.controller;
 
-import com.project.concertView.domain.dao.concert.ConcertData;
-import com.project.concertView.domain.dao.concert.ConcertDetailInfo;
-import com.project.concertView.domain.dao.concert.ConcertPlace;
-import com.project.concertView.domain.dao.concert.ConcertPlaceSearch;
+import com.project.concertView.domain.dao.concert.*;
 import com.project.concertView.domain.dao.member.annotation.log.LogRecord;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
+import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
+import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +29,7 @@ import java.util.List;
 @RequestMapping("/concert")
 public class ConcertController {
     private final ConcertService concertService;
+    private final MemberService memberService;
 
     /**1. 공연 정보 조회 클래스
         1)  파라미터
@@ -107,6 +104,11 @@ public class ConcertController {
         return Signgucode.values();
     }
 
+    @GetMapping("/like/{mt20id}")
+    public String likeConcert(@PathVariable("mt20id")String mt20id, @SessionAttribute(SessionValue.LOGIN_ID_SESSION)Long id){
+        memberService.insertLikeConcert(new LikeConcertInsert(id,mt20id));
+        return "redirect:/concert/detailView";
+    }
 }
 
 
