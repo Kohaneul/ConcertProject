@@ -9,6 +9,7 @@ import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
+import com.project.concertView.web.service.LikeConcertService;
 import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -31,6 +32,7 @@ import java.util.List;
 public class ConcertController {
     private final ConcertService concertService;
     private final MemberService memberService;
+    private final LikeConcertService likeConcertService;
 
     /**1. 공연 정보 조회 클래스
         1)  파라미터
@@ -39,12 +41,21 @@ public class ConcertController {
      */
     @GetMapping("/detailView")
     @LogRecord
-    public String concertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO, Model model){
+    public String concertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO, Model model, HttpSession session){
         //DTO 클래스에 부합하는 정보만 LIST로 반환하여
-        List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchInfoDTO);
+        List<ConcertData> concertDataList = loginSessionIsNotNull(concertSearchInfoDTO, session);
         //Model 객체를 통하여 화면단 표시
         model.addAttribute("concertDataList",concertDataList);
         return "view/concert/ConcertInfo";
+    }
+
+    private List<ConcertData> loginSessionIsNotNull(ConcertSearchInfoDTO concertSearchInfoDTO,HttpSession session){
+        List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchInfoDTO);
+        Long memberId = (Long) session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION);
+        if(session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION) !=null){
+            concertDataList.forEach(i->i.setLikeOrNot(likeConcertService.likeConcert(new LikeConcert(memberId,i.getMt20id()))));
+        }
+        return concertDataList;
     }
 
     /**2. 공연 상세 조회 클래스
@@ -106,11 +117,22 @@ public class ConcertController {
     }
     @RequestMapping("/like/{mt20id}")
     public String likeConcert(@PathVariable("mt20id")String mt20id, @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
-        memberService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
+        likeConcertService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
         log.info("저장완료={} : {}",memberId, mt20id);
         return "redirect:/concert/detailView";
     }
 
+    @RequestMapping("/like/delete/{mt20id}")
+    public String deleteLikeConcert(@PathVariable("mt20id")String mt20id,  @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
+        likeConcertService.deleteLikeConcert(new LikeConcertInsert(memberId,mt20id));
+        log.info("좋아요 취소 완료={} : {}",memberId, mt20id);
+        return "redirect:/concert/detailView";
+
+    }
+//    @ModelAttribute("likeConcertList")
+//    public List<LikeConcert> likeConcertList(@SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
+//        return memberService.likeConcertList(memberId);
+//    }
 
 
 

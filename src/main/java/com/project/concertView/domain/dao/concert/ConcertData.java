@@ -11,7 +11,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ConcertData {
     private String mt20id;    // 공연ID
     private String prfnm;     // 공연명
@@ -22,4 +21,5 @@ public class ConcertData {
     private String genrenm;   //공연 장르명
     private String prfstate;  //공연 상태
     private String openrun;   //오픈런 여부
+    private Boolean likeOrNot;
 }

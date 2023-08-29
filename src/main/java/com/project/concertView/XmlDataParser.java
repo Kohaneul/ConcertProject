@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.stereotype.Component;
 import org.w3c.dom.*;
 
 import java.lang.reflect.Field;
@@ -35,7 +36,7 @@ import static java.lang.Boolean.TRUE;
 @Setter
 @Slf4j
 @NoArgsConstructor
-//@NoArgsConstructor
+@Component
 public class XmlDataParser {
     private String stDate;      // 공연시작일
     private String edDate;      // 공연 종료일

@@ -1,15 +1,13 @@
 package com.project.concertView.web.repository;
 
 import com.project.concertView.XmlDataParser;
-import com.project.concertView.domain.dao.concert.ConcertData;
-import com.project.concertView.domain.dao.concert.ConcertDetailInfo;
-import com.project.concertView.domain.dao.concert.ConcertPlace;
-import com.project.concertView.domain.dao.concert.ConcertPlaceSearch;
+import com.project.concertView.domain.dao.concert.*;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 /**
@@ -52,6 +50,8 @@ public class ConcertRepository {
         XmlDataParser xmlDataParser = new XmlDataParser(concertPlaceSearchDTO);
         return xmlDataParser.setConcertHallList();
     }
+
+
 
 
 

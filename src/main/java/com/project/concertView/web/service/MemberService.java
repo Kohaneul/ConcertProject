@@ -73,15 +73,7 @@ public class MemberService {
     public Long getLoginUser() {
         return (Long) session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION);
     }
-    public void insertLikeConcert(LikeConcertInsert likeConcertInsert){
-        memberRepository.insertLikeConcert(likeConcertInsert);
-    }
-    public void deleteLikeConcert(Long id){
-        memberRepository.deleteLikeConcert(id);
-    }
-    public List<LikeConcert> likeConcertList(Long memberId){
-        return memberRepository.likeConcertList(memberId);
-    }
+
 
 
 }

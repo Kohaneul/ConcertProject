@@ -7,11 +7,14 @@ import com.project.concertView.domain.dao.concert.ConcertPlaceSearch;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
+import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.web.repository.ConcertRepository;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
+import com.project.concertView.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -27,6 +30,7 @@ public class ConcertService {
      - ConcertSearchInfoDTO : 일자별 공연 정보 조회 DTO 클래스
      */
     public List<ConcertData> findAllDTO(ConcertSearchInfoDTO concertSearchInfoDTO){
+
         return concertRepository.findAllDTO(concertSearchInfoDTO);
     }
 

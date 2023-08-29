@@ -37,10 +37,28 @@
         /*<![CDATA[*/
 
   function likeConcertClick(data){
+        console.log(data);
+        let answer;
+        answer = confirm("좋아요 누르시겠습니까?");
+        if(answer==true)
+        {
        location.href= "/concert/like/"+data;
+        }
+
         };
 
-                /*]]>*/
+    function deleteLikeConcertClick(data){
+        console.log(data);
+        let answer;
+        answer = confirm("좋아요 취소 하시겠습니까?");
+        if(answer==true)
+        {
+        location.href= "/concert/like/delete/"+data;
+        }
+
+        };
+
+         /*]]>*/
 
 
 
@@ -72,7 +90,6 @@
 
 </script>
 <script src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin = "anonymous"></script>
-
 </head>
 
 <body class = "bg-primary">
@@ -123,9 +140,6 @@
                                 </div>
                             </form>
                         </div>
-                        <!--                    </div>-->
-                        <!--                </div>-->
-                        <!--            </div>-->
                         <div class = "card-body">
                            <span id = "dataIsNotNull" th:if = "${concertDataList.size()>0}">
                                   <table id = "datatablesSimple">
@@ -162,10 +176,12 @@
                                                 </td>
                                                 <span th:if = "${session.LOGIN_ID_SESSION!=null}">
                                                     <td>
-                                                      <a th:onclick ="likeConcertClick([[${concertData.mt20id}]])" >
-                                                       <img src="/image/heart1.png" name="clickHeart" width="25px" >
-                                                       </a>
-
+                                                    <span th:if = "${concertData.likeOrNot!=null}">
+                                                         <input type = image src = "/image/heart2.png" width="20px" th:onclick="deleteLikeConcertClick([[${concertData.mt20id}]])">
+                                                    </span>
+                                                    <span th:if = "${concertData.likeOrNot==null}">
+                                                    <input type = image src = "/image/heart1.png" width="20px" th:onclick="likeConcertClick([[${concertData.mt20id}]])">
+                                                    </span>
                                                     </td>
                                                 </span>
                             </tr>

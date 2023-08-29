@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th = "http://www.thymeleaf.org">
+<title>조회</title>
+<head>
+    <meta charset = "utf-8"/>
+    <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name = "description" content = ""/>
+    <meta name = "author" content = ""/>
+    <title>Register - SB Admin</title>
+    <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
+    <link href = "css/styles.css" rel = "stylesheet"/>
+    <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
+
+    <script th:inline = "javascript">
+    /*<![CDATA[*/
+    function pageOpen(url){
+            window.open(url, '_blank');
+    }
+    /*]]>*/
+
+    </script>
+</head>
+<body>
+<div>
+    <div id = "dtoSearch">
+        <form th:object = "${concertSearchInfoDTO}"
+              class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class = "input-group">
+                <input type = "date" class = "form-control" th:field = "*{stDate}"
+                       th:onclick = "onClick()"/>
+                <input type = "date" class = "form-control" id = "edDate" th:field = "*{edDate}"
+                       placeholder = "조회 순번"/>
+                <input type = "text" class = "form-control" id = "cpage" th:field = "*{cpage}"/>
+                <select th:field = "*{signgucode}" class = "form-control">
+                    <option value = "">지역선택</option>
+                    <option th:each = "signgucode : ${signgucode}"
+                            th:value = "${signgucode.getValue()}"
+                            th:text = "${signgucode.getKey()}">OPT
+                    </option>
+                </select>
+                <button type = "submit" class = "btn btn-primary" id = "btnNavbarSearch"><i
+                        class = "fas fa-search"></i></button>
+            </div>
+        </form>
+    </div>
+    <div class = "card-body">
+                           <span id = "dataIsNotNull" th:if = "${concertDataList.size()>0}">
+                                  <table id = "datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>no</th>
+                                            <th>제목</th>
+                                            <th>기간</th>
+                                            <th>위치</th>
+                                            <!--                                            <th>장르</th>-->
+                                            <th>공연완료</th>
+                                            <th>상세정보</th>
+                                            <th>오픈런</th>
+                                            <span th:if = "${session.LOGIN_ID_SESSION!=null}">
+                                            <th>좋아요</th>
+                                            </span>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                    </tfoot>
+                                    <tbody>
+                                           <div th:if = "${concertDataList.size()>0}">
+                                            <tr th:each = "concertData,i :${concertDataList}">
+                                                <td th:text = "${i.index+1}"></td>
+                                                <td th:text = "${concertData.prfnm}"></td>
+                                                <td th:text = "${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
+                                                <td th:text = "${concertData.fcltynm}"></td>
+                                                <td th:text = "${concertData.prfstate}"></td>
+                                                <td> <a th:onclick = "openChild([[${concertData.mt20id}]])"
+                                                        style = "cursor:pointer; text-decoration: underline;">클릭</a></td>
+                                                <td>
+                                                    <span th:if = "${concertData.openrun.equals('Y')}">O</span>
+                                                    <span th:if = "${concertData.openrun.equals('N')}">X</span>
+                                                </td>
+                                                    <span th:if = "${concertData.likeOrNot!=null}">
+                                                         <input type = image src = "/image/heart2.png" width="20px" th:onclick="deleteLikeConcertClick([[${concertData.mt20id}]])">
+                                                    </span>
+
+                                                    </td>
+                                                </span>
+                            </tr>
+                        </div>
+                        </tbody>
+                        </table>
+                        </span>
+        <div id = "dataIsNull" th:if = "${concertDataList.size()<1}">
+            <h2>데이터가 존재하지 않습니다.</h2>
+        </div>
+</div>
+</body>
+</html>

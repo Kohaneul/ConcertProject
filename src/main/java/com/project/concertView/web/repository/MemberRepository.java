@@ -26,10 +26,7 @@ public interface MemberRepository {
     String findEmail(String mail);
     String findPhoneNumber(String phoneNumber);
     Long loginMember(LoginMemberDTO loginMember);
-    @Transactional
-    void insertLikeConcert(LikeConcertInsert likeConcertInsert);
-    @Transactional
-    void deleteLikeConcert(Long id);
-    List<LikeConcert> likeConcertList(Long memberId);
+
+
 
 }
