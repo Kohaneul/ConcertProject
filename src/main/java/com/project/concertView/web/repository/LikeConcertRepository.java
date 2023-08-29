@@ -18,5 +18,5 @@ public interface LikeConcertRepository {
     void insertLikeConcert(LikeConcertInsert likeConcertInsert);
     @Transactional
     void deleteLikeConcert(LikeConcertInsert likeConcertInsert);
-    List<LikeConcert> likeConcertList(Long memberId);
+    List<String> likeConcertList(Long memberId);
 }

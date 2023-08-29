@@ -27,7 +27,7 @@ public class LikeConcertService {
     public void deleteLikeConcert(LikeConcertInsert likeConcertInsert){
         likeConcertRepository.deleteLikeConcert(likeConcertInsert);
     }
-    public List<LikeConcert> likeConcertList(Long memberId){
+    public List<String> likeConcertList(Long memberId){
         return likeConcertRepository.likeConcertList(memberId);
     }
 }

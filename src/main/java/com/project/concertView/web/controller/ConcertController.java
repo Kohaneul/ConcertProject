@@ -49,6 +49,19 @@ public class ConcertController {
         return "view/concert/ConcertInfo";
     }
 
+
+    @GetMapping("/like/detailView")
+    @LogRecord
+    public String likeConcertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO,
+                                      @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId,Model model){
+        //DTO 클래스에 부합하는 정보만 LIST로 반환하여
+        List<ConcertData> concertDataList = concertService.findLikeConcertDTO(concertSearchInfoDTO, memberId);
+        //Model 객체를 통하여 화면단 표시
+        model.addAttribute("concertDataList",concertDataList);
+        return "view/member/LikeConcertList";
+    }
+
+
     private List<ConcertData> loginSessionIsNotNull(ConcertSearchInfoDTO concertSearchInfoDTO,HttpSession session){
         List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchInfoDTO);
         Long memberId = (Long) session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION);

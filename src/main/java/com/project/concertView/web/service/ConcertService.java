@@ -10,11 +10,13 @@ import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
 import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.web.repository.ConcertRepository;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
+import com.project.concertView.web.repository.LikeConcertRepository;
 import com.project.concertView.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,14 +27,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConcertService {
     private final ConcertRepository concertRepository;  // CONCERTREPOSITORY 클래스를 의존주입으로 받음
+    private final LikeConcertRepository likeConcertRepository;
     /**1. 공연 정보 조회 클래스
      1)  파라미터
      - ConcertSearchInfoDTO : 일자별 공연 정보 조회 DTO 클래스
      */
     public List<ConcertData> findAllDTO(ConcertSearchInfoDTO concertSearchInfoDTO){
-
         return concertRepository.findAllDTO(concertSearchInfoDTO);
     }
+
+    public List<ConcertData> findLikeConcertDTO(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
+        List<ConcertData> concertDataList = new ArrayList<>();
+        List<String> mt20idLists = likeConcertRepository.likeConcertList(memberId);
+        List<ConcertData> concertDataLists = findAllDTO(concertSearchInfoDTO);
+        for (String str : mt20idLists) {
+            for (ConcertData concertData : concertDataLists) {
+                if (str.equals(concertData.getMt20id())) {
+                    concertDataList.add(concertData);
+                }
+            }
+        }
+        return concertDataList;
+    }
+
 
     /**2. 공연 상세 조회 클래스
      1)  파라미터
