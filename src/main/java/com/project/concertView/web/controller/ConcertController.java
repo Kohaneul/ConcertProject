@@ -2,6 +2,7 @@ package com.project.concertView.web.controller;
 
 import com.project.concertView.domain.dao.concert.*;
 import com.project.concertView.domain.dao.member.annotation.log.LogRecord;
+import com.project.concertView.domain.dao.member.annotation.login.LoginCheck;
 import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
 import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
@@ -10,7 +11,6 @@ import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import com.project.concertView.web.service.LikeConcertService;
-import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +18,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -31,8 +36,9 @@ import java.util.List;
 @RequestMapping("/concert")
 public class ConcertController {
     private final ConcertService concertService;
-    private final MemberService memberService;
     private final LikeConcertService likeConcertService;
+
+
 
     /**1. 공연 정보 조회 클래스
         1)  파라미터
@@ -50,18 +56,6 @@ public class ConcertController {
     }
 
 
-    @GetMapping("/like/detailView")
-    @LogRecord
-    public String likeConcertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO,
-                                      @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId,Model model){
-        //DTO 클래스에 부합하는 정보만 LIST로 반환하여
-        List<ConcertData> concertDataList = concertService.findLikeConcertDTO(concertSearchInfoDTO, memberId);
-        //Model 객체를 통하여 화면단 표시
-        model.addAttribute("concertDataList",concertDataList);
-        return "view/member/LikeConcertList";
-    }
-
-
     private List<ConcertData> loginSessionIsNotNull(ConcertSearchInfoDTO concertSearchInfoDTO,HttpSession session){
         List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchInfoDTO);
         Long memberId = (Long) session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION);
@@ -69,6 +63,18 @@ public class ConcertController {
             concertDataList.forEach(i->i.setLikeOrNot(likeConcertService.likeConcert(new LikeConcert(memberId,i.getMt20id()))));
         }
         return concertDataList;
+    }
+
+    @GetMapping("/like/detailView")
+    @LogRecord
+    public String likeConcertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO,
+                                      @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId, Model model){
+        //DTO 클래스에 부합하는 정보만 LIST로 반환하여
+        List<ConcertData> concertDataList = concertService.findLikeConcertDTO(concertSearchInfoDTO, memberId);
+        //Model 객체를 통하여 화면단 표시
+        model.addAttribute("concertDataList",concertDataList);
+
+        return "view/member/LikeConcertList";
     }
 
     /**2. 공연 상세 조회 클래스
@@ -128,24 +134,22 @@ public class ConcertController {
     public Signgucode[] signguCode(){
         return Signgucode.values();
     }
+    @LoginCheck
     @RequestMapping("/like/{mt20id}")
-    public String likeConcert(@PathVariable("mt20id")String mt20id, @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
+    public String likeConcert(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO, @PathVariable("mt20id")String mt20id,
+                              @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
         likeConcertService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
         log.info("저장완료={} : {}",memberId, mt20id);
-        return "redirect:/concert/detailView";
+        return "view/member/LikeConcertList";
     }
 
+    @LoginCheck
     @RequestMapping("/like/delete/{mt20id}")
     public String deleteLikeConcert(@PathVariable("mt20id")String mt20id,  @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
         likeConcertService.deleteLikeConcert(new LikeConcertInsert(memberId,mt20id));
         log.info("좋아요 취소 완료={} : {}",memberId, mt20id);
-        return "redirect:/concert/detailView";
-
+        return "redirect:/concert/like/"+mt20id;
     }
-//    @ModelAttribute("likeConcertList")
-//    public List<LikeConcert> likeConcertList(@SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
-//        return memberService.likeConcertList(memberId);
-//    }
 
 
 

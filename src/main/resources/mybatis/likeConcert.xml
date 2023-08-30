@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.concertView.web.repository.LikeConcertRepository">
+
+    <select id="findLikeConcert" parameterType="com.project.concertView.domain.dao.concert.LikeConcert"
+            resultType="java.lang.Boolean">
+        select COALESCE(TRUE, FALSE) as mt20id from likeConcert where memberId = #{memberId} and mt20id = #{mt20id}
+    </select>
+
+    <select id="findMt20id" parameterType="com.project.concertView.domain.dao.concert.LikeConcert"
+            resultType="java.lang.String">
+        select mt20id from likeConcert where memberId = #{memberId} and mt20id = #{mt20id}
+    </select>
+
+    <insert id="insertLikeConcert" parameterType="com.project.concertView.domain.dao.concert.LikeConcertInsert" keyProperty="id">
+        insert into likeConcert(memberId,mt20id)
+        values (#{memberId}, #{mt20id});
+    </insert>
+
+    <select id="deleteLikeConcert" parameterType="com.project.concertView.domain.dao.concert.LikeConcert">
+        delete from likeConcert where memberId = #{memberId} and mt20id = #{mt20id};
+    </select>
+
+    <select id="likeConcertList" parameterType="java.lang.Long" resultType="java.lang.String">
+        select mt20id from likeConcert where memberId=#{memberId}
+    </select>
+
+</mapper>

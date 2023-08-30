@@ -15,9 +15,9 @@ import com.project.concertView.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * SERVICE 클래스
@@ -37,17 +37,11 @@ public class ConcertService {
     }
 
     public List<ConcertData> findLikeConcertDTO(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
-        List<ConcertData> concertDataList = new ArrayList<>();
         List<String> mt20idLists = likeConcertRepository.likeConcertList(memberId);
         List<ConcertData> concertDataLists = findAllDTO(concertSearchInfoDTO);
-        for (String str : mt20idLists) {
-            for (ConcertData concertData : concertDataLists) {
-                if (str.equals(concertData.getMt20id())) {
-                    concertDataList.add(concertData);
-                }
-            }
-        }
-        return concertDataList;
+        mt20idLists.stream().filter(str->concertDataLists.stream().filter
+                (str::equals).anyMatch(Predicate.isEqual(concertDataLists))).collect(Collectors.toList());
+        return concertDataLists.stream().filter(i->mt20idLists.stream().anyMatch(j->j.equals(i.getMt20id()))).collect(Collectors.toList());
     }
 
 

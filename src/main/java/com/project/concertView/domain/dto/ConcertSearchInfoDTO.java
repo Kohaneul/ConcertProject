@@ -22,7 +22,7 @@ public class ConcertSearchInfoDTO {
 
     //기본생성자 호출시 현일자 공연정보 ~ 일주일 뒤 공연정보에 대한 내용이 셋팅되도록 설정함
     public ConcertSearchInfoDTO() {
-        this.stDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));;
+        this.stDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.edDate = LocalDateTime.now().plusDays(7).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         this.cpage = 1;
         this.signgucode = Signgucode.valueOf("SEOUL").getValue();

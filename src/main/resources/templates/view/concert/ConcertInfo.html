@@ -71,12 +71,12 @@
         let openWin;
         function openChild(id){
             window.name="parentForm";
-             let width = 1000;
+             let width = 500;
              let height = 800;
             let popupX = (window.screen.width / 2) - (width / 2);
             let popupY= (window.screen.height / 2) - (height / 2);
             let url ="/concert/detailView/img?mt20id="+id;
-             openWin = window.open(url, "childForm", "width=1000, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
+             openWin = window.open(url, "childForm", "width=500, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
             }
 
         function onClick(){
@@ -113,6 +113,8 @@
                             <span th:if = "${session.LOGIN_ID_SESSION!=null}">
                                 <button type = "button" class = "btn btn-primary mb-2"
                                         th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
+                                   <button type = "button" class = "btn btn-primary mb-2"
+                                           th:onclick = "'location.href=\'' + @{/concert/like/detailView} + '\''">나의 공연리스트</button>
                             </span>
                             <span th:if = "${session.LOGIN_ID_SESSION==null}">
                                 <button type = "button" class = "btn btn-primary mb-2"
@@ -149,7 +151,6 @@
                                             <th>제목</th>
                                             <th>기간</th>
                                             <th>위치</th>
-                                            <!--                                            <th>장르</th>-->
                                             <th>공연완료</th>
                                             <th>상세정보</th>
                                             <th>오픈런</th>

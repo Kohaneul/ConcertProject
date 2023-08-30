@@ -25,10 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if(memberService.getLoginUser()==null){
             throw new LoginFailException();
         }
-
         return true;
-
-
     }
 
 }
