@@ -148,7 +148,7 @@ public class ConcertController {
     public String deleteLikeConcert(@PathVariable("mt20id")String mt20id,  @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
         likeConcertService.deleteLikeConcert(new LikeConcertInsert(memberId,mt20id));
         log.info("좋아요 취소 완료={} : {}",memberId, mt20id);
-        return "redirect:/concert/like/"+mt20id;
+        return "redirect:/concert/like/detailView";
     }
 
 
