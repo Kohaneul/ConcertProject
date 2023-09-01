@@ -29,7 +29,6 @@
   th:first-child, td:first-child {
     border-left: none;
   }
-
 </style>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
@@ -58,7 +57,28 @@
 
         };
 
+         function plusCpage(){
+           let cpage =  document.getElementById('cpage').value;
+           document.getElementById('cpage').value = cpage+1;
+            alert(cpage);
+         };
+
+      function downCpage(){
+               let cpage =  document.getElementById('cpage').value;
+               document.getElementById('cpage').value = cpage-1;
+               if(cpage<=1){
+
+               alert("1 미만으로 페이지 설정이 불가합니다.");
+               document.getElementById('cpage').value = 1;
+               }
+                alert(cpage);
+             };
+
+
          /*]]>*/
+
+
+
 
 
 
@@ -115,15 +135,25 @@
                                         th:onclick = "'location.href=\'' + @{/member/login} + '\''">로그인</button>
                           </span>
                         </div>
+                        <br>
                         <div id = "dtoSearch">
                             <form th:object = "${concertSearchByTitleDTO}"
                                   class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                 <div class = "input-group">
+                                    <input type = "text" class = "form-control" th:field = "*{shprfnm}" />
+                                    <label th:for = "shprfnm" style="position: absolute; padding:5px; font-size:12px; color:#646970;">제목입력</label>
                                     <input type = "date" class = "form-control" th:field = "*{stDate}"/>
                                     <input type = "date" class = "form-control" th:field = "*{edDate}"/>
-                                    <input type = "text" class = "form-control" th:field = "*{cpage}"/>
-                                    <input type = "text" class = "form-control" th:field = "*{rows}"/>
-                                    <input type = "text" class = "form-control" th:field = "*{shprfnm}"/>
+                                    <input type = "text" class = "form-control" th:field = "*{cpage}"    style = "padding: 0 15px;"/>
+                                     <button type = "button" class = "btn btn-primary btn-block"
+                                            th:onclick = "plusCpage()" id = "plusCpage"
+                                            style = " position: absolute; top: 2.5%; right: 85px; color:black; background-color:yellow; ">+
+                                    </button>
+                                    <button type = "button" class = "btn btn-primary btn-block"
+                                            th:onclick = "downCpage()" id = "downCpage"
+                                            style = " position: absolute; top: 2.5%; right: 40px; color:black; background-color:blue;">-
+                                    </button>
+                                    <input type = "hidden" class = "form-control" th:field = "*{rows}"/>
                                     <button type = "submit" class = "btn btn-primary" id = "btnNavbarSearch"><i
                                             class = "fas fa-search"></i></button>
                                 </div>
