@@ -4,10 +4,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import com.project.concertView.domain.dao.concert.*;
-import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
-import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
-import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
-import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
+import com.project.concertView.domain.dto.*;
 import com.project.concertView.domain.entity.ReqURL;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,6 +45,7 @@ public class XmlDataParser {
     private String shprfnmfct;  //공연시설명
     private final String shcate = "CCCD"; //공연 장르
     private String signgucode;
+    private String shprfnm;
 
     /**
      * 1. 공연 정보 조회 요청시 해당 생성자 호출
@@ -69,6 +67,14 @@ public class XmlDataParser {
      */
     public XmlDataParser(ConcertDetailInfoDTO dto) {
         this.mt20id = dto.getMt20id();
+    }
+
+    public XmlDataParser(ConcertSearchByTitleDTO dto){
+        this.shprfnm = dto.getShprfnm();
+        this.stDate = dto.getStDate();
+        this.edDate = dto.getEdDate();
+        this.rows = dto.getRows();
+        this.cpage = dto.getCpage();
     }
 
     /**
@@ -103,6 +109,7 @@ public class XmlDataParser {
      *    2) 2 : 공연 정보 상세 조회
      *    3) 3 : 공연 시설 상세 조회
      *    4) 4 : 공연 시설 조회
+     *    5) 5: 공연 제목별 조회
      */
     private Document buildUp(Integer no) {
         Document document = null;
@@ -140,14 +147,33 @@ public class XmlDataParser {
      * 요청한 url을 통해 가져온 일자별 공연 정보를
      * 해당 메소드 호출시 ConcertData 객체에 담아서 반환
      */
-    public List<ConcertData> setting() {
+    public List<ConcertData> setting(int no) {
         List<ConcertData> concertDataList = new LinkedList<>();
         stDate = stDate.replaceAll("-", "");    //2023-08-04 로 url 입력시 조회가 되지 않아 -를 생략하도록 함
         edDate = edDate.replaceAll("-", "");
-        Document document = buildUp(1);
+        Document document = null;
+        if(no==1){
+             document = buildUp(1);
+        }
+        if(no==2){
+            document = buildUp(5);
+
+        }
         setConcertData(document, concertDataList);  //조회한 한개 이상의 데이터를 배열 타입으로 셋팅
         return concertDataList;
     }
+
+
+//    public List<ConcertData> concertByArtistSettings() {
+//        List<ConcertData> concertDataList = new LinkedList<>();
+//        stDate = stDate.replaceAll("-", "");    //2023-08-04 로 url 입력시 조회가 되지 않아 -를 생략하도록 함
+//        edDate = edDate.replaceAll("-", "");
+//        Document document = buildUp(1);
+//        setConcertData(document, concertDataList);  //조회한 한개 이상의 데이터를 배열 타입으로 셋팅
+//        return concertDataList;
+//    }
+
+
 
     /**
      * 요청한 url을 통해 가져온 공연장 정보를
@@ -347,7 +373,7 @@ public class XmlDataParser {
         HashMap<String, Object> hashMap = new HashMap<>();
         String path = null;
         //no : 1(일자별 공연정보 조회), 2(공연 정보 상세조회)인 경우 path가 pblprfr로 동일함
-        if(no==1 || no==2){ path  = "pblprfr";}
+        if(no==1 || no==2 || no==5){ path  = "pblprfr";}
         //no : 3(공연 시설 정보 조회) 의 경우 path prfplc
         if(no==3 || no==4){path = "prfplc";}
         sortNum(no, hashMap);  //각 번호별 파라미터 값 hashMap에 저장
@@ -381,7 +407,16 @@ public class XmlDataParser {
                 hashMap.put("shprfnmfct",shprfnmfct);
                 hashMap.put("signgucode",signgucode);
                 break;
+            case 5:
+                hashMap.put("stdate", stDate);
+                hashMap.put("eddate", edDate);
+                hashMap.put("rows", String.valueOf(rows));
+                hashMap.put("cpage", String.valueOf(cpage));
+                hashMap.put("shprfnm",String.valueOf(shprfnm));
+
         }
+
+
     }
 
 

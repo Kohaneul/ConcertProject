@@ -28,13 +28,13 @@ public class SaveMember {
     private String loginId;
     @NotBlank(message = "비밀번호를 입력해주세요")
     private String password;
+
     @NotBlank(message = "비밀번호(확인용)를 입력해주세요")
     private String passwordCheck;
 
     @NotBlank(message = "연락처를 입력해주세요")
 //    @Pattern(regexp = "^(01\\d{1}\\d{3,4}\\d{4})$", message = "01000000000형식에 맞게 입력해주세요")
     private String phoneNumber;
-
     private String emailAccountWrite;
 
     private Boolean duplicateIdCheck;

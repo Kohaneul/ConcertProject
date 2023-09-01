@@ -4,14 +4,9 @@ import com.project.concertView.domain.dao.concert.ConcertData;
 import com.project.concertView.domain.dao.concert.ConcertDetailInfo;
 import com.project.concertView.domain.dao.concert.ConcertPlace;
 import com.project.concertView.domain.dao.concert.ConcertPlaceSearch;
-import com.project.concertView.domain.dto.ConcertDetailInfoDTO;
-import com.project.concertView.domain.dto.ConcertPlaceInfoDTO;
-import com.project.concertView.domain.dto.ConcertPlaceSearchDTO;
-import com.project.concertView.domain.entity.SessionValue;
+import com.project.concertView.domain.dto.*;
 import com.project.concertView.web.repository.ConcertRepository;
-import com.project.concertView.domain.dto.ConcertSearchInfoDTO;
 import com.project.concertView.web.repository.LikeConcertRepository;
-import com.project.concertView.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +29,10 @@ public class ConcertService {
      */
     public List<ConcertData> findAllDTO(ConcertSearchInfoDTO concertSearchInfoDTO){
         return concertRepository.findAllDTO(concertSearchInfoDTO);
+    }
+
+    public List<ConcertData> findByConcertByArtist(ConcertSearchByTitleDTO concertByArtistDTO){
+        return concertRepository.findByConcertByArtist(concertByArtistDTO);
     }
 
     public List<ConcertData> findLikeConcertDTO(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
