@@ -17,4 +17,5 @@ public class UpdatePassword {
     private String password;
     @NotBlank(message = "비밀번호(확인용) 입력해주세요")
     private String passwordChcek;
+    private Boolean passwordEqualsCheck;
 }

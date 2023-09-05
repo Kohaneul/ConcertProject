@@ -23,7 +23,5 @@ public class FindPassword {
     private String birth;
     @NotBlank(message = "이메일 주소를 입력해주세요")
     private String email;
-    @NotBlank
-    private String email2;
 
 }
