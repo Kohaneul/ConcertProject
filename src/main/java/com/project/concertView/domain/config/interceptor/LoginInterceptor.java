@@ -1,6 +1,6 @@
 package com.project.concertView.domain.config.interceptor;
 
-import com.project.concertView.domain.dao.member.annotation.login.LoginCheck;
+import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.web.error.LoginFailException;
 import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -10,22 +10,23 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
-    private final MemberService memberService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
-        LoginCheck loginCheck = handlerMethod.getMethodAnnotation(LoginCheck.class);
-        if(loginCheck==null){
+        HttpSession session = request.getSession();
+        if(session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION)!=null){
             return true;
         }
-        if(memberService.getLoginUser()==null){
-            throw new LoginFailException();
+        else{
+            response.sendRedirect("/member/login");
         }
-        return true;
+        return false;
+
     }
 
 }

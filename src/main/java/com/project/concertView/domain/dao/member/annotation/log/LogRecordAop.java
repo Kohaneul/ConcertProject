@@ -13,7 +13,7 @@ public class LogRecordAop {
     @Around("@annotation(logRecord)")
     public Object doLog(ProceedingJoinPoint joinPoint, LogRecord logRecord){
         try {
-            log.info("joinPoint={}",joinPoint.getSignature().getName());
+            log.info("target={}",joinPoint.getSignature().getName());
             return joinPoint.proceed();
         } catch (Throwable e) {
             throw new RuntimeException(e);

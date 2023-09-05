@@ -1,7 +1,7 @@
 package com.project.concertView.web.service;
 
-import com.project.concertView.domain.dao.concert.LikeConcert;
-import com.project.concertView.domain.dao.concert.LikeConcertInsert;
+import com.project.concertView.domain.dao.member.FindPassword;
+import com.project.concertView.domain.dao.member.UpdatePassword;
 import com.project.concertView.domain.dto.LoginMemberDTO;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
@@ -10,11 +10,9 @@ import com.project.concertView.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -25,15 +23,12 @@ public class MemberService {
 
     public List<Member> findAll() {
         return memberRepository.findAll();
-    }
+    };
 
-    ;
 
     public Member findOne(Long id) {
         return memberRepository.findOne(id);
-    }
-
-    ;
+    };
 
 
     public LoginMemberDTO findLoginMemberDTO(Long id) {
@@ -71,7 +66,16 @@ public class MemberService {
     }
 
     public Long getLoginUser() {
+        log.info("session={}",session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION));
         return (Long) session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION);
+    }
+
+    public Long findPassword(FindPassword findPassword){
+        return memberRepository.findPassword(findPassword);
+    }
+
+    public void updatePassword(UpdatePassword updatePassword){
+        memberRepository.updatePassword(updatePassword);
     }
 
 

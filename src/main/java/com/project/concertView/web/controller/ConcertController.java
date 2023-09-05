@@ -2,7 +2,6 @@ package com.project.concertView.web.controller;
 
 import com.project.concertView.domain.dao.concert.*;
 import com.project.concertView.domain.dao.member.annotation.log.LogRecord;
-import com.project.concertView.domain.dao.member.annotation.login.LoginCheck;
 import com.project.concertView.domain.dto.*;
 import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.domain.entity.Signgucode;
@@ -54,7 +53,7 @@ public class ConcertController {
         List<ConcertData> concertDataList= concertService.findByConcertByArtist(concertSearchByTitleDTO);
         //DTO 클래스에 부합하는 정보만 LIST로 반환하여
         loginSessionIsNotNull(concertDataList,session);
-        //Model 객체를 통하여 화면단 표시
+
         model.addAttribute("concertDataList",concertDataList);
         return "view/concert/ConcertSearchByTitle";
     }
@@ -75,7 +74,6 @@ public class ConcertController {
         List<ConcertData> concertDataList = concertService.findLikeConcertDTO(concertSearchInfoDTO, memberId);
         //Model 객체를 통하여 화면단 표시
         model.addAttribute("concertDataList",concertDataList);
-
         return "view/member/LikeConcertList";
     }
 
@@ -136,16 +134,14 @@ public class ConcertController {
     public Signgucode[] signguCode(){
         return Signgucode.values();
     }
-    @LoginCheck
     @RequestMapping("/like/{mt20id}")
-    public String likeConcert(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO, @PathVariable("mt20id")String mt20id,
+    public String likeConcert(@PathVariable("mt20id")String mt20id,
                               @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
         likeConcertService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
         log.info("저장완료={} : {}",memberId, mt20id);
-        return "view/member/LikeConcertList";
+        return "redirect:/concert/detailView";
     }
 
-    @LoginCheck
     @RequestMapping("/like/delete/{mt20id}")
     public String deleteLikeConcert(@PathVariable("mt20id")String mt20id,  @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){
         likeConcertService.deleteLikeConcert(new LikeConcertInsert(memberId,mt20id));

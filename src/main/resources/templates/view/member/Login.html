@@ -2,23 +2,39 @@
 <html xmlns:th = "http://www.thymeleaf.org">
 <link th:href = "@{/css/styles.css}" rel = "stylesheet"/>
 <link th:href = "@{/css/error.css}" rel = "stylesheet"/>
+<link th:href = "@{/css/menu.css}" rel = "stylesheet"/>
+
 <head>
     <meta charset = "utf-8"/>
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
     <meta name = "viewport" content = "width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name = "description" content = ""/>
     <meta name = "author" content = ""/>
-    <title>Login - SB Admin</title>
     <link href = "css/styles.css" rel = "stylesheet"/>
+
+    <title>Login - SB Admin</title>
     <style>
         label{margin-left:2%;}
     </style>
 
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
+    <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script th:inline = "javascript">
+      /*<![CDATA[*/
+      $(document).ready(function () {
+                $("#menuHeaders").load("/menuBar", function () {
+                    document.getElementById("menuHeaders").classList.add("show");
+                });
+            })
+      /*]]>*/
+    </script>
+
 </head>
 <body class = "bg-primary">
 <div id = "layoutAuthentication">
     <div id = "layoutAuthentication_content">
+        <div id="menuHeaders"></div>
+
         <main>
             <div class = "container">
                 <div class = "row justify-content-center">
@@ -51,16 +67,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type = "button" class = "btn btn-primary btn-block"
-                                            onclick = "document.forms['loginForm'].submit();" style="margin-left:auto;">로그인 </button>
                                     <div class = "d-flex align-items-center justify-content-between mt-4 mb-0">
-                                        <div class = "small"><a href = "/member/password">비밀번호 찾기</a></div>
-                                        <a class = "btn btn-primary" href = "/">첫페이지로</a>
+
+                                        <a class = "btn btn-primary" onclick = "document.forms['loginForm'].submit();">로그인</a>
                                     </div>
                                 </form>
                             </div>
                             <div class = "card-footer text-center py-3">
-                                <div class = "small"><a href = "/member/save">회원가입</a></div>
+                                <span class = "small"><a href = "/member/password/find">비밀번호 찾기</a></span>
+                                <span class = "small"><a href = "/member/save">회원가입</a></span>
                             </div>
                         </div>
                     </div>

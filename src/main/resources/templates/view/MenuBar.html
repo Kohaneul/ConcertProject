@@ -11,42 +11,57 @@
     <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
     <link href = "css/styles.css" rel = "stylesheet"/>
     <link href = "css/menu.css" rel = "stylesheet"/>
-    <link rel="import" href="header.html">
+    <link rel = "import" href = "header.html">
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
 </head>
 <body>
-<button type="button" th:class="collapsible" id="mainCollaps">+</button>
-<div class="content">
-    <button type="button" th:class="collapsible" >콘서트정보</button>
-    <div class="content">
-        <div class="contentLink">
-            <div class="contentLinkA">
-                 <a th:href="@{concert/detailView/title}">제목별 공연조회</a>
+<button type = "button" th:class = "collapsible" id = "mainCollaps">클릭</button>
+<div class = "content">
+    <button type = "button" th:class = "collapsible">▼ 콘서트정보</button>
+    <div class = "content">
+        <div class = "contentLink">
+            <div class = "contentLinkA">
+                <a th:href = "@{/concert/detailView/title}">제목별 공연조회</a>
             </div>
         </div>
-        <div class="contentLink">
-            <div class="contentLinkA">
-                 <a th:href="@{concert/detailView}">일자별 공연조회</a>
+        <div class = "contentLink">
+            <div class = "contentLinkA">
+                <a th:href = "@{/concert/detailView}">일자별 공연조회</a>
             </div>
         </div>
     </div>
     <span th:if = "${session.LOGIN_ID_SESSION!=null}">
-        <button type="button" th:class="collapsible">내 정보</button>
-        <div class="content">
-            <div class="contentLink">
-                 <div class="contentLinkA">
-                    <a th:href="@{concert/like/detailView}">좋아요 목록</a>
+        <button type = "button" th:class = "collapsible">▼ 내 정보</button>
+        <div class = "content">
+            <div class = "contentLink">
+                 <div class = "contentLinkA">
+                    <a th:href = "@{/concert/like/detailView}">좋아요 목록</a>
                 </div>
-            <div class="contentLink">
-                  <div class="contentLinkA">
-                    <a th:href="@{member/info/{memberId}(memberId=${session.LOGIN_PK_ID_SESSION})}">내 정보</a>
+            <div class = "contentLink">
+                  <div class = "contentLinkA">
+                    <a th:href = "@{/member/info/{memberId}(memberId=${session.LOGIN_PK_ID_SESSION})}">내 정보</a>
                   </div>
             </div>
         </div>
     </span>
+    <span th:if = "${session.LOGIN_ID_SESSION==null}">
+       <button type = "button" th:class = "collapsible">▼ LOGIN</button>
+             <div class = "content">
+                  <div class = "contentLink">
+                      <div class = "contentLinkA">
+                        <a th:href = "@{/member/login}">로그인</a>
+                      </div>
+                   </div>
+                  <div class = "contentLink">
+                      <div class = "contentLinkA">
+                        <a th:href = "@{/member/password/find}">비밀번호 찾기</a>
+                   </div>
+               </div>
+                </div>
+    </span>
 </div>
 
-    <script th:inline = "javascript">
+<script th:inline = "javascript">
     /*<![CDATA[*/
         var coll = document.getElementsByClassName("collapsible");
         var i;
@@ -63,6 +78,8 @@
           });
         }
     /*]]>*/
+
+
 </script>
 
 

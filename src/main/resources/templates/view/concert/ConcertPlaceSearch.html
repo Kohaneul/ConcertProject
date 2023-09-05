@@ -3,6 +3,8 @@
 <title>공연 장소 조회</title>
 <link th:href = "@{/css/styles.css}" rel = "stylesheet"/>
 <link th:href = "@{/css/error.css}" rel = "stylesheet"/>
+<link th:href = "@{/css/menu.css}" rel = "stylesheet"/>
+
 <head>
     <meta charset = "utf-8"/>
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
@@ -12,7 +14,16 @@
     <title>Register - SB Admin</title>
     <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
 </head>
-
+<script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script th:inline = "javascript">
+      /*<![CDATA[*/
+      $(document).ready(function () {
+                $("#menuHeaders").load("/menuBar", function () {
+                    document.getElementById("menuHeaders").classList.add("show");
+                });
+            })
+      /*]]>*/
+    </script>
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
     <style>
 
@@ -43,6 +54,7 @@
 
 <div id = "layoutAuthentication">
     <div id = "layoutAuthentication_content">
+        <div id="menuHeaders"></div>
         <main>
             <div id = "layoutSidenav_content">
                 <div class = "container-fluid px-4">
@@ -106,9 +118,9 @@
                             <div id = "dataIsNull" th:if = "${concertPlaceList.size()<1}">
                                 <h2 style = "text-align:center;">데이터가 존재하지 않습니다.</h2>
                             </div>
-                            <button type = "button" class = "btn btn-primary mb-2" style = "width:10%;"
-                                    th:onclick = "'location.href=\'' + @{/concert/detailView} + '\''">공연 정보
-                            </button>
+<!--                            <button type = "button" class = "btn btn-primary mb-2" style = "width:10%;"-->
+<!--                                    th:onclick = "'location.href=\'' + @{/concert/detailView} + '\''">공연 정보-->
+<!--                            </button>-->
                         </div>
                     </div>
                 </div>

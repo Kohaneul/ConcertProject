@@ -51,9 +51,16 @@
         delete from likeConcert where id = #{id};
     </select>
 
-    <select id="likeConcertList" parameterType="java.lang.Long" resultType="com.project.concertView.domain.dao.concert.LikeConcert">
-        select * from likeConcert where memberId=#{memberId}
+    <select id="findPassword" parameterType="com.project.concertView.domain.dao.member.FindPassword" resultType="java.lang.Long">
+        select ifnull(id,null) from member where  loginId=#{loginId} and email=#{email} and birth=#{birth};
     </select>
+    <select id="updatePassword" parameterType="com.project.concertView.domain.dao.member.UpdatePassword">
+        update member set password=#{password} where id=#{id};
+    </select>
+
+<!--    <select id="likeConcertList" parameterType="java.lang.Long" resultType="com.project.concertView.domain.dao.concert.String">-->
+<!--        select * from likeConcert where memberId=#{memberId}-->
+<!--    </select>-->
 
     <!--    <select id="findEmail" resultType="java.lang.String">-->
     <!--        SELECT loginId FROM member where loginId = #{loginId};-->

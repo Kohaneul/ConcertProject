@@ -2,6 +2,8 @@ package com.project.concertView.web.repository;
 
 import com.project.concertView.domain.dao.concert.LikeConcert;
 import com.project.concertView.domain.dao.concert.LikeConcertInsert;
+import com.project.concertView.domain.dao.member.FindPassword;
+import com.project.concertView.domain.dao.member.UpdatePassword;
 import com.project.concertView.domain.dto.LoginMemberDTO;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
@@ -26,6 +28,10 @@ public interface MemberRepository {
     String findEmail(String mail);
     String findPhoneNumber(String phoneNumber);
     Long loginMember(LoginMemberDTO loginMember);
+    Long findPassword(FindPassword findPassword);
+    @Transactional
+    void updatePassword(UpdatePassword updatePassword);
+
 
 
 

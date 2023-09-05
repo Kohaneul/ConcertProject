@@ -11,13 +11,24 @@
     <link href = "https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel = "stylesheet"/>
     <link href = "css/styles.css" rel = "stylesheet"/>
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
+    <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script th:inline = "javascript">
+      /*<![CDATA[*/
+      $(document).ready(function () {
+                $("#menuHeaders").load("/menuBar", function () {
+                    document.getElementById("menuHeaders").classList.add("show");
+                });
+            })
+      /*]]>*/
 
+    </script>
     <script th:inline = "javascript">
     /*<![CDATA[*/
     function pageOpen(url){
             window.open(url, '_blank');
     }
     /*]]>*/
+
 
     </script>
 </head>
@@ -48,7 +59,9 @@
         <div>
             가입일자 : <span th:text = "${member.joinDay.toString()}"></span>
         </div>
-        <button type = "button" class = "btn btn-primary mb-2" onclick = "window.close();">닫기</button>
+        <button type = "button" class = "btn btn-primary mb-2"
+            th:onclick = "'location.href=\'' + @{/concert/detailView} + '\''">홈페이지
+        </button>
     </div>
 </div>
 </body>

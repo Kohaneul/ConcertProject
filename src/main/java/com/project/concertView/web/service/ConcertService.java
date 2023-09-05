@@ -1,15 +1,13 @@
 package com.project.concertView.web.service;
 
-import com.project.concertView.domain.dao.concert.ConcertData;
-import com.project.concertView.domain.dao.concert.ConcertDetailInfo;
-import com.project.concertView.domain.dao.concert.ConcertPlace;
-import com.project.concertView.domain.dao.concert.ConcertPlaceSearch;
+import com.project.concertView.domain.dao.concert.*;
 import com.project.concertView.domain.dto.*;
 import com.project.concertView.web.repository.ConcertRepository;
 import com.project.concertView.web.repository.LikeConcertRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -34,6 +32,21 @@ public class ConcertService {
     public List<ConcertData> findByConcertByArtist(ConcertSearchByTitleDTO concertByArtistDTO){
         return concertRepository.findByConcertByArtist(concertByArtistDTO);
     }
+//    public List<ConcertData> likeConcertList(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
+//        List<String> likeConcertList = likeConcertRepository.likeConcertList(memberId);
+//        List<ConcertData> concertDataList = concertRepository.findAllDTO(concertSearchInfoDTO);
+//        List<ConcertData> concertData = new ArrayList<>();
+//        for(int i = 0; i<likeConcertList.size();i++){
+//            String mt20id = likeConcertList.get(i);
+//            for(int j = 0; j<concertDataList.size();j++){
+//                ConcertData c = concertDataList.get(i);
+//                if(concertDataList.get(i).getMt20id().equals(mt20id)){
+//                    concertData.add(c);
+//                }
+//            }
+//        }
+//        return concertData;
+//    }
 
     public List<ConcertData> findLikeConcertDTO(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
         List<String> mt20idLists = likeConcertRepository.likeConcertList(memberId);
