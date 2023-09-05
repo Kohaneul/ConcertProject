@@ -93,9 +93,11 @@ public class MemberController {
     @PostMapping("/emailCheck")
     @ResponseBody
     public HashMap<String, Object> emailSend(@RequestBody HashMap<String, Object> sendDTO) {
-        String email = memberService.findEmail((String) sendDTO.get("email"));
-        String emailAccountWrite = "@" + memberService.findPhoneNumber((String) sendDTO.get("emailAccountWrite"));
-        email = email + emailAccountWrite;
+        String e = sendDTO.get("email")+"@"+sendDTO.get("emailAccountWrite");
+        String email = memberService.findEmail(e);
+//        String emailAccountWrite = "@" + memberService.findEmail((String) sendDTO.get("emailAccountWrite"));
+//        email = email + emailAccountWrite;
+        log.info("email={}",email);
         sendDTO.replace("email", email);
         return sendDTO;
     }

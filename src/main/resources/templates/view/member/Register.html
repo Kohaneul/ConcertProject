@@ -31,6 +31,7 @@
         function dataSend(){
             let loginId = $("#loginId").val();
             let sendDTO = {"loginId":loginId};
+
             $.ajax({
                 url: "/member/send",
                 data: JSON.stringify(sendDTO),
@@ -63,7 +64,6 @@
                 infoForm.setAttribute('method', 'post');
                 infoForm.setAttribute('action', '/member/save');
                 document.body.appendChild(infoForm);
-
                 infoForm.submit();
                 alert("저장 완료");
          }
@@ -73,8 +73,8 @@
                     let email = $("#email").val();
                     let email2 = $("#email2").val();
                     let emailAccountWrite =$("#emailAccountWrite").val();
-                    let sendDTO = {"email":email,"email2":email2,"emailAccountWrite":emailAccountWrite};
-
+                    let sendDTO = {"email":email,"email2":email2,"emailAccountWrite":emailAccountWrite
+                    };
                    $.ajax({
                     url: "/member/emailCheck/",
                     data: JSON.stringify(sendDTO),
@@ -84,10 +84,9 @@
                     success:function(data){
                       if( data.email=="" || data.emailAccountWrite==""){
                       alert("빈값은 허용하지 않습니다.");
-                      $("#email").val()
+                      $("#email").val("");
                       }
-                      else{
-
+                    else{
                       if(data.email=="1"){
                       alert("등록된 메일계정 입니다. 다시 입력해주세요");
                        $("#email").val("");
@@ -95,15 +94,17 @@
                        $("#emailAccountWrite").val("");
                        $("#emailDuplicateCheck").val(false);
                       }
-                      if(data.email!="" && data.email!=null){
-                         alert('등록가능한 메일계정 입니다.');
+<!--                      if(data.email!="" && data.email!=null){-->
+                        else{
+                         alert('등록가능한 메일계정 입니다.'+data.email);
+                         $("#email").val(data.email);
                           $("#emailDuplicateCheck").val(true);
                       }
                       }
                     },
                     error:function(error){
                     alert('에러 발생');
-                       }
+                    }
                 })
             };
 
@@ -123,7 +124,6 @@
                   if(data.phoneNumber==""){
                   alert("빈값은 허용하지 않습니다.");
                   $("#phoneNumberDuplicateCheck").val(false);
-
                   }
                   if(data.phoneNumber==null){
                   alert("등록된 연락처입니다. 다시 입력해주세요");
