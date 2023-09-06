@@ -16,6 +16,6 @@ public class UpdatePassword {
     @NotBlank(message = "비밀번호 입력해주세요")
     private String password;
     @NotBlank(message = "비밀번호(확인용) 입력해주세요")
-    private String passwordChcek;
+    private String passwordCheck;
     private Boolean passwordEqualsCheck;
 }

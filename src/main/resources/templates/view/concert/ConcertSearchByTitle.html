@@ -31,6 +31,12 @@
   th:first-child, td:first-child {
     border-left: none;
   }
+  .cpageBtn{
+  position: absolute;
+  top: 20px; margin-top:-16px;
+  color:black; width:30px; height:30px;
+  background-color:transparent;
+  font-size:15px; padding:-5px;
 </style>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script th:inline = "javascript">
@@ -68,20 +74,20 @@
         };
 
          function plusCpage(){
-           let cpage =  document.getElementById('cpage').value;
-           document.getElementById('cpage').value = cpage+1;
-            alert(cpage);
+         let cpage = document.getElementById('cpage').value;
+         cpage=Number(cpage)+1;
+         document.getElementById('cpage').value = cpage;
          };
 
       function downCpage(){
-               let cpage =  document.getElementById('cpage').value;
-               document.getElementById('cpage').value = cpage-1;
-               if(cpage<=1){
-
+          let cpage = document.getElementById('cpage').value;
+          cpage=Number(cpage)-1;
+            if(Number(cpage)<=1){
                alert("1 미만으로 페이지 설정이 불가합니다.");
                document.getElementById('cpage').value = 1;
                }
-                alert(cpage);
+<!--              document.getElementById('cpage').value = cpage;-->
+
              };
 
 
@@ -157,13 +163,9 @@
                                     <input type = "date" class = "form-control" th:field = "*{edDate}"/>
                                     <input type = "text" class = "form-control" th:field = "*{cpage}"    style = "padding: 0 15px;"/>
                                      <button type = "button" class = "btn btn-primary btn-block"
-                                            th:onclick = "plusCpage()" id = "plusCpage"
-                                            style = " position: absolute; top: 2.5%; right: 85px; color:black; background-color:yellow; ">+
-                                    </button>
+                                            th:onclick = "plusCpage();" th:class="cpageBtn" style = "right: 85px;">+</button>
                                     <button type = "button" class = "btn btn-primary btn-block"
-                                            th:onclick = "downCpage()" id = "downCpage"
-                                            style = " position: absolute; top: 2.5%; right: 40px; color:black; background-color:blue;">-
-                                    </button>
+                                            th:onclick = "downCpage();" th:class="cpageBtn"  style = "right: 40px;">-</button>
                                     <input type = "hidden" class = "form-control" th:field = "*{rows}"/>
                                     <button type = "submit" class = "btn btn-primary" id = "btnNavbarSearch"><i
                                             class = "fas fa-search"></i></button>

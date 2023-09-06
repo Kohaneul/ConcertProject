@@ -127,7 +127,7 @@ public class ConcertController {
     public String placeSearch(@ModelAttribute("concertPlaceSearchDTO") ConcertPlaceSearchDTO concertPlaceSearchDTO, Model model){
         List<ConcertPlaceSearch> concertPlaceList = concertService.findConcertPlaceList(concertPlaceSearchDTO);
         model.addAttribute("concertPlaceList",concertPlaceList);
-        return "view/concert/ConcertPlaceSearch";
+        return "view/concert/ConcertSearchByPlace";
     }
 
     @ModelAttribute("signgucode")
