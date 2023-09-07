@@ -17,7 +17,7 @@
 <body>
 <button type = "button" th:class = "collapsible" id = "mainCollaps">클릭</button>
 <div class = "content">
-    <button type = "button" th:class = "collapsible">▼ 콘서트정보</button>
+    <button type = "button" th:class = "collapsible">▼ 콘서트정보 조회</button>
     <div class = "content">
         <div class = "contentLink">
             <div class = "contentLinkA">
@@ -43,6 +43,7 @@
                   </div>
             </div>
         </div>
+        <button type = "button" th:class = "collapsible"><a th:href="@{/member/logOut}" style="color:white;">LOGOUT</a></button>
     </span>
     <span th:if = "${session.LOGIN_ID_SESSION==null}">
        <button type = "button" th:class = "collapsible">▼ LOGIN</button>

@@ -1,0 +1,7 @@
+ .cpageBtn{
+  position: absolute;
+  top: 20px; margin-top:-16px;
+  color:black; width:30px; height:30px;
+  background-color:transparent;
+  font-size:15px; padding:-5px;
+  }

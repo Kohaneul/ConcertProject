@@ -4,6 +4,9 @@
 <link th:href = "@{/css/styles.css}" rel = "stylesheet"/>
 <link th:href = "@{/css/error.css}" rel = "stylesheet"/>
 <link th:href = "@{/css/menu.css}" rel = "stylesheet"/>
+<link th:href = "@{/css/cpageBtn.css}" rel = "stylesheet"/>
+<script type="text/javascript" th:src="@{/js/cpageBtn.js}"></script>
+
 <head>
     <meta charset = "utf-8"/>
     <meta http-equiv = "X-UA-Compatible" content = "IE=edge"/>
@@ -136,6 +139,8 @@
                                     <input type = "date" class = "form-control" id = "edDate" th:field = "*{edDate}"
                                            placeholder = "조회 순번"/>
                                     <input type = "text" class = "form-control" id = "cpage" th:field = "*{cpage}"/>
+                                    <input type = image src = "/image/plus.jpg" th:class="cpageBtn" width="10px"  style = "left: 415px;" th:onclick="plusCpage();">
+                                    <input type = image src = "/image/minus.jpg" th:class="cpageBtn" width="10px" style = "left: 450px;" th:onclick="downCpage();">
                                     <select th:field = "*{signgucode}" class = "form-control">
                                         <option value = "">지역선택</option>
                                         <option th:each = "signgucode : ${signgucode}"
