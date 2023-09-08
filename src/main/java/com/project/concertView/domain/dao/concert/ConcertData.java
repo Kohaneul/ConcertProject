@@ -5,7 +5,6 @@ import lombok.*;
 /**
  * 공연 목록 조회 클래스
  * 참고 : 공연예술통합전산망 API
- * 작성일 : 2023.08.02
  * */
 @Getter
 @Setter
@@ -21,5 +20,5 @@ public class ConcertData {
     private String genrenm;   //공연 장르명
     private String prfstate;  //공연 상태
     private String openrun;   //오픈런 여부
-    private Boolean likeOrNot;
+    private Boolean likeOrNot;  //좋아요 표시 여부
 }

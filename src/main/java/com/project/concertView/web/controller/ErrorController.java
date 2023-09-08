@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+/**
+ *  에러코드 발생시 해당 Controller 에서 처리
+ * */
 @Controller
 @RequestMapping("/ex")
 public class ErrorController {

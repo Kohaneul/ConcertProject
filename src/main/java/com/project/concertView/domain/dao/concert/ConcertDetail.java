@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 공연 상세 조회 클래스
  * 참고 : 공연예술통합전산망 API
- * 작성일 : 2023.08.02
  * */
 @Getter
 @Setter

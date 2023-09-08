@@ -31,8 +31,6 @@ public class ConcertController {
     private final ConcertService concertService;
     private final LikeConcertService likeConcertService;
 
-
-
     /**1. 공연 정보 조회 클래스
         1)  파라미터
           - ConcertSearchInfoDTO : 일자별 공연 정보 조회 DTO 클래스
@@ -138,6 +136,7 @@ public class ConcertController {
     public Signgucode[] signguCode(){
         return Signgucode.values();
     }
+
     @RequestMapping("/like/{mt20id}")
     public String likeConcert(@PathVariable("mt20id")String mt20id,
                               @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId){

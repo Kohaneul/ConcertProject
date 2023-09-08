@@ -1,7 +1,9 @@
 package com.project.concertView.domain.entity;
 
 import lombok.Getter;
-
+/**
+ * 공연 장소 조회시 (광역)시별 조회할 수 있도록 ENUM 정의
+ * */
 public enum Signgucode {
      SEOUL("서울특별시","11"),
     BUSAN("부산광역시","26"),

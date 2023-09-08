@@ -17,7 +17,7 @@
 
 <script th:inline = "javascript">
     /*<![CDATA[*/
-  function openChild(){
+  function openMyInfo(){
   let sessionId = [[${session.LOGIN_PK_ID_SESSION}]];
         window.name="parentForm";
         let width = 1000;
@@ -56,7 +56,7 @@
                 </div>
             <div class = "contentLink">
                   <div class = "contentLinkA">
-                      <a th:onclick="openChild();">내 정보</a>
+                      <a th:onclick="openMyInfo();">내 정보</a>
 <!--                    <a th:href = "@{/member/info/{memberId}(memberId=${session.LOGIN_PK_ID_SESSION})}" >내 정보</a>-->
                   </div>
             </div>

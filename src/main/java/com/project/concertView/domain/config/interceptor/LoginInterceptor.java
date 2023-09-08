@@ -1,17 +1,20 @@
 package com.project.concertView.domain.config.interceptor;
 
 import com.project.concertView.domain.entity.SessionValue;
-import com.project.concertView.web.error.LoginFailException;
-import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * SPRING INTERCEPTOR
+ * 정해진 path 중 세션 값이 존재하지 않으면
+ * 해당 path 진입 x -> 로그인 페이지 경로로 리다이랙트
+ *
+ * */
 @RequiredArgsConstructor
 @Component
 public class LoginInterceptor implements HandlerInterceptor {

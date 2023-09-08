@@ -178,7 +178,7 @@
                                                 <td th:text = "${concertData.prfpdfrom} +'~'+ ${concertData.prfpdto}"></td>
                                                 <td th:text = "${concertData.fcltynm}"></td>
                                                 <td th:text = "${concertData.prfstate}"></td>
-                                                <td> <a th:onclick = "openChild([[${concertData.mt20id}]])"
+                                                <td> <a th:onclick = "openChild([[${concertData.mt20id}]]);"
                                                         style = "cursor:pointer; text-decoration: underline;">클릭</a></td>
                                                 <td>
                                                     <span th:if = "${concertData.openrun.equals('Y')}">O</span>

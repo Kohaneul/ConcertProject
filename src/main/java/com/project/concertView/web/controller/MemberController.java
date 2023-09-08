@@ -20,6 +20,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
+/**
+ * 회원 관련 Controller 클래스
+ * - 회원가입
+ * - 비밀번호 변겅
+ * - 회원 정보 조회
+ * - 좋아요 누른 공연 조회
+ * */
 
 @Controller
 @Slf4j
@@ -27,7 +34,7 @@ import java.util.HashMap;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
-
+    //1. 회원가입
     @GetMapping("/save")
     public String saveMember(@ModelAttribute("saveMember") SaveMember saveMember) {
         return "view/member/Register";
@@ -35,6 +42,7 @@ public class MemberController {
 
     @PostMapping("/save")
     public String saveMember(@Valid @ModelAttribute("saveMember") SaveMember saveMember, BindingResult bindingResult) {
+        //globalError -> bindingResult 에 저장
         checkOrNot(saveMember, bindingResult);
         if (bindingResult.hasErrors()) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
@@ -48,7 +56,15 @@ public class MemberController {
 
 
 
-
+    /**
+     * 회원가입시 하기 1 ~ 5번 항목에 대하여 하나라도 FALSE인 항목에 대하여 BindingResult에 담아서 GlobalError 로 표시됨
+     * 1. 중복확인 여부
+     * 2. 패스워드 = 패스워드(확인용) 일치 여부
+     * 3. 다음 주소검색 API를 통한 주소 입력
+     * 4. 이메일 중복확인
+     * 5. 휴대전화 중복확인
+     *
+     * */
     private void checkOrNot(@ModelAttribute("saveMember") SaveMember saveMember, BindingResult bindingResult) {
         if (!saveMember.getDuplicateIdCheck()) {
             bindingResult.addError(new FieldError("saveMember", "duplicateIdCheck", saveMember.getDuplicateIdCheck(), false, new String[]{"required.loginId.check"}, null, null));
@@ -65,7 +81,6 @@ public class MemberController {
         if (!saveMember.getPhoneNumberDuplicateCheck()) {
             bindingResult.addError(new FieldError("saveMember", "phoneNumberDuplicateCheck", saveMember.getPhoneNumberDuplicateCheck(), false, new String[]{"required.phoneNumber.check"}, null, null));
         }
-
     }
 
     @ModelAttribute("email2")
