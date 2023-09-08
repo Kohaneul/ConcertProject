@@ -5,7 +5,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
@@ -18,12 +17,15 @@ import java.util.Arrays;
 @Aspect
 @Slf4j
 public class ConcertAspect {
+    //1. Pointcut 대상 : com.project.concertView.web 안에 속해 있는 클래스파일
     @Pointcut("execution(* com.project.concertView.web..*.*(..))")
     private void setPointCuts() {
     };
+    //2. Pointcut 대상 : @GetMapping 어노테이션이 있는 메소드
     @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping)")
     private void setPostMappingLog(){};
 
+    //1+2 교집합인 메소드 호출시 => 매개변수에 대한 로그 찍는다
     @Around("setPointCuts() && setPostMappingLog()")
     public Object execute(ProceedingJoinPoint joinPoint) {
         Object result = null;

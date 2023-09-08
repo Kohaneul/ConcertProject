@@ -23,7 +23,7 @@
     </select>
 
     <select id="likeConcertList" parameterType="java.lang.Long" resultType="java.lang.String">
-        select mt20id from likeConcert where memberId=#{memberId}
+        select mt20id from likeConcert where memberId=#{memberId} order by mt20id;
     </select>
 
 </mapper>

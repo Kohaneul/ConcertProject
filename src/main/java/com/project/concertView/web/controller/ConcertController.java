@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -70,6 +72,7 @@ public class ConcertController {
     @LogRecord
     public String likeConcertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO,
                                       @SessionAttribute(SessionValue.LOGIN_PK_ID_SESSION)Long memberId, Model model){
+        concertSearchInfoDTO.setStDate(LocalDateTime.now().minusDays(300).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         //DTO 클래스에 부합하는 정보만 LIST로 반환하여
         List<ConcertData> concertDataList = concertService.findLikeConcertDTO(concertSearchInfoDTO, memberId);
         //Model 객체를 통하여 화면단 표시
@@ -125,6 +128,7 @@ public class ConcertController {
     @GetMapping("/place")
     @LogRecord
     public String placeSearch(@ModelAttribute("concertPlaceSearchDTO") ConcertPlaceSearchDTO concertPlaceSearchDTO, Model model){
+
         List<ConcertPlaceSearch> concertPlaceList = concertService.findConcertPlaceList(concertPlaceSearchDTO);
         model.addAttribute("concertPlaceList",concertPlaceList);
         return "view/concert/ConcertSearchByPlace";

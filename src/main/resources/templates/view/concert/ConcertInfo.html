@@ -122,8 +122,6 @@
                             <span th:if = "${session.LOGIN_ID_SESSION!=null}">
                                 <button type = "button" class = "btn btn-primary mb-2"
                                         th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
-<!--                                   <button type = "button" class = "btn btn-primary mb-2"-->
-<!--                                           th:onclick = "'location.href=\'' + @{/concert/like/detailView} + '\''">나의 공연리스트</button>-->
                             </span>
                             <span th:if = "${session.LOGIN_ID_SESSION==null}">
                                 <button type = "button" class = "btn btn-primary mb-2"

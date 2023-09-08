@@ -1,6 +1,5 @@
 package com.project.concertView.web.controller;
 
-import com.project.concertView.domain.dao.concert.LikeConcertInsert;
 import com.project.concertView.domain.dao.member.FindPassword;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
@@ -107,7 +106,7 @@ public class MemberController {
     public String findOne(@PathVariable("memberId") Long memberId, Model model) {
         Member member = memberService.findOne(memberId);
         model.addAttribute("member", member);
-        return "view/member/viewMember";
+        return "view/member/ViewMember";
     }
 
 
@@ -158,7 +157,6 @@ public class MemberController {
     @GetMapping("/password/find")
     public String passwordFind(@ModelAttribute("findPassword") FindPassword findPassword) {
             return "view/member/PasswordFind";
-
     }
 
     @PostMapping("/password/find")

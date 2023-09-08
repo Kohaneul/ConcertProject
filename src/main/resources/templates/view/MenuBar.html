@@ -14,8 +14,25 @@
     <link rel = "import" href = "header.html">
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
 </head>
+
+<script th:inline = "javascript">
+    /*<![CDATA[*/
+  function openChild(){
+  let sessionId = [[${session.LOGIN_PK_ID_SESSION}]];
+        window.name="parentForm";
+        let width = 1000;
+        let height = 800;
+        let popupX = (window.screen.width / 2) - (width / 2);
+        let popupY= (window.screen.height / 2) - (height / 2);
+        let url ="/member/info/"+sessionId;
+         openWin = window.open(url, "childForm", "width=1000, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
+    }
+    /*]]>*/
+    </script>
 <body>
-<button type = "button" th:class = "collapsible" id = "mainCollaps">클릭</button>
+
+<button type = "button" th:class = "collapsible" id = "mainCollaps" style="background-color:white;">
+    <input type = image src = "/image/cursor.png" style="width:50px;" placeholder="클릭"/></button>
 <div class = "content">
     <button type = "button" th:class = "collapsible">▼ 콘서트정보 조회</button>
     <div class = "content">
@@ -39,7 +56,8 @@
                 </div>
             <div class = "contentLink">
                   <div class = "contentLinkA">
-                    <a th:href = "@{/member/info/{memberId}(memberId=${session.LOGIN_PK_ID_SESSION})}">내 정보</a>
+                      <a th:onclick="openChild();">내 정보</a>
+<!--                    <a th:href = "@{/member/info/{memberId}(memberId=${session.LOGIN_PK_ID_SESSION})}" >내 정보</a>-->
                   </div>
             </div>
         </div>
@@ -66,7 +84,6 @@
     /*<![CDATA[*/
         var coll = document.getElementsByClassName("collapsible");
         var i;
-
         for (i = 0; i < coll.length; i++) {
           coll[i].addEventListener("click", function() {
             this.classList.toggle("active");
