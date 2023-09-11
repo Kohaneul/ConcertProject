@@ -31,6 +31,7 @@ public interface MemberRepository {
     Long findPassword(FindPassword findPassword);
     @Transactional
     void updatePassword(UpdatePassword updatePassword);
+    String findByLoginIdFromId(Long id);
 
 
 

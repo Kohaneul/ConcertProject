@@ -34,12 +34,12 @@ import java.util.HashMap;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+    private final ThreadLocal<String> loginIdThreadLocal = new ThreadLocal<>();
     //1. 회원가입
     @GetMapping("/save")
     public String saveMember(@ModelAttribute("saveMember") SaveMember saveMember) {
         return "view/member/Register";
     }
-
     @PostMapping("/save")
     public String saveMember(@Valid @ModelAttribute("saveMember") SaveMember saveMember, BindingResult bindingResult) {
         //globalError -> bindingResult 에 저장
@@ -50,10 +50,8 @@ public class MemberController {
             }
             return "view/member/Register";
         }
-        Long id = memberService.findById(saveMember);
-        return "redirect:/member/info/" + id;
+        return "redirect:/member/login";
     }
-
 
 
     /**
@@ -109,8 +107,6 @@ public class MemberController {
     public HashMap<String, Object> emailSend(@RequestBody HashMap<String, Object> sendDTO) {
         String e = sendDTO.get("email")+"@"+sendDTO.get("emailAccountWrite");
         String email = memberService.findEmail(e);
-//        String emailAccountWrite = "@" + memberService.findEmail((String) sendDTO.get("emailAccountWrite"));
-//        email = email + emailAccountWrite;
         log.info("email={}",email);
         sendDTO.replace("email", email);
         return sendDTO;
@@ -131,21 +127,22 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @ModelAttribute("loginMember") LoginMemberDTO loginMemberDTO, BindingResult bindingResult, HttpSession session) {
+    public String login(@Valid @ModelAttribute("loginMember") LoginMemberDTO loginMemberDTO, BindingResult bindingResult, HttpSession session,Model model) {
         bindingResultInsert(loginMemberDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "view/member/Login";
         }
-        session.setAttribute(SessionValue.LOGIN_PK_ID_SESSION, memberService.loginMember(loginMemberDTO));
-        session.setAttribute(SessionValue.LOGIN_ID_SESSION, loginMemberDTO.getLoginId());
-        log.info("SessionValue={} : {}", SessionValue.LOGIN_PK_ID_SESSION, session.getAttribute(SessionValue.LOGIN_ID_SESSION));
+        session.setAttribute(SessionValue.LOGIN_SESSION, memberService.loginMember(loginMemberDTO));
+        loginIdThreadLocal.set(loginMemberDTO.getLoginId());
+        log.info("loginId={}",loginIdThreadLocal.get());
+        model.addAttribute("loginId",loginIdThreadLocal.get());
         return "redirect:/concert/detailView";
     }
 
 
     @RequestMapping("/logOut")
     public String logOut(HttpSession session) {
-        session.removeAttribute(SessionValue.LOGIN_ID_SESSION);
+        session.removeAttribute(SessionValue.LOGIN_SESSION);
         return "redirect:/concert/detailView";
     }
 
@@ -204,21 +201,4 @@ public class MemberController {
             bindingResult.addError(new ObjectError("findPassword", "일치하는 회원을 찾을 수 없습니다."));
         }
     }
-//    @RequestMapping("/likeConcertSend/{mt20id}")
-//    public void mt20idSave(@PathVariable("mt20id") String mt20id,@SessionAttribute("LOGIN_SESSION_ID")Long memberId){
-//        log.info("{} like {} ",memberId,{});
-//        String mt20id = (String) sendDTO.get("mt20id");
-//        memberService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
-//        log.info("저장 성공={}",mt20id);
-//    }
-
-
-//    @LoginCheck
-//    @PostMapping("/login")
-//    public ResponseEntity<LoginMemberDTO> memberDTO(){
-//        Long memberId = memberService.getLoginUser();
-//        LoginMemberDTO member = memberService.findLoginMemberDTO(memberId);
-//        return ResponseEntity.ok(member);
-//    }
-
 }

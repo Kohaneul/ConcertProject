@@ -18,7 +18,7 @@
 <script th:inline = "javascript">
     /*<![CDATA[*/
   function openMyInfo(){
-  let sessionId = [[${session.LOGIN_PK_ID_SESSION}]];
+  let sessionId = [[${session.MEMBER_ID_SESSION}]];
         window.name="parentForm";
         let width = 1000;
         let height = 800;
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    <span th:if = "${session.LOGIN_ID_SESSION!=null}">
+    <span th:if = "${session.MEMBER_ID_SESSION!=null}">
         <button type = "button" th:class = "collapsible">▼ 내 정보</button>
         <div class = "content">
             <div class = "contentLink">
@@ -63,7 +63,7 @@
         </div>
         <button type = "button" th:class = "collapsible"><a th:href="@{/member/logOut}" style="color:white;">LOGOUT</a></button>
     </span>
-    <span th:if = "${session.LOGIN_ID_SESSION==null}">
+    <span th:if = "${session.MEMBER_ID_SESSION==null}">
        <button type = "button" th:class = "collapsible">▼ LOGIN</button>
              <div class = "content">
                   <div class = "contentLink">

@@ -54,6 +54,13 @@
     <select id="findPassword" parameterType="com.project.concertView.domain.dao.member.FindPassword" resultType="java.lang.Long">
         select ifnull(id,null) from member where  loginId=#{loginId} and email=#{email} and birth=#{birth} and password=#{password};
     </select>
+
+    <select id="findByLoginIdFromId" parameterType="java.lang.Long"
+            resultType="java.lang.String">
+        select loginId from member where id = #{id}
+    </select>
+
+
     <select id="updatePassword" parameterType="com.project.concertView.domain.dao.member.UpdatePassword">
         update member set password=#{password} where id=#{id};
     </select>

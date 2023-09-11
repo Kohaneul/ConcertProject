@@ -119,11 +119,18 @@
                             공연 정보 조회
                         </div>
                         <div style = "margin-top:5px; margin-left:5px;">
-                        <span>[<span
-                                th:text = "${session.LOGIN_ID_SESSION}!=null ? ${session.LOGIN_ID_SESSION} : 'GUEST'"></span>]님 환영합니다.
-                                <button type = "button" class = "btn btn-primary mb-2"
-                                        th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
-                        <div id = "dtoSearch">
+                      <span>[
+                                <span th:if = "${session.MEMBER_ID_SESSION} != '' or ${session.MEMBER_ID_SESSION} != null">[[${loginId}]]</span>
+                                <span th:if = "${session.MEMBER_ID_SESSION} == '' or ${session.MEMBER_ID_SESSION} == null" th:text="'GUEST'"></span>
+                                  ]님 환영합니다.
+                      </span>
+                      <span  th:if = "${session.MEMBER_ID_SESSION} != null">
+                           <button type = "button" class = "btn btn-primary mb-2" th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
+                      </span>
+                      <span  th:if = "${session.MEMBER_ID_SESSION} == null">
+                            <button type = "button" class = "btn btn-primary mb-2" th:onclick = "'location.href=\'' + @{/member/login} + '\''">로그인</button>
+                      </span>
+                      <div id = "dtoSearch">
                             <form th:object = "${concertSearchInfoDTO}"
                                   class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                 <div class = "input-group">
@@ -158,7 +165,7 @@
                                             <th>공연완료</th>
                                             <th>상세정보</th>
                                             <th>오픈런</th>
-                                            <span th:if = "${session.LOGIN_ID_SESSION!=null}">
+                                            <span th:if = "${session.MEMBER_ID_SESSION!=null}">
                                                 <th>찜하기</th>
                                             </span>
                                         </tr>

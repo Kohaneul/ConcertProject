@@ -20,6 +20,9 @@ import java.util.List;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final HttpSession session;
+    public String findByLoginIdFromId(Long id){
+        return memberRepository.findByLoginIdFromId(id);
+    }
 
     public List<Member> findAll() {
         return memberRepository.findAll();
@@ -66,8 +69,8 @@ public class MemberService {
     }
 
     public Long getLoginUser() {
-        log.info("session={}",session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION));
-        return (Long) session.getAttribute(SessionValue.LOGIN_PK_ID_SESSION);
+        log.info("session={}",session.getAttribute(SessionValue.LOGIN_SESSION));
+        return (Long) session.getAttribute(SessionValue.LOGIN_SESSION);
     }
 
     public Long findPassword(FindPassword findPassword){
