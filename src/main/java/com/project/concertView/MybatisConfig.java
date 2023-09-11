@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
-
+/**
+ * Mybatis 설정파일
+ * */
 @Configuration
 @Slf4j
 @MapperScan(value="com.project.concertView",sqlSessionFactoryRef = "SqlSessionFactory")

@@ -12,5 +12,5 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ConcertDetailInfoDTO {
-    private String mt20id;  //
+    private String mt20id;  //공연정보 pk값
 }

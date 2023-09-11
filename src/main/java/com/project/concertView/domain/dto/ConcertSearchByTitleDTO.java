@@ -16,11 +16,11 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @AllArgsConstructor
 public class ConcertSearchByTitleDTO {
-    private String stDate;
-    private String edDate;
-    private int rows;
-    private int cpage;
-    private String shprfnm;
+    private String stDate;  // 공연시작일
+    private String edDate;  // 공연종료일
+    private int rows;   // 한페이지에 보여지는 데이터 수 (default 10으로 지정)
+    private int cpage;  //현재 페이지
+    private String shprfnm; //콘서트 제목(문자열 포함)
 
     //기본생성자 호출시 클래식이라는 문자열을 포함하며 현 시점 기준 한달전 ~ 한달 후로 조회 가능
     public ConcertSearchByTitleDTO() {

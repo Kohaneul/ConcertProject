@@ -6,15 +6,12 @@ import com.project.concertView.web.repository.ConcertRepository;
 import com.project.concertView.web.repository.LikeConcertRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
  * SERVICE 클래스
- *
  * */
 @Service
 @RequiredArgsConstructor
@@ -32,6 +29,7 @@ public class ConcertService {
     public List<ConcertData> findByConcertByArtist(ConcertSearchByTitleDTO concertByArtistDTO){
         return concertRepository.findByConcertByArtist(concertByArtistDTO);
     }
+
 //    public List<ConcertData> likeConcertList(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
 //        List<String> likeConcertList = likeConcertRepository.likeConcertList(memberId);
 //        List<ConcertData> concertDataList = concertRepository.findAllDTO(concertSearchInfoDTO);

@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 /**
- * REPOSITORY 클래스
+ * Concert 정보를 담은 REPOSITORY 클래스
  *
  * */
 @Repository
@@ -23,7 +23,6 @@ public class ConcertRepository {
         return xmlDataParser.setting(1);
     };
 
-
     /**2. 공연 제목 조회 클래스
      1)  파라미터
      - ConcertSearchByTitleDTO : 콘서트 제목을 통한 조회가능한 DTO 클래스
@@ -32,7 +31,6 @@ public class ConcertRepository {
         XmlDataParser xmlDataParser = new XmlDataParser(concertByArtistDTO);
         return xmlDataParser.setting(2);
     };
-
 
     /**3. 공연 상세 조회 클래스
      1)  파라미터

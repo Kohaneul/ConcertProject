@@ -1,5 +1,6 @@
 package com.project.concertView.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 /**
@@ -9,11 +10,8 @@ import lombok.Setter;
  * */
 @Getter
 @Setter
+@AllArgsConstructor
 public class ConcertPlaceInfoDTO {
+    private String mt10id;  //공연시설 pk값
 
-    private String mt10id;
-
-    public ConcertPlaceInfoDTO(String mt10id) {
-        this.mt10id = mt10id;
-    }
 }

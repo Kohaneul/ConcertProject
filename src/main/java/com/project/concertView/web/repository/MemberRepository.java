@@ -12,7 +12,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ * Mapper : mybatis/member.xml
+ *
+ * */
 @Repository
 @Mapper
 public interface MemberRepository {

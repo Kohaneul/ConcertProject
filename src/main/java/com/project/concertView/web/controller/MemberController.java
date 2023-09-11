@@ -80,12 +80,13 @@ public class MemberController {
             bindingResult.addError(new FieldError("saveMember", "phoneNumberDuplicateCheck", saveMember.getPhoneNumberDuplicateCheck(), false, new String[]{"required.phoneNumber.check"}, null, null));
         }
     }
-
+    // 이메일 계정 Model 계정
     @ModelAttribute("email2")
     public EmailAddr[] emailAddrs() {
         return EmailAddr.values();
     }
 
+    //로그인 아이디 찾는 클래스
     @PostMapping("/send")
     @ResponseBody
     public HashMap<String, Object> send(@RequestBody HashMap<String, Object> sendDTO) {
@@ -94,6 +95,7 @@ public class MemberController {
         return sendDTO;
     }
 
+    //휴대폰 번호 중복체크 메서드 > 휴대폰 번호 조회시 기존 번호가 존재하면 null 값 반환, 없으면 휴대폰번호 그대로 반환하여 view 전달
     @PostMapping("/phoneNumberCheck")
     @ResponseBody
     public HashMap<String, Object> phoneNumberSend(@RequestBody HashMap<String, Object> sendDTO) {
@@ -101,7 +103,7 @@ public class MemberController {
         sendDTO.replace("phoneNumber", phoneNumber);
         return sendDTO;
     }
-
+    //이메일 중복체크 메서드 > 이메일 주소 조회시 기존 주소가 존재하면 null 값 반환, 없으면 그대로 반환하여 view 전달
     @PostMapping("/emailCheck")
     @ResponseBody
     public HashMap<String, Object> emailSend(@RequestBody HashMap<String, Object> sendDTO) {
@@ -111,7 +113,7 @@ public class MemberController {
         sendDTO.replace("email", email);
         return sendDTO;
     }
-
+    // 내 정보
     @GetMapping("/info/{memberId}")
     @LogRecord
     public String findOne(@PathVariable("memberId") Long memberId, Model model) {
@@ -120,37 +122,44 @@ public class MemberController {
         return "view/member/ViewMember";
     }
 
-
+    // 로그인 페이지
     @GetMapping("/login")
     public String login(@ModelAttribute("loginMember") LoginMemberDTO loginMemberDTO) {
         return "view/member/Login";
     }
-
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute("loginMember") LoginMemberDTO loginMemberDTO, BindingResult bindingResult, HttpSession session,Model model) {
+        //globalError에 대하여 추가하여 bindingResult에 저장
         bindingResultInsert(loginMemberDTO, bindingResult);
+
+        //bindingResult에 하나라도 에러가 발생시 에러표시와 함께 Login 페이지로 다시 돌아감
         if (bindingResult.hasErrors()) {
             return "view/member/Login";
         }
+        //그리고 세션에 저장됨
         session.setAttribute(SessionValue.LOGIN_SESSION, memberService.loginMember(loginMemberDTO));
+
+        //로그인 아이디 값을 공유하기 위하여 해당 값을 ThreadLocal 에 넣어두고 model 객체를 통하여 전달함
         loginIdThreadLocal.set(loginMemberDTO.getLoginId());
-        log.info("loginId={}",loginIdThreadLocal.get());
         model.addAttribute("loginId",loginIdThreadLocal.get());
         return "redirect:/concert/detailView";
     }
 
-
+    //로그아웃 시 저장하였던 session값과 threadLocal 값을 제거해줌
     @RequestMapping("/logOut")
     public String logOut(HttpSession session) {
         session.removeAttribute(SessionValue.LOGIN_SESSION);
+        loginIdThreadLocal.remove();
         return "redirect:/concert/detailView";
     }
 
-
+    //error 메세지 직접 커스텀 하여 bindingResult 에 저장
     private void bindingResultInsert(LoginMemberDTO loginMemberDTO, BindingResult bindingResult) {
         String loginId = memberService.findLoginId(loginMemberDTO.getLoginId());
+        //데이터베이스를 통해 조회된 로그인 아이디가 존재하지 않을 시 , bindingResult에 에러내용 저장
         loginIdNotFound(loginId, bindingResult);
         Long memberId = memberService.loginMember(loginMemberDTO);
+        //데이터 베이스에 일치하는 아이디, 비밀번호가 존재하지 않을 시 , null 반환 ->  bindingResult에 에러내용 저장
         loginFail(memberId, bindingResult);
     }
 
@@ -166,21 +175,23 @@ public class MemberController {
             bindingResult.addError(new ObjectError("memberLogin", "아이디/비밀번호가 틀렸습니다."));
         }
     }
+    //비밀번호 찾기
     @GetMapping("/password/find")
     public String passwordFind(@ModelAttribute("findPassword") FindPassword findPassword) {
             return "view/member/PasswordFind";
     }
-
     @PostMapping("/password/find")
     public String passwordFind(@ModelAttribute("findPassword") FindPassword findPassword, BindingResult bindingResult){
+        //비밀번호를 위하여 FindPassword에 있는 값들 조회
         Long id=  memberService.findPassword(findPassword);
+        //일치하는 내용이 없으면 null값으로 뜨게 되는데 bindingResult에 해당 에러 메세지 담아둠
         passwordFind(id,bindingResult);
         if (bindingResult.hasErrors()) {
             return "view/member/PasswordFind";
         }
         return "redirect:/member/password/revise/"+id;
     }
-
+    //비밀번호 수정
     @GetMapping("/password/revise/{id}")
     public String passwordUpdate(@PathVariable("id") Long id,@ModelAttribute("updatePassword") UpdatePassword updatePassword) {
         updatePassword.setId(id);
@@ -195,7 +206,7 @@ public class MemberController {
         }
         return "redirect:/member/login";
     }
-
+    // isFindPassword를 전달받아 비밀번호 찾기
     private void passwordFind(Long isFindPassword, BindingResult bindingResult) {
         if (isFindPassword==null) {
             bindingResult.addError(new ObjectError("findPassword", "일치하는 회원을 찾을 수 없습니다."));

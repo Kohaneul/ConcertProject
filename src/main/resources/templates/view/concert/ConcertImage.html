@@ -35,13 +35,8 @@
          openWin = window.open(url, "childForm", "width=1000, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
     }
     /*]]>*/
-
-
     </script>
-
-
 </head>
-
 <body class = "bg-primary">
 <div id = "layoutAuthentication">
     <div id = "layoutAuthentication_content">
@@ -53,7 +48,6 @@
                             <div class = "card-header"><h3 class = "text-center font-weight-light my-4">상세조회</h3></div>
                             <div class = "card-body">
                                 <div class = "d-flex align-items-center justify-content-between mb-0">
-
                                     <div>
                                         <div style = "text-align:center;">
                                             <img th:src = "${concertDetailInfo.concertData.poster}" style="width:300px; display:absolute;"/>
@@ -63,24 +57,20 @@
                                                 제목 : <span th:text = "${concertDetailInfo.concertData.prfnm}"></span>
                                             </div>
                                             <div>
-                                                기간 : <span
-                                                    th:text = "${concertDetailInfo.concertData.prfpdfrom} +'~'+ ${concertDetailInfo.concertData.prfpdto}"></span>
+                                                기간 : <span th:text = "${concertDetailInfo.concertData.prfpdfrom} +'~'+ ${concertDetailInfo.concertData.prfpdto}"></span>
                                             </div>
                                             <div>
-                                                캐스팅 : <span
-                                                    th:text = "${concertDetailInfo.concertDetail.prfcast}+', '+${concertDetailInfo.concertDetail.prfcrew}"></span>
+                                                캐스팅 : <span th:text = "${concertDetailInfo.concertDetail.prfcast}+', '+${concertDetailInfo.concertDetail.prfcrew}"></span>
                                             </div>
                                             <div>
-                                                러닝타임 : <span
-                                                    th:text = "${concertDetailInfo.concertDetail.prfruntime}"></span>
+                                                러닝타임 : <span th:text = "${concertDetailInfo.concertDetail.prfruntime}"></span>
                                             </div>
                                             <div>
                                                 연령 : <span th:text = "${concertDetailInfo.concertDetail.prfage}"></span>
                                             </div>
                                             <div>
-                                                장소 : <a
-                                                    th:onclick = "NextPage([[${concertDetailInfo.concertDetail.mt10id}]])"><span
-                                                    th:text = "${concertDetailInfo.concertData.fcltynm}"
+                                                장소 : <a th:onclick = "NextPage([[${concertDetailInfo.concertDetail.mt10id}]])">
+                                                <span th:text = "${concertDetailInfo.concertData.fcltynm}"
                                                     style = "text-decoration:underline; cursor: pointer;color=teal;"></span></a>
                                             </div>
                                             <div th:if = "${concertDetailInfo.styurls.size()>0}">

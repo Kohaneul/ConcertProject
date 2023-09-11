@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
-
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Slf4j
 class SaveMemberTest {

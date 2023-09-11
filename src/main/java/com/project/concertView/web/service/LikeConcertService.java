@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+/**
+ * 각 회원별 찜한 콘서트 리스트
+ * */
 @Service
 @RequiredArgsConstructor
 public class LikeConcertService {

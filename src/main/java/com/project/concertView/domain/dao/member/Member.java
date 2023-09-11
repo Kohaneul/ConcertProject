@@ -21,7 +21,6 @@ public class Member {
     private String detailAddress;   //상세주소
     private String email;   //이메일
     private String emailAccountWrite;   //@ 뒤에 이메일 도메인
-
     private String loginId; //로그인아이디
     private String password;    //비밀번호
     private LocalDateTime joinDay;  //가입일

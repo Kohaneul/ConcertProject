@@ -13,11 +13,11 @@ import java.time.format.DateTimeFormatter;
 @Setter
 @AllArgsConstructor
 public class ConcertSearchInfoDTO {
-    private String stDate;
-    private String edDate;
-    private int rows = 10;
-    private int cpage;
-    private String signgucode;
+    private String stDate;  //공연 시작일
+    private String edDate;  //공연 종료일
+    private int rows = 10;   // 한페이지에 보여지는 데이터 수 (default 10으로 지정)
+    private int cpage;  //현재 페이지
+    private String signgucode; //공연장소에 대한 지역코드
 
 
     //기본생성자 호출시 현일자 공연정보 ~ 일주일 뒤 공연정보에 대한 내용이 셋팅되도록 설정함

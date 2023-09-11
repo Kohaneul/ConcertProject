@@ -28,7 +28,6 @@ import static java.lang.Boolean.TRUE;
  * - 공연 시설 상세 조회 URL : http://www.kopis.or.kr/openApi/restful/prfplc/{공연시설아이디}?service={서비스키}
  * - 공연 시설 조회 URL : http://www.kopis.or.kr/openApi/restful/prfplc?service={서비스키}&cpage={cpage}&rows={rows}&shprfnmfct={shprfnmfct}
  */
-
 @Getter
 @Setter
 @Slf4j

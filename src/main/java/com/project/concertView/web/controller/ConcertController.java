@@ -143,20 +143,21 @@ public class ConcertController {
         return "view/concert/ConcertSearchByPlace";
     }
 
+    //공연 장소 조회시 (광역)시별 조회할 수 있도록 정의된 ENUM 값이 MODEL 객체를 통하여 VIEW 로 보여짐
     @ModelAttribute("signgucode")
     public Signgucode[] signguCode(){
         return Signgucode.values();
     }
 
+    //좋아요 누를시 likeConcert 테이블에 현재 session값으로 있는 member 테이블의 id값과 공연정보를 담은 pk 값이 저장됨
     @RequestMapping("/like/{mt20id}")
     public String likeConcert(@PathVariable("mt20id")String mt20id,
                               @SessionAttribute(SessionValue.LOGIN_SESSION)Long memberId){
         likeConcertService.insertLikeConcert(new LikeConcertInsert(memberId,mt20id));
-
         log.info("저장완료={} : {}",memberId, mt20id);
         return "redirect:/concert/detailView";
     }
-
+    //좋아요 취소시 likeConcert 테이블에 현재 session값으로 있는 member 테이블의 id값과 공연정보를 담은 pk 값이 제거됨
     @RequestMapping("/like/delete/{mt20id}")
     public String deleteLikeConcert(@PathVariable("mt20id")String mt20id,  @SessionAttribute(SessionValue.LOGIN_SESSION)Long memberId){
         likeConcertService.deleteLikeConcert(new LikeConcertInsert(memberId,mt20id));

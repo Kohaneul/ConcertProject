@@ -19,7 +19,6 @@ public class ConcertPlaceSearchDTO {
     private int rows = 10;   //페이지 당 목록수
     private String shprfnmfct;  //공연시설명
     private String signgucode;  //지역코드
-
     public ConcertPlaceSearchDTO() {
         this.cpage = 1;
         this.shprfnmfct = "예술의전당";

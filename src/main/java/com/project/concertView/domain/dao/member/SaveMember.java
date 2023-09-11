@@ -43,12 +43,9 @@ public class SaveMember {
     private Boolean searchAddrCheck;    // 다음 주소 API로 주소 입력시 TRUE 값으로 전달됨
     private Boolean phoneNumberDuplicateCheck;  // 휴대폰번호 중복체크
     private Boolean emailDuplicateCheck;    //이메일 중복체크
-
     @NotBlank(message = "생년월일을 입력해주세요")
     @Pattern(regexp = "^([12]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01]))$", message = "형식에 맞게 입력해주세요(YYYYMMDD)")
     private String birth;   //생년월일
-
-
     public SaveMember() {
         this.duplicateIdCheck = false;
         this.passwordEqualsCheck = false;
@@ -56,7 +53,6 @@ public class SaveMember {
         this.phoneNumberDuplicateCheck = false;
         this.emailDuplicateCheck = false;
     }
-
     public SaveMember(String name, String address, String loginId, String password, Boolean duplicateIdCheck, Boolean passwordEqualsCheck, Boolean searchAddrCheck,
                       Boolean emailDuplicateCheck,Boolean phoneNumberDuplicateCheck,
                       String detailAddress,String email, String email2, String emailAccountWrite,String birth,String phoneNumber) {
