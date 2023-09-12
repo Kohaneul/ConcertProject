@@ -44,15 +44,12 @@
             <div class = "container">
                 <div class = "row justify-content-center">
                     <div class = "col-lg-5">
-                        <div class = "card shadow-lg border-0 rounded-lg mt-5">
+                        <div class = "card shadow-lg border-0 rounded-lg">
                             <div class = "card-header"><h3 class = "text-center font-weight-light my-4">상세조회</h3></div>
                             <div class = "card-body">
-                                <div class = "d-flex align-items-center justify-content-between mb-0">
-                                    <div>
+                                <div class = "align-items-center justify-content-between mb-0">
                                         <div style = "text-align:center;">
                                             <img th:src = "${concertDetailInfo.concertData.poster}" style="width:300px; display:absolute;"/>
-                                        </div>
-                                        <div>
                                             <div>
                                                 제목 : <span th:text = "${concertDetailInfo.concertData.prfnm}"></span>
                                             </div>
@@ -82,12 +79,12 @@
                                                 <span>포스터 없음</span>
                                             </div>
                                             <button type = "button" onclick = "window.close();"
-                                                    class = "btn btn-primary mb-2" style = "margin-left:20%;">닫기
+                                                    class = "btn btn-primary mb-2">닫기
                                             </button>
                                         </div>
                                     </div>
 
-                                </div>
+<!--                                </div>-->
                                 <div class = "card-footer text-center py-3">
                                 </div>
                             </div>

@@ -114,7 +114,7 @@
                     <div class = "card mb-4">
                         <div class = "card-header">
                             <i class = "fas fa-table me-1"></i>
-                            공연 정보 조회
+                            공연 정보 조회(일자별)
                         </div>
                         <div style = "margin-top:5px; margin-left:5px;">
                             <span>[
@@ -141,7 +141,7 @@
                                     <input type = "text" class = "form-control" id = "cpage" th:field = "*{cpage}"/>
                                     <input type = image src = "/image/plus.jpg" th:class="cpageBtn" width="10px"  style = "left: 415px;" th:onclick="plusCpage();">
                                     <input type = image src = "/image/minus.jpg" th:class="cpageBtn" width="10px" style = "left: 450px;" th:onclick="downCpage();">
-                                    <select th:field = "*{signgucode}" class = "form-control">
+                                    <select th:field = "*{signgucode}" class = "form-control" style="text-align:center;">
                                         <option value = "">지역선택</option>
                                         <option th:each = "signgucode : ${signgucode}"
                                                 th:value = "${signgucode.getValue()}"
