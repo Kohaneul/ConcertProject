@@ -30,22 +30,6 @@ public class ConcertService {
         return concertRepository.findByConcertByArtist(concertByArtistDTO);
     }
 
-//    public List<ConcertData> likeConcertList(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
-//        List<String> likeConcertList = likeConcertRepository.likeConcertList(memberId);
-//        List<ConcertData> concertDataList = concertRepository.findAllDTO(concertSearchInfoDTO);
-//        List<ConcertData> concertData = new ArrayList<>();
-//        for(int i = 0; i<likeConcertList.size();i++){
-//            String mt20id = likeConcertList.get(i);
-//            for(int j = 0; j<concertDataList.size();j++){
-//                ConcertData c = concertDataList.get(i);
-//                if(concertDataList.get(i).getMt20id().equals(mt20id)){
-//                    concertData.add(c);
-//                }
-//            }
-//        }
-//        return concertData;
-//    }
-
     public List<ConcertData> findLikeConcertDTO(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
         List<String> mt20idLists = likeConcertRepository.likeConcertList(memberId);
         List<ConcertData> concertDataLists = findAllDTO(concertSearchInfoDTO);

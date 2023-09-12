@@ -118,7 +118,7 @@
                         </div>
                         <div style = "margin-top:5px; margin-left:5px;">
                             <span>[
-                                <span th:if = "${session.MEMBER_ID_SESSION} != '' or ${session.MEMBER_ID_SESSION} != null">[[${loginId}]]</span>
+                                <span th:if = "${session.MEMBER_ID_SESSION} != '' or ${session.MEMBER_ID_SESSION} != null">[[${session.MEMBER_LOGIN_ID_SESSION}]]</span>
                                 <span th:if = "${session.MEMBER_ID_SESSION} == '' or ${session.MEMBER_ID_SESSION} == null" th:text="'GUEST'"></span>
                                   ]님 환영합니다.</span>
                             <span  th:if = "${session.MEMBER_ID_SESSION} != null">

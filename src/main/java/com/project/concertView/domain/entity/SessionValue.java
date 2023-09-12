@@ -5,6 +5,7 @@ package com.project.concertView.domain.entity;
 public abstract class SessionValue {
 
     public final static String LOGIN_SESSION = "MEMBER_ID_SESSION";
+    public final static String LOGIN_ID_SESSION = "MEMBER_LOGIN_ID_SESSION";
 
 
 }

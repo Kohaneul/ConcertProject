@@ -189,38 +189,65 @@
                                 <form th:object = "${saveMember}" method = "post" name = "registerForm"
                                       class = "form-inline">
                                     <div><span th:if = "${#fields.hasGlobalErrors()}">
-                                               <p class = "field-error" id = "globalError"
-                                                  th:each = "err : ${#fields.globalErrors()}"
-                                                  th:text = "${err}">글로벌 오류 메시지</p>
+
+                                            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}"> 전체 오류 메세지 </p>
                                             </span>
                                     </div>
                                     <div class = "row mb-3">
                                         <div class = "col-md-6">
                                             <div class = "form-floating mb-3 mb-md-0">
-                                                <input type = "text" th:field = "*{loginId}" class = "form-control"
+                                                <input class = "form-control" th:field = "*{loginId}" type = "text"
+                                                       placeholder = "input your loginId"
                                                        th:class = "${#fields.hasErrors('loginId')}? 'form-control fieldError' : 'form-control'"
-                                                       style = "padding: 0 15px;">
+                                                       style = "padding: 0 15px;"/>
                                                 <button type = "button" class = "btn btn-primary btn-block"
                                                         onclick = "dataSend()" id = "searchBtn"
-                                                        style = " position: absolute; top: 15%; right: 5px;">중복확인
-                                                </button>
+                                                        style = " position: absolute; top: 15%; right: 5px;">중복확인</button>
                                                 <label th:for = "loginId">아이디</label>
                                                 <p class = "field-error" th:if = "${#fields.hasErrors('loginId')}"
                                                    th:errors = "*{loginId}">Incorrect date</p>
-                                                <input type = "hidden" th:field = "*{duplicateIdCheck}" value = "">
                                             </div>
                                         </div>
-
                                         <div class = "col-md-6">
                                             <div class = "form-floating mb-3 mb-md-0">
-                                                <input type = "text" th:field = "*{name}" class = "form-control"
-                                                       th:class = "${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">
+                                                <input class = "form-control" th:field = "*{name}"
+                                                       type = "text" placeholder = "input your name"
+                                                       th:class = "${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'"/>
                                                 <label th:for = "name">이름</label>
                                                 <p class = "field-error" th:if = "${#fields.hasErrors('name')}"
                                                    th:errors = "*{name}">Incorrect date</p>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type = "hidden" th:field = "*{duplicateIdCheck}" value = "">
+
+
+<!--                                    <div class = "row mb-3">-->
+<!--                                        <div class = "col-md-6">-->
+<!--                                            <div class = "form-floating mb-3 mb-md-0">-->
+<!--                                                <input type = "text" th:field = "*{loginId}" class = "form-control"-->
+<!--                                                       th:class = "${#fields.hasErrors('loginId')}? 'form-control fieldError' : 'form-control'"-->
+<!--                                                       style = "padding: 0 15px;">-->
+<!--                                                <label th:for = "loginId">아이디</label>-->
+<!--                                                <p class = "field-error" th:if = "${#fields.hasErrors('loginId')}"-->
+<!--                                                th:errors = "*{loginId}">Incorrect date</p>-->
+<!--                                                <button type = "button" class = "btn btn-primary btn-block"-->
+<!--                                                        onclick = "dataSend()" id = "searchBtn"-->
+<!--                                                        style = " position: absolute; top: 15%; right: 5px;">중복확인-->
+<!--                                                </button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class = "col-md-6">-->
+<!--                                            <div class = "form-floating mb-3 mb-md-0">-->
+<!--                                                <input type = "text" th:field = "*{name}" class = "form-control"-->
+<!--                                                       th:class = "${#fields.hasErrors('name')}? 'form-control fieldError' : 'form-control'">-->
+<!--                                                <label th:for = "name">이름</label>-->
+<!--                                                <p class = "field-error" th:if = "${#fields.hasErrors('name')}"-->
+<!--                                                   th:errors = "*{name}">Incorrect date</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+
                                     <div class = "row mb-3">
                                         <div class = "col-md-6">
                                             <div class = "form-floating mb-3 mb-md-0">
@@ -240,7 +267,7 @@
                                                        th:class = "${#fields.hasErrors('passwordCheck')}? 'form-control fieldError' : 'form-control'"/>
                                                 <button type = "button" class = "btn btn-primary btn-block"
                                                         th:onclick = "passwordChecking()"
-                                                        style = " position: absolute; top: 15%; right: 5px;">중복확인
+                                                        style = " position: absolute; top: 15%; right: 5px;">확인
                                                 </button>
                                                 <label th:for = "passwordCheck">비밀번호(확인)</label>
                                                 <p class = "field-error" th:if = "${#fields.hasErrors('passwordCheck')}"
@@ -311,8 +338,35 @@
                                             <input type = "hidden" class = "form-control" th:field = "*{emailAccountWrite}" value = "">
                                         </div>
                                     </div>
-
                                     <div class = "row mb-3">
+                                        <div class = "col-md-6">
+                                            <div class = "form-floating mb-3 mb-md-0">
+                                                <input class = "form-control" th:field = "*{phoneNumber}" type = "text"
+                                                       placeholder = "input your phoneNumber"
+                                                       th:class = "${#fields.hasErrors('phoneNumber')}? 'form-control fieldError' : 'form-control'"
+                                                       style = "padding: 0 15px;"/>
+                                                <button type = "button" class = "btn btn-primary btn-block"
+                                                        th:onclick = "phoneNumberChecking()" style = " position: absolute; top: 15%; right: 5px;">중복체크</button>
+                                                <label th:for = "phoneNumber">연락처</label>
+                                                <p class = "field-error" th:if = "${#fields.hasErrors('phoneNumber')}"
+                                                   th:errors = "*{phoneNumber}">Incorrect date</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class = "row mb-3">
+                                        <div class = "col-md-6">
+                                            <div class = "form-floating mb-3 mb-md-0">
+                                                <input class = "form-control" th:field = "*{birth}" type = "text"
+                                                       placeholder = "input your birth"
+                                                       th:class = "${#fields.hasErrors('birth')}? 'form-control fieldError' : 'form-control'"
+                                                       style = "padding: 0 15px;"/>
+                                                <label th:for = "birth">생년월일(YYYYMMDD)</label>
+                                                <p class = "field-error" th:if = "${#fields.hasErrors('birth')}"
+                                                   th:errors = "*{birth}">Incorrect date</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class = "row mb-3">
                                         <div class = "col-md-6">
                                             <div class = "form-floating mb-3 mb-md-0">
                                                 <input type = "text" th:field = "*{phoneNumber}"
@@ -325,21 +379,21 @@
                                                         th:onclick = "phoneNumberChecking()" style = " position: absolute; top: 15%; right: 5px;">중복체크</button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
 
                                     <input type = "hidden" th:field = "*{emailDuplicateCheck}" value = "">
                                     <input type = "hidden" th:field = "*{phoneNumberDuplicateCheck}" value = "">
 
-                                    <div class = "row mb-3">
-                                        <div class = "col-md-6">
-                                            <div class = "form-floating mb-3 mb-md-0">
-                                                <input type = "text" th:field = "*{birth}" class = "form-control"
-                                                       th:class = "${#fields.hasErrors('birth')}? 'form-control fieldError' : 'form-control'">
-                                                <label th:for = "birth">생년월일</label>
-                                                <p class = "field-error" th:if = "${#fields.hasErrors('birth')}" th:errors = "*{birth}">Incorrect date</p>
-                                            </div>
-                                        </div>
-                                    </div>
+<!--                                    <div class = "row mb-3">-->
+<!--                                        <div class = "col-md-6">-->
+<!--                                            <div class = "form-floating mb-3 mb-md-0">-->
+<!--                                                <input type = "text" th:field = "*{birth}" class = "form-control"-->
+<!--                                                       th:class = "${#fields.hasErrors('birth')}? 'form-control fieldError' : 'form-control'">-->
+<!--                                                <label th:for = "birth">생년월일</label>-->
+<!--                                                <p class = "field-error" th:if = "${#fields.hasErrors('birth')}" th:errors = "*{birth}">Incorrect date</p>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
 
                                     <div class = "mt-4 mb-0">
                                         <button type = "button" class = "btn btn-primary btn-block"

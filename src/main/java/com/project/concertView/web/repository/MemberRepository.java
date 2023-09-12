@@ -1,7 +1,5 @@
 package com.project.concertView.web.repository;
 
-import com.project.concertView.domain.dao.concert.LikeConcert;
-import com.project.concertView.domain.dao.concert.LikeConcertInsert;
 import com.project.concertView.domain.dao.member.FindPassword;
 import com.project.concertView.domain.dao.member.UpdatePassword;
 import com.project.concertView.domain.dto.LoginMemberDTO;

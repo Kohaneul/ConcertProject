@@ -34,7 +34,7 @@ public class SaveMember {
     private String passwordCheck;   //비밀번호 체크
 
     @NotBlank(message = "연락처를 입력해주세요")
-    @Pattern(regexp = "^(01\\d{1}\\d{3,4}\\d{4})$", message = "01000000000형식에 맞게 입력해주세요")
+    @Pattern(regexp = "^(01\\d{1})(\\d{3,4})(\\d{4})$", message = "01000000000형식에 맞게 입력해주세요")
     private String phoneNumber; //연락처
     private String emailAccountWrite;   //이메일 @ 뒤에 계정 직접입력시
 

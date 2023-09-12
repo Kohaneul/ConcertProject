@@ -7,7 +7,6 @@ import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.domain.entity.Signgucode;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.web.service.LikeConcertService;
-import com.project.concertView.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -30,18 +29,14 @@ import java.util.List;
 @RequestMapping("/concert")
 public class ConcertController {
     private final ConcertService concertService;
-    private final MemberService memberService;
     private final LikeConcertService likeConcertService;
 
-    private final ThreadLocal<String> loginIdThreadLocal = new ThreadLocal<>();
 
     /**1. 공연 정보 조회 클래스
         1)  파라미터
           - ConcertSearchInfoDTO : 일자별 공연 정보 조회 DTO 클래스
           - Model : 해당 DTO를 적용한 객체를 화면단에 보내주는 model 클래스
      */
-
-
     @GetMapping("/detailView")
     @LogRecord
     public String concertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO, Model model, HttpSession session){
@@ -50,7 +45,7 @@ public class ConcertController {
         loginSessionIsNotNull(concertDataList, session);
         //Model 객체를 통하여 화면단 표시
         model.addAttribute("concertDataList",concertDataList);
-        model.addAttribute("loginId",loginIdThreadLocal.get());
+        model.addAttribute("loginId",session.getAttribute(SessionValue.LOGIN_ID_SESSION));
         return "view/concert/ConcertInfo";
     }
 
@@ -61,7 +56,7 @@ public class ConcertController {
         //DTO 클래스에 부합하는 정보만 LIST로 반환하여
         loginSessionIsNotNull(concertDataList,session);
         model.addAttribute("concertDataList",concertDataList);
-        model.addAttribute("loginId",loginIdThreadLocal.get());
+        model.addAttribute("loginId",session.getAttribute(SessionValue.LOGIN_ID_SESSION));
         return "view/concert/ConcertSearchByTitle";
     }
 
@@ -70,22 +65,19 @@ public class ConcertController {
         Long memberId = (Long) session.getAttribute(SessionValue.LOGIN_SESSION);
         if(session.getAttribute(SessionValue.LOGIN_SESSION) !=null){
             concertDataList.forEach(i->i.setLikeOrNot(likeConcertService.likeConcert(new LikeConcert(memberId,i.getMt20id()))));
-            Long id=(Long)session.getAttribute(SessionValue.LOGIN_SESSION);
-            String loginId = memberService.findByLoginIdFromId(id);
-            loginIdThreadLocal.set(loginId);
         }
     }
 
     @GetMapping("/like/detailView")
     @LogRecord
     public String likeConcertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO,
-                                      @SessionAttribute(SessionValue.LOGIN_SESSION)Long memberId, Model model){
+                                      HttpSession session, Model model){
         concertSearchInfoDTO.setStDate(LocalDateTime.now().minusDays(300).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         //DTO 클래스에 부합하는 정보만 LIST로 반환하여
-        List<ConcertData> concertDataList = concertService.findLikeConcertDTO(concertSearchInfoDTO, memberId);
+        List<ConcertData> concertDataList = concertService.findLikeConcertDTO(concertSearchInfoDTO, (Long)session.getAttribute(SessionValue.LOGIN_SESSION));
         //Model 객체를 통하여 화면단 표시
         model.addAttribute("concertDataList",concertDataList);
-        model.addAttribute("loginId",loginIdThreadLocal.get());
+        model.addAttribute("loginId",session.getAttribute(SessionValue.LOGIN_ID_SESSION));
 
         return "view/member/LikeConcertList";
     }

@@ -116,20 +116,12 @@
                     <div class = "card mb-4">
                         <div class = "card-header">
                             <i class = "fas fa-table me-1"></i>
-                            공연 정보 조회
+                            ♥ by <span>[[${loginId}]]</span>
                         </div>
-                        <div style = "margin-top:5px; margin-left:5px;">
-                      <span>[
-                                <span th:if = "${session.MEMBER_ID_SESSION} != '' or ${session.MEMBER_ID_SESSION} != null">[[${loginId}]]</span>
-                                <span th:if = "${session.MEMBER_ID_SESSION} == '' or ${session.MEMBER_ID_SESSION} == null" th:text="'GUEST'"></span>
-                                  ]님 환영합니다.
-                      </span>
-                      <span  th:if = "${session.MEMBER_ID_SESSION} != null">
-                           <button type = "button" class = "btn btn-primary mb-2" th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
-                      </span>
-                      <span  th:if = "${session.MEMBER_ID_SESSION} == null">
-                            <button type = "button" class = "btn btn-primary mb-2" th:onclick = "'location.href=\'' + @{/member/login} + '\''">로그인</button>
-                      </span>
+                        <br>
+                        <div style = "margin-left:10px;">
+                        [<span>[[${loginId}]]</span>]님의 좋아요 목록
+                        </div>
                       <div id = "dtoSearch">
                             <form th:object = "${concertSearchInfoDTO}"
                                   class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">

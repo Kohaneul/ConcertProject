@@ -61,11 +61,16 @@
                   </div>
             </div>
         </div>
-        <button type = "button" th:class = "collapsible"><a th:href="@{/member/logOut}" style="color:white;" th:class="menuA">LOGOUT</a></button>
+        <button type = "button" th:class = "collapsible"><a th:href="@{/member/logOut}" style="color:white;">LOGOUT</a></button>
     </span>
     <span th:if = "${session.MEMBER_ID_SESSION==null}">
        <button type = "button" th:class = "collapsible">▼ LOGIN</button>
              <div class = "content">
+                  <div class = "contentLink">
+                      <div class = "contentLinkA">
+                        <a th:href = "@{/member/save}" th:class="menuA">회원가입</a>
+                   </div>
+                  </div>
                   <div class = "contentLink">
                       <div class = "contentLinkA">
                         <a th:href = "@{/member/login}" th:class="menuA">로그인</a>
@@ -75,8 +80,8 @@
                       <div class = "contentLinkA">
                         <a th:href = "@{/member/password/find}" th:class="menuA">비밀번호 찾기</a>
                    </div>
-               </div>
-                </div>
+
+             </div>
     </span>
 </div>
 
