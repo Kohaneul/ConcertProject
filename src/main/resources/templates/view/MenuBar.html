@@ -31,19 +31,19 @@
     </script>
 <body>
 
-<button type = "button" th:class = "collapsible" id = "mainCollaps" style="background-color:white;">
+<button type = "button" th:class = "collapsible" id = "mainCollaps">
     <input type = image src = "/image/cursor.png" style="width:50px;" placeholder="클릭"/></button>
 <div class = "content">
     <button type = "button" th:class = "collapsible">▼ 콘서트정보 조회</button>
     <div class = "content">
         <div class = "contentLink">
             <div class = "contentLinkA">
-                <a th:href = "@{/concert/detailView/title}">제목별 공연조회</a>
+                <a th:href = "@{/concert/detailView/title}" th:class="menuA">제목별 공연조회</a>
             </div>
         </div>
         <div class = "contentLink">
             <div class = "contentLinkA">
-                <a th:href = "@{/concert/detailView}">일자별 공연조회</a>
+                <a th:href = "@{/concert/detailView}" th:class="menuA">일자별 공연조회</a>
             </div>
         </div>
     </div>
@@ -52,28 +52,28 @@
         <div class = "content">
             <div class = "contentLink">
                  <div class = "contentLinkA">
-                    <a th:href = "@{/concert/like/detailView}">좋아요 목록</a>
+                    <a th:href = "@{/concert/like/detailView}" th:class="menuA">좋아요 목록</a>
                 </div>
             <div class = "contentLink">
                   <div class = "contentLinkA">
-                      <a th:onclick="openMyInfo();">내 정보</a>
+                      <a th:onclick="openMyInfo();" th:class="menuA">내 정보</a>
 <!--                    <a th:href = "@{/member/info/{memberId}(memberId=${session.LOGIN_PK_ID_SESSION})}" >내 정보</a>-->
                   </div>
             </div>
         </div>
-        <button type = "button" th:class = "collapsible"><a th:href="@{/member/logOut}" style="color:white;">LOGOUT</a></button>
+        <button type = "button" th:class = "collapsible"><a th:href="@{/member/logOut}" style="color:white;" th:class="menuA">LOGOUT</a></button>
     </span>
     <span th:if = "${session.MEMBER_ID_SESSION==null}">
        <button type = "button" th:class = "collapsible">▼ LOGIN</button>
              <div class = "content">
                   <div class = "contentLink">
                       <div class = "contentLinkA">
-                        <a th:href = "@{/member/login}">로그인</a>
+                        <a th:href = "@{/member/login}" th:class="menuA">로그인</a>
                       </div>
                    </div>
                   <div class = "contentLink">
                       <div class = "contentLinkA">
-                        <a th:href = "@{/member/password/find}">비밀번호 찾기</a>
+                        <a th:href = "@{/member/password/find}" th:class="menuA">비밀번호 찾기</a>
                    </div>
                </div>
                 </div>

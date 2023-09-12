@@ -201,6 +201,7 @@ public class MemberController {
     @PostMapping("/password/revise/{id}")
     public String passwordUpdate(@Valid @ModelAttribute("updatePassword") UpdatePassword updatePassword,BindingResult bindingResult) {
         memberService.updatePassword(updatePassword);
+        
         if (bindingResult.hasErrors()) {
             return "view/member/PasswordUpdate";
         }

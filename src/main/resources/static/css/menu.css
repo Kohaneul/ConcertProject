@@ -10,12 +10,12 @@
           width:200px;
  }
 #mainCollaps{
-          background-color: black;
+ background-color:white;
           font-size:14px;
           display:inline-block;
-          width:50px;
-          height:50px;
-          padding:15px 0;
+          width:65px;
+          height:59px;
+          padding:4px ;
           text-align:center;
           border-radius:100%;
  }
@@ -25,7 +25,7 @@
           width:200px;
  }
  #mainCollaps:hover{
-          background-color: #00CED1;
+          background-color: yellow;
  }
  .active, .collapsible:hover{
           background-color: #555;
@@ -41,7 +41,7 @@
             margin-left:20px; color:black;
             text-decoration:none;
              margin:auto;}
- a:hover{
+ .menuA:hover{
             background-color: #DCDCDC;
             border-radius:30px;        }
  .contentLinkA{
