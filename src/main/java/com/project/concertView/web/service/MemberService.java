@@ -32,7 +32,7 @@ public class MemberService {
         Member member = findOne(id);
         return new LoginMemberDTO(member.getLoginId(), member.getPassword());
     }
-    private void saveInfo(SaveMember member) {
+    public void saveInfo(SaveMember member) {
         memberRepository.saveInfo(member);
     }
 
@@ -42,8 +42,8 @@ public class MemberService {
     public String findByLoginId(Long id){
         return memberRepository.findByLoginId(id);
     }
-    public Long findById(SaveMember member) {
-        saveInfo(member);
+    public Long findById(String member) {
+//        saveInfo(member);
         return memberRepository.findById(member);
     }
     public String findEmail(String email) {

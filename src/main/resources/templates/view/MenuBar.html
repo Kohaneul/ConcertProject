@@ -68,11 +68,6 @@
              <div class = "content">
                   <div class = "contentLink">
                       <div class = "contentLinkA">
-                        <a th:href = "@{/member/save}" th:class="menuA">회원가입</a>
-                   </div>
-                  </div>
-                  <div class = "contentLink">
-                      <div class = "contentLinkA">
                         <a th:href = "@{/member/login}" th:class="menuA">로그인</a>
                       </div>
                    </div>
@@ -80,9 +75,12 @@
                       <div class = "contentLinkA">
                         <a th:href = "@{/member/password/find}" th:class="menuA">비밀번호 찾기</a>
                    </div>
-
              </div>
+             </div>
+      <button type = "button" th:class = "collapsible"><a th:href="@{/member/save}" style="color:white;">회원가입 페이지</a></button>
+
     </span>
+
 </div>
 
 <script th:inline = "javascript">

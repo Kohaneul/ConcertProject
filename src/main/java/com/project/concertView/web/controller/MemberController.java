@@ -45,7 +45,6 @@ public class MemberController {
     public String login(@Valid @ModelAttribute("loginMember") LoginMemberDTO loginMemberDTO, BindingResult bindingResult, HttpSession session, Model model) {
         //globalError에 대하여 추가하여 bindingResult에 저장
         bindingResultInsert(loginMemberDTO, bindingResult);
-
         //bindingResult에 하나라도 에러가 발생시 에러표시와 함께 Login 페이지로 다시 돌아감
         if (bindingResult.hasErrors()) {
             return "view/member/Login";
@@ -105,6 +104,8 @@ public class MemberController {
             }
             return "view/member/Register";
         }
+        memberService.saveInfo(saveMember);
+        log.info("저장 성공");
         return "redirect:/member/login";
     }
 
@@ -116,23 +117,22 @@ public class MemberController {
      * 3. 다음 주소검색 API를 통한 주소 입력
      * 4. 이메일 중복확인
      * 5. 휴대전화 중복확인
-     *
      * */
     private void checkOrNot(@ModelAttribute("saveMember") SaveMember saveMember, BindingResult bindingResult) {
         if (!saveMember.getDuplicateIdCheck()) {
-            bindingResult.addError(new FieldError("saveMember", "duplicateIdCheck", saveMember.getDuplicateIdCheck(),false,new String[]{"required.loginId.check"},null,"faewafeafwaef"));
+            bindingResult.addError(new ObjectError("saveMember", "아이디 중복 확인을 해주세요"));
         }
         if (!saveMember.getPasswordEqualsCheck()) {
-            bindingResult.addError(new FieldError("saveMember", "passwordEqualsCheck", saveMember.getPasswordEqualsCheck(), false, new String[]{"required.password.check"}, null, null));
+            bindingResult.addError(new ObjectError("saveMember", "비밀번호 일치 여부에 대한 확인을 해주세요"));
         }
         if (!saveMember.getSearchAddrCheck()) {
-            bindingResult.addError(new FieldError("saveMember", "searchAddrCheck", saveMember.getSearchAddrCheck(), false, new String[]{"required.address.check"}, null, null));
+            bindingResult.addError(new ObjectError("saveMember", "주소검색 버튼을 눌러 입력을 해주세요"));
         }
         if (!saveMember.getEmailDuplicateCheck()) {
-            bindingResult.addError(new FieldError("saveMember", "emailDuplicateCheck", saveMember.getEmailDuplicateCheck(), false, new String[]{"required.email.check"}, null, null));
+            bindingResult.addError(new ObjectError("saveMember", "이메일 중복 확인을 해주세요"));
         }
         if (!saveMember.getPhoneNumberDuplicateCheck()) {
-            bindingResult.addError(new FieldError("saveMember", "phoneNumberDuplicateCheck", saveMember.getPhoneNumberDuplicateCheck(), false, new String[]{"required.phoneNumber.check"}, null, null));
+            bindingResult.addError(new ObjectError("saveMember", "연락처 중복 확인을 해주세요"));
         }
     }
     // 이메일 계정 Model 계정

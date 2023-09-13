@@ -21,7 +21,7 @@ public interface MemberRepository {
     List<Member> findAll();
 
     Member findOne(Long id);
-    Long findById(SaveMember member);
+    Long findById(String loginId);
     @Transactional
     void saveInfo(SaveMember member);
     String findLoginId(String loginId);

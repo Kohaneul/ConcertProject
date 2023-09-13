@@ -15,7 +15,7 @@
     <select id="findOne" resultType="com.project.concertView.domain.dao.member.Member">
         SELECT * FROM member where id = #{id};
     </select>
-    <select id="findById" parameterType="com.project.concertView.domain.dao.member.SaveMember"
+    <select id="findById" parameterType="java.lang.String"
             resultType="java.lang.Long">
         SELECT id FROM member where loginId = #{loginId};
     </select>
