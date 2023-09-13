@@ -20,12 +20,12 @@
   function openMyInfo(){
   let sessionId = [[${session.MEMBER_ID_SESSION}]];
         window.name="parentForm";
-        let width = 1000;
-        let height = 800;
+        let width = 700;
+        let height = 500;
         let popupX = (window.screen.width / 2) - (width / 2);
         let popupY= (window.screen.height / 2) - (height / 2);
         let url ="/member/info/"+sessionId;
-         openWin = window.open(url, "childForm", "width=1000, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
+         openWin = window.open(url, "childForm", "width=700, height=500, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
     }
     /*]]>*/
     </script>

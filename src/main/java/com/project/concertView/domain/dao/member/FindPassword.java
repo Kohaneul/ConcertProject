@@ -17,8 +17,8 @@ import javax.validation.constraints.Pattern;
 public class FindPassword {
     @NotBlank(message = "로그인 아이디를 입력해주세요")
     private String loginId; //로그인 아이디
-    @NotBlank(message = "비밀번호를 입력해주세요")
-    private String password;    //비밀번호
+//    @NotBlank(message = "비밀번호를 입력해주세요")
+//    private String password;    //비밀번호
     @NotBlank(message = "이름을 입력해주세요")
     private String name;    //이름
     @NotBlank(message = "연락처를 입력해주세요")

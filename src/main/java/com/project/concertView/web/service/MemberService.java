@@ -35,7 +35,6 @@ public class MemberService {
     public void saveInfo(SaveMember member) {
         memberRepository.saveInfo(member);
     }
-
     public String findLoginId(String loginId) {
         return memberRepository.findLoginId(loginId) != null ? null : loginId;
     }

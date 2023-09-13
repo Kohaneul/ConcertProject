@@ -52,7 +52,7 @@
     </select>
 
     <select id="findPassword" parameterType="com.project.concertView.domain.dao.member.FindPassword" resultType="java.lang.Long">
-        select ifnull(id,null) from member where  loginId=#{loginId} and email=#{email} and birth=#{birth} and password=#{password};
+        select ifnull(id,null) from member where loginId=#{loginId} and email=#{email} and birth=#{birth} and phoneNumber=#{phoneNumber};
     </select>
 
     <select id="findByLoginIdFromId" parameterType="java.lang.Long"
