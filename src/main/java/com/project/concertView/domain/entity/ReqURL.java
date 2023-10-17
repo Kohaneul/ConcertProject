@@ -15,6 +15,7 @@ import java.util.HashMap;
 @Setter
 public class ReqURL {
         private final String SERVICE_KEY = SerialKey.valueOf("SEOUL_API").getValue(); //URL 생성을 위한 문자열 결합기능을 위하여 SERVICE_KEY 선언
+//    private final String SERVICE_KEY = "e6dd15ac283d4534b2d9886c5328241e"; //URL 생성을 위한 문자열 결합기능을 위하여 SERVICE_KEY 선언
 
     /**
      * 요청 path에 따라서 쿼리파라미터값이 다름.
@@ -65,7 +66,7 @@ public class ReqURL {
             //  http://www.kopis.or.kr/openApi/restful/pblprfr + / + paramVal + ?service=service_key
             sb.append(path).append("/").append(paramVal).append("?service=").append(SERVICE_KEY);
         }
-        log.info("url={}", sb.toString());
+        log.info("url={}", sb);
         return sb;
     }
 }

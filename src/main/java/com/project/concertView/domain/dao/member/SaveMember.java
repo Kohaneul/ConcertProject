@@ -32,12 +32,10 @@ public class SaveMember {
 
     @NotBlank(message = "비밀번호(확인용)를 입력해주세요")
     private String passwordCheck;   //비밀번호 체크
-
     @NotBlank(message = "연락처를 입력해주세요")
     @Pattern(regexp = "^(01\\d{1})(\\d{3,4})(\\d{4})$", message = "01000000000형식에 맞게 입력해주세요")
     private String phoneNumber; //연락처
     private String emailAccountWrite;   //이메일 @ 뒤에 계정 직접입력시
-
     private Boolean duplicateIdCheck;   //아이디 중복 체크 여부
     private Boolean passwordEqualsCheck;    // 패스워드 일치 여부
     private Boolean searchAddrCheck;    // 다음 주소 API로 주소 입력시 TRUE 값으로 전달됨

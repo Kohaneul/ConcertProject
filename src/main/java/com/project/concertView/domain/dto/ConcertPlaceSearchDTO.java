@@ -16,12 +16,18 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ConcertPlaceSearchDTO {
     private int cpage;  //현재페이지
-    private int rows = 10;   //페이지 당 목록수
+    private int rows;   //페이지 당 목록수
     private String shprfnmfct;  //공연시설명
     private String signgucode;  //지역코드
     public ConcertPlaceSearchDTO() {
         this.cpage = 1;
-        this.shprfnmfct = "예술의전당";
-        this.signgucode = Signgucode.valueOf("SEOUL").getValue();
+        this.shprfnmfct = "";
+        this.signgucode = "";
+        this.rows = 10;
+    }
+    public ConcertPlaceSearchDTO(int cpage, String shprfnmfct,String signgucode){
+        this.signgucode  = signgucode;
+        this.shprfnmfct = shprfnmfct;
+        this.cpage = cpage;
     }
 }

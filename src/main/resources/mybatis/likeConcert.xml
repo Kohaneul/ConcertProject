@@ -13,17 +13,32 @@
         select mt20id from likeConcert where memberId = #{memberId} and mt20id = #{mt20id}
     </select>
 
-    <insert id="insertLikeConcert" parameterType="com.project.concertView.domain.dao.concert.LikeConcertInsert" keyProperty="id">
-        insert into likeConcert(memberId,mt20id)
-        values (#{memberId}, #{mt20id});
-    </insert>
+    <select id="deleteLikeConcert" parameterType="com.project.concertView.domain.likeConcert.UpdateLikeConcert">
+        UPDATE likeConcert SET MT20ID =
+        (SELECT * FROM
+            (SELECT json_remove(mt20id, (SELECT JSON_UNQUOTE(JSON_SEARCH(mt20id, 'ONE', #{mt20id})) FROM likeConcert))
+         likeConcert where memberId = #{memberId}
+        )AS m WHERE memberId = #{memberId}) WHERE memberId = #{memberId};
+    </select>
 
-    <select id="deleteLikeConcert" parameterType="com.project.concertView.domain.dao.concert.LikeConcert">
-        delete from likeConcert where memberId = #{memberId} and mt20id = #{mt20id};
+    <select id="addLikeConcert" parameterType="com.project.concertView.domain.likeConcert.UpdateLikeConcert">
+        UPDATE likeConcert SET mt20id = JSON_ARRAY_APPEND(mt20id,'$', #{mt20id}) WHERE memberId = #{memberId};
     </select>
 
     <select id="likeConcertList" parameterType="java.lang.Long" resultType="java.lang.String">
         select mt20id from likeConcert where memberId=#{memberId} order by mt20id;
     </select>
+
+    <select id="likeConcertListAll" parameterType="java.lang.Long" resultType="java.lang.String">
+        select mt20id from likeConcert;
+    </select>
+
+    <select id="likeConcertListByMemberId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select mt20id from likeConcert where memberId=#{memberId};
+    </select>
+
+<!--    <select id="likeConcertLists" parameterType="java.lang.Long" resultType="com.project.concertView.domain.dao.member.LikeConcert.LikeConcertDTO">-->
+<!--        select memberId, mt20id from likeConcert where memberId=#{memberId};-->
+<!--    </select>-->
 
 </mapper>

@@ -54,11 +54,17 @@ public class XmlDataParser {
     public XmlDataParser(ConcertSearchInfoDTO dto) {
         this.stDate = dto.getStDate();
         this.edDate = dto.getEdDate();
-        this.rows = dto.getRows();
-        this.cpage = dto.getCpage();
+//        this.rows = dto.getRows();
+//        this.cpage = dto.getCpage();
         this.signgucode = dto.getSigngucode();
     }
-
+//    public XmlDataParser(ConcertSearchInfoDTO dto, PageDTO pageDTO) {
+//        this.stDate = dto.getStDate();
+//        this.edDate = dto.getEdDate();
+//        this.rows = pageDTO.getRecordSize();
+//        this.cpage = pageDTO.getPage();
+//        this.signgucode = dto.getSigngucode();
+//    }
     /**
      * 2. 공연 상세 조회 클래스
      * 1)  파라미터
@@ -74,8 +80,8 @@ public class XmlDataParser {
         this.edDate = dto.getEdDate();
         this.rows = dto.getRows();
         this.cpage = dto.getCpage();
+        this.signgucode = dto.getSigngucode();
     }
-
     /**
      * 3. 공연 시설 상세 조회 클래스
      * 1)  파라미터
@@ -84,6 +90,7 @@ public class XmlDataParser {
     public XmlDataParser(ConcertPlaceInfoDTO dto) {
         this.mt10id = dto.getMt10id();
     }
+
     public XmlDataParser(ConcertPlaceSearchDTO dto){
         this.rows = dto.getRows();
         this.cpage = dto.getCpage();
@@ -109,6 +116,7 @@ public class XmlDataParser {
      *    3) 3 : 공연 시설 상세 조회
      *    4) 4 : 공연 시설 조회
      *    5) 5: 공연 제목별 조회
+     *    6) 6: 좋아요 목록
      */
     private Document buildUp(Integer no) {
         Document document = null;
@@ -156,7 +164,9 @@ public class XmlDataParser {
         }
         if(no==2){
             document = buildUp(5);
-
+        }
+        if(no==3){
+            document = buildUp(6);
         }
         setConcertData(document, concertDataList);  //조회한 한개 이상의 데이터를 배열 타입으로 셋팅
         return concertDataList;
@@ -171,8 +181,6 @@ public class XmlDataParser {
 //        setConcertData(document, concertDataList);  //조회한 한개 이상의 데이터를 배열 타입으로 셋팅
 //        return concertDataList;
 //    }
-
-
 
     /**
      * 요청한 url을 통해 가져온 공연장 정보를
@@ -313,7 +321,7 @@ public class XmlDataParser {
             Node item = childNodes.item(j); //nodeList에서 각 노드 추출
             setFieldsToData(concertData, item, no); //노드이름과 객체의 멤버변수 이름과 동일하면 해당 객체의 setter를 통하여 값 셋팅
         }
-        return concertData;
+         return concertData;
     }
 
     private ConcertPlaceSearch NodeListToConcertPlaceSearch(NodeList childNodes, int no) {
@@ -371,8 +379,8 @@ public class XmlDataParser {
         //각 넘버별 담아야할 파라미터 hashMap에 담아두게 하기 위하여 hashMap 객체 생성
         HashMap<String, Object> hashMap = new HashMap<>();
         String path = null;
-        //no : 1(일자별 공연정보 조회), 2(공연 정보 상세조회)인 경우 path가 pblprfr로 동일함
-        if(no==1 || no==2 || no==5){ path  = "pblprfr";}
+        //no : 1(일자별 공연정보 조회), 2(공연 정보 상세조회), 5(일자별 조회),6(제목별 상세조회) 인 경우 path가 pblprfr로 동일함
+        if(no==1 || no==2 || no==5 || no==6){ path  = "pblprfr";}
         //no : 3(공연 시설 정보 조회) 의 경우 path prfplc
         if(no==3 || no==4){path = "prfplc";}
         sortNum(no, hashMap);  //각 번호별 파라미터 값 hashMap에 저장
@@ -392,7 +400,8 @@ public class XmlDataParser {
                 hashMap.put("rows", String.valueOf(rows));
                 hashMap.put("cpage", String.valueOf(cpage));
                 hashMap.put("shcate", shcate);
-                hashMap.put("signgucode",signgucode);
+                signuCodeIsNotNull(hashMap);
+
                 break;
             case 2: //공연 정보 상세조회
                 hashMap.put("mt20id", mt20id);
@@ -404,19 +413,31 @@ public class XmlDataParser {
                 hashMap.put("cpage",cpage);
                 hashMap.put("rows",rows);
                 hashMap.put("shprfnmfct",shprfnmfct);
-                hashMap.put("signgucode",signgucode);
+//                signuCodeIsNotNull(hashMap);
                 break;
-            case 5:
+            case 5: //공연 일자별 조회
+                hashMap.put("stdate", stDate);
+                hashMap.put("eddate", edDate);
+                hashMap.put("rows", String.valueOf(rows));
+                hashMap.put("cpage", String.valueOf(cpage));
+                signuCodeIsNotNull(hashMap);
+                break;
+            case 6://공연 제목별 조회
                 hashMap.put("stdate", stDate);
                 hashMap.put("eddate", edDate);
                 hashMap.put("rows", String.valueOf(rows));
                 hashMap.put("cpage", String.valueOf(cpage));
                 hashMap.put("shprfnm",String.valueOf(shprfnm));
-
+                signuCodeIsNotNull(hashMap);
+                break;
         }
-
-
     }
-
+        private void signuCodeIsNotNull(HashMap<String, Object> hashMap){
+        log.info("call == signuCodeIsNotNull");
+            if(signgucode!=null){
+                log.info("signgucode={}",signgucode);
+                hashMap.put("signgucode",signgucode);
+            }
+        }
 
 }

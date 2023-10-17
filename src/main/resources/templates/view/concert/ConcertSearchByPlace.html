@@ -24,6 +24,51 @@
                     document.getElementById("menuHeaders").classList.add("show");
                 });
             })
+
+      $(document).ready(function(){
+        $("#myC").change(function(){
+            if($("#myC").is(":checked")){
+            location.href="/concert/like/detailView";
+            }else{
+            location.href="/concert/detailView";
+            }
+    });
+    });
+
+               function cpageSetting(){
+               let checkedValue = document.getElementById("cpageSetting").checked;
+               let cpageBtn = document.getElementsByClassName("cpageBtn");
+               let dto=document.getElementById('concertPlaceSearchDTO');
+               let cpage= document.getElementById('cpage');
+               if(checkedValue==true){
+                     dto.style.width="600px";
+                    cpage.type="text";
+                    cpageBtn[0].type="image";
+                    cpageBtn[1].type="image";
+               }
+               else{
+                 dto.style.width="500px";
+                 cpage.type="hidden";
+                 cpageBtn[0].type="hidden";
+                 cpageBtn[1].type="hidden";
+                  }
+             };
+        function rowsSizeSetting(){
+               let checkedValue = document.getElementById("rowsSizeSetting").checked;
+               let rows=document.getElementById('rows');
+               let dto=document.getElementById('concertPlaceSearchDTO');
+                if(checkedValue==true){
+                  dto.style.width="600px";
+                     rows.type="text";
+               }
+               else{
+                   dto.style.width="500px";
+                   rows.type="hidden";
+                  }
+             };
+
+
+
       /*]]>*/
     </script>
     <script src = "https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin = "anonymous"></script>
@@ -66,31 +111,42 @@
                             <i class = "fas fa-table me-1"></i>
                             공연 장소 조회
                         </div>
+                        <br>
                         <div id = "dtoSearch">
-                            <br>
-
-
+                            <div>
+                                <input type="checkbox" id="rowsSizeSetting" name="rowsSizeSetting"  th:onclick="rowsSizeSetting();">
+                                <label for="rowsSizeSetting">화면에 보여지는 갯수</label>
+                                <input type="checkbox" id="cpageSetting" name="cpageSetting"  th:onclick="cpageSetting();">
+                                <label for="cpageSetting">페이지 설정</label>
+                            </div>
                             <form th:object = "${concertPlaceSearchDTO}"
-                                  class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                                  class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" style="width:500px;" id="concertPlaceSearchDTO">
                                 <div class = "input-group">
-                                    <input type = text class = "form-control" placeholder = "페이지 조회" id = "cpage"
-                                           th:field = "*{cpage}"/>
-                                    <input type = image src = "/image/plus.jpg" th:class="cpageBtn" width="15px"  style = "right: 85px;" th:onclick="plusCpage();">
-                                    <input type = image src = "/image/minus.jpg" th:class="cpageBtn" width="15px" style = "right: 50px;" th:onclick="downCpage();">
                                     <select th:field = "*{signgucode}" class = "form-control">
-                                        <option value = "">지역선택</option>
+                                        <option value = "" style="text-align:center;">지역선택(클릭)</option>
                                         <option th:each = "signgucode : ${signgucode}"
                                                 th:value = "${signgucode.getValue()}"
-                                                th:text = "${signgucode.getKey()}">OPT
+                                                th:text = "${signgucode.getKey()}" style="text-align:center;">OPT
                                         </option>
                                     </select>
+                                    <span th:if = "${session.MEMBER_ID_SESSION!=null}">
+                                        <button type = "button" class = "btn btn-primary mb-2"
+                                                th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
+                                         <input type="checkbox" id="myConcert" name="scales" th:onclick="'location.href=\'' + @{/concert/like/detailView} + '\''">
+                                         <label for="myConcert">좋아요 목록만 보기</label>
+                                     </span>
+                                    <input type = "hidden" class = "form-control" placeholder = "화면에 출력되는 갯수" id = "rows"
+                                           th:field = "*{rows}"/>
                                     <input type = "text" class = "form-control" placeholder = "조회장소" id = "shprfnmfct"
                                            th:field = "*{shprfnmfct}"/>
+                                    <input type = "hidden" class = "form-control" placeholder = "페이지 조회" id = "cpage"
+                                           th:field = "*{cpage}"/>
+                                    <input type = "hidden" src = "/image/plus.jpg" th:class="cpageBtn" width="10px"  style = "right: 73px;" th:onclick="plusCpage();">
+                                    <input type = "hidden" src = "/image/minus.jpg" th:class="cpageBtn" width="10px" style = "right: 43px;" th:onclick="downCpage();">
                                     <button type = "submit" class = "btn btn-primary" id = "btnNavbarSearch"><i
                                             class = "fas fa-search"></i></button>
                                 </div>
                             </form>
-
 
                             <div class = "card-body">
                                 <table id = "datatablesSimple">

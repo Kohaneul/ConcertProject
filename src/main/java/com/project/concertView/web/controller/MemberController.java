@@ -4,7 +4,7 @@ import com.project.concertView.domain.dao.member.FindPassword;
 import com.project.concertView.domain.dao.member.Member;
 import com.project.concertView.domain.dao.member.SaveMember;
 import com.project.concertView.domain.dao.member.UpdatePassword;
-import com.project.concertView.domain.dao.member.annotation.log.LogRecord;
+import com.project.concertView.domain.annotation.log.LogRecord;
 import com.project.concertView.domain.dto.LoginMemberDTO;
 import com.project.concertView.domain.entity.EmailAddr;
 import com.project.concertView.domain.entity.SessionValue;
@@ -104,7 +104,7 @@ public class MemberController {
             }
             return "view/member/Register";
         }
-        memberService.saveInfo(saveMember);
+        memberService.saveMember(saveMember);
         log.info("저장 성공");
         return "redirect:/member/login";
     }
@@ -162,9 +162,9 @@ public class MemberController {
     @PostMapping("/emailCheck")
     @ResponseBody
     public HashMap<String, Object> emailSend(@RequestBody HashMap<String, Object> sendDTO) {
-        String e = sendDTO.get("email")+"@"+sendDTO.get("emailAccountWrite");
-        String email = memberService.findEmail(e);
-        log.info("email={}",email);
+        StringBuilder sb = new StringBuilder();
+        sb.append(sendDTO.get("email")+""+sendDTO.get("emailAccountWrite"));
+        String email = memberService.findEmail(sb.toString());
         sendDTO.replace("email", email);
         return sendDTO;
     }
@@ -176,13 +176,6 @@ public class MemberController {
         model.addAttribute("member", member);
         return "view/member/ViewMember";
     }
-
-
-
-
-
-
-
     //비밀번호 찾기
     @GetMapping("/password/find")
     public String passwordFind(@ModelAttribute("findPassword") FindPassword findPassword) {
@@ -209,7 +202,6 @@ public class MemberController {
     @PostMapping("/password/revise/{id}")
     public String passwordUpdate(@Valid @ModelAttribute("updatePassword") UpdatePassword updatePassword,BindingResult bindingResult) {
         memberService.updatePassword(updatePassword);
-
         if (bindingResult.hasErrors()) {
             return "view/member/PasswordUpdate";
         }

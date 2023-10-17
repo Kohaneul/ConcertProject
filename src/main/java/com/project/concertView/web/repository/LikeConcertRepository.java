@@ -1,7 +1,7 @@
 package com.project.concertView.web.repository;
 
 import com.project.concertView.domain.dao.concert.LikeConcert;
-import com.project.concertView.domain.dao.concert.LikeConcertInsert;
+import com.project.concertView.domain.likeConcert.UpdateLikeConcert;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +19,10 @@ public interface LikeConcertRepository {
     Boolean findLikeConcert(LikeConcert likeConcert);
     String findMt20id(LikeConcert likeConcert);
     @Transactional
-    void insertLikeConcert(LikeConcertInsert likeConcertInsert);
+    void deleteLikeConcert(UpdateLikeConcert updateLikeConcert);
     @Transactional
-    void deleteLikeConcert(LikeConcertInsert likeConcertInsert);
+    void addLikeConcert(UpdateLikeConcert updateLikeConcert);
     List<String> likeConcertList(Long memberId);
+    String likeConcertListByMemberId(Long memberId);
 }
+

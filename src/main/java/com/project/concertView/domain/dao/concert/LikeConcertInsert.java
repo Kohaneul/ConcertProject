@@ -15,6 +15,5 @@ import javax.validation.constraints.NotEmpty;
 public class LikeConcertInsert {
     @NotEmpty
     private Long memberId;  //로그인 사용자 아이디
-    @NotEmpty
     private String mt20id;  //공연 정보 pk값
 }

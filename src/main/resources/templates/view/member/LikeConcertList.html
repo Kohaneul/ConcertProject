@@ -68,8 +68,22 @@
                 document.getElementById("menuHeaders").classList.add("show");
             });
         })
+
+        $(document).ready(function() {
+        $('input[type=checkbox][name=myConcert]').change(function() {
+        if ($(this).is(':checked')) {
+
+        }
+        else {
+            location.href="/concert/detailView";
+        }
+    });
+});
+
   /*]]>*/
 </script>
+
+
 
 <script th:inline = "javascript">
         /*<![CDATA[*/
@@ -121,19 +135,21 @@
                         <br>
                         <div style = "margin-left:10px;">
                         [<span>[[${loginId}]]</span>]님의 좋아요 목록
+                            <input type="checkbox" id="myConcert" name="myConcert" checked>
+                            <label for="myConcert">좋아요 목록만 보기</label>
                         </div>
                       <div id = "dtoSearch">
                             <form th:object = "${concertSearchInfoDTO}"
                                   class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                                 <div class = "input-group">
-                                    <input type = "date" class = "form-control" th:field = "*{stDate}"
-                                           th:onclick = "onClick()"/>
+                                    <input type = "date" class = "form-control" th:field = "*{stDate}" th:onclick = "onClick()"/>
                                     <input type = "date" class = "form-control" id = "edDate" th:field = "*{edDate}"
                                            placeholder = "조회 순번"/>
                                     <input type = "text" class = "form-control" id = "cpage" th:field = "*{cpage}"/>
                                     <input type = image src = "/image/plus.jpg" th:class="cpageBtn" width="15px"  style = "right: 85px;" th:onclick="plusCpage();">
                                     <input type = image src = "/image/minus.jpg" th:class="cpageBtn" width="15px" style = "right: 50px;" th:onclick="downCpage();">
-                                    <select th:field = "*{signgucode}" class = "form-control">
+                                    <input type = "hidden" class = "form-control" id = "signgucode" th:field = "*{signgucode}"/>
+                                     <select th:field = "*{signgucode}" class = "form-control">
                                         <option value = "">지역선택</option>
                                         <option th:each = "signgucode : ${signgucode}"
                                                 th:value = "${signgucode.getValue()}"

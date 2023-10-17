@@ -7,16 +7,20 @@
         SELECT * FROM member
     </select>
 
-    <insert id="saveInfo" parameterType="com.project.concertView.domain.dao.member.SaveMember" keyProperty="id">
-        insert into member(name,address,detailAddress,email, loginId,password,joinDay,birth,phoneNumber)
-        values (#{name}, #{address},#{detailAddress}, #{email}, #{loginId}, #{password}, now(),#{birth},#{phoneNumber});
-    </insert>
+    <select id="saveInfo" statementType="CALLABLE" parameterType="com.project.concertView.domain.dao.member.SaveMember" resultType="java.util.HashMap">
+        {call INSERT_ALL(
+        #{name},#{loginId}, #{address}, #{email}, #{password}, now(),#{birth},#{phoneNumber},#{detailAddress}) }
+    </select>
+
+    <select id="deleteAll" statementType="CALLABLE" parameterType="java.lang.Long" resultType="java.util.HashMap">
+        {call DELETE_ALL(#{id}) }
+    </select>
 
     <select id="findOne" resultType="com.project.concertView.domain.dao.member.Member">
         SELECT * FROM member where id = #{id};
     </select>
-    <select id="findById" parameterType="java.lang.String"
-            resultType="java.lang.Long">
+
+    <select id="findById" parameterType="java.lang.String" resultType="java.lang.Long">
         SELECT id FROM member where loginId = #{loginId};
     </select>
 
@@ -24,9 +28,8 @@
         SELECT loginId FROM member where loginId = #{loginId};
     </select>
 
-
-    <select id="findByLoginId" resultType="java.lang.Long">
-        SELECT loginId FROM member where id = #{id};
+    <select id="findByLoginId" parameterType="java.lang.String" resultType="java.lang.Long">
+        SELECT id from member where loginId= #{loginId};
     </select>
 
     <select id="findPhoneNumber" resultType="java.lang.String">
@@ -42,14 +45,6 @@
         SELECT id FROM member where loginId=#{loginId} and password=#{password};
     </select>
 
-    <insert id="insertLikeConcert" parameterType="com.project.concertView.domain.dao.concert.LikeConcertInsert" keyProperty="id">
-        insert into likeConcert(memberId,mt20id)
-        values (#{memberId}, #{mt20id});
-    </insert>
-
-    <select id="deleteLikeConcert" parameterType="java.lang.Long">
-        delete from likeConcert where id = #{id};
-    </select>
 
     <select id="findPassword" parameterType="com.project.concertView.domain.dao.member.FindPassword" resultType="java.lang.Long">
         select ifnull(id,null) from member where loginId=#{loginId} and email=#{email} and birth=#{birth} and phoneNumber=#{phoneNumber};
@@ -64,29 +59,5 @@
     <select id="updatePassword" parameterType="com.project.concertView.domain.dao.member.UpdatePassword">
         update member set password=#{password} where id=#{id};
     </select>
-
-<!--    <select id="likeConcertList" parameterType="java.lang.Long" resultType="com.project.concertView.domain.dao.concert.String">-->
-<!--        select * from likeConcert where memberId=#{memberId}-->
-<!--    </select>-->
-
-    <!--    <select id="findEmail" resultType="java.lang.String">-->
-    <!--        SELECT loginId FROM member where loginId = #{loginId};-->
-    <!--    </select>-->
-
-    <!--    <select id="deleteInfo">-->
-    <!--        delete from visitor where id = #{id};-->
-    <!--    </select>-->
-
-
-    <!--    <select id="updateInfo">-->
-    <!--        update visitor set loginId=#{loginId}, password=#{password}, employee_name=#{employee_name}, name=#{name}, phone_number=#{phone_number},-->
-    <!--        company=#{company}, visit_date1=#{visit_date1}, visit_date2=#{visit_date2}, withPerson=#{withPerson}, id=#{id},-->
-    <!--        purpose=#{purpose}, write_date=#{write_date}, revised_write_date=#{revised_write_date}, count=#{count}+1, is_checked=#{is_checked} where id = #{id};-->
-    <!--    </select>-->
-
-    <!--    <select id="updateCheckedInfo">-->
-    <!--        update visitor set is_checked=#{is_checked},checked_date=#{checked_date} where id = #{id};-->
-    <!--    </select>-->
-
 
 </mapper>

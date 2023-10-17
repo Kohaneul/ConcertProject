@@ -10,6 +10,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class ConcertData {
     private String mt20id;    // 공연ID
     private String prfnm;     // 공연명

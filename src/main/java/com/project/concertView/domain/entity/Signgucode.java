@@ -5,7 +5,7 @@ import lombok.Getter;
  * 공연 장소 조회시 (광역)시별 조회할 수 있도록 ENUM 정의
  * */
 public enum Signgucode {
-     SEOUL("서울특별시","11"),
+    SEOUL("서울특별시","11"),
     BUSAN("부산광역시","26"),
     DAEGU("대구광역시","27"),
     INCHEON("인천광역시","28"),
@@ -26,7 +26,6 @@ public enum Signgucode {
     private final String key;
     @Getter
     private final String value;
-
     Signgucode(String key, String value){
         this.key = key;
         this.value = value;

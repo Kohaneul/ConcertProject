@@ -1,0 +1,46 @@
+CREATE TABLE `member` (
+   `id` int NOT NULL AUTO_INCREMENT,
+   `name` text NOT NULL,
+   `loginId` varchar(20) NOT NULL,
+   `address` text NOT NULL,
+   `email` varchar(30) NOT NULL,
+   `password` text NOT NULL,
+   `joinDay` datetime NOT NULL,
+   `birth` varchar(8) NOT NULL,
+   `phoneNumber` varchar(30) NOT NULL,
+   `detailAddress` text NOT NULL,
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `loginId` (`loginId`),
+   UNIQUE KEY `email` (`email`),
+   UNIQUE KEY `phoneNumber` (`phoneNumber`)
+ ) ;
+
+create table likeConcert(
+  `id` int primary key AUTO_INCREMENT,
+  `memberId` int not null,
+  `mt20id` JSON not null,
+   foreign key (`memberId`) references member(id)
+  );
+
+
+DELIMITER ;;
+CREATE PROCEDURE INSERT_ALL(
+IN name TEXT, IN loginId varchar(20), IN address TEXT,IN email varchar(30),IN password TEXT,
+IN joinDay datetime,IN birth varchar(8),IN phoneNumber varchar(30),IN detailAddress TEXT
+)
+BEGIN
+	INSERT INTO  MEMBER (name,loginId,address,email,password,joinDay,birth,phoneNumber,detailAddress)
+	values(name,loginId,address,email,password,joinDay,birth,phoneNumber,detailAddress);
+	SELECT @memberId := MAX(id) from member;
+    INSERT likeConcert(memberId, mt20id)
+    VALUES(@memberId,JSON_ARRAY());
+END ;;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE DELETE_ALL (IN deleteId int)
+BEGIN
+delete from likeConcert where memberId = deleteId;
+delete from member where id = deleteId;
+END ;;
+DELIMITER ;

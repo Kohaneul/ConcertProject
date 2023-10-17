@@ -3,39 +3,67 @@ package com.project.concertView.web.service;
 import com.project.concertView.domain.dao.concert.*;
 import com.project.concertView.domain.dto.*;
 import com.project.concertView.web.repository.ConcertRepository;
-import com.project.concertView.web.repository.LikeConcertRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * SERVICE 클래스
  * */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ConcertService {
     private final ConcertRepository concertRepository;  // CONCERTREPOSITORY 클래스를 의존주입으로 받음
-    private final LikeConcertRepository likeConcertRepository;
+    private final LikeConcertService likeConcertService;
     /**1. 공연 정보 조회 클래스
      1)  파라미터
      - ConcertSearchInfoDTO : 일자별 공연 정보 조회 DTO 클래스
      */
-    public List<ConcertData> findAllDTO(ConcertSearchInfoDTO concertSearchInfoDTO){
-        return concertRepository.findAllDTO(concertSearchInfoDTO);
+//    public List<ConcertData> findAllDTO(ConcertSearchInfoDTO concertSearchInfoDTO, HttpSession session){
+//        //DTO 클래스에 부합하는 정보만 LIST로 반환
+//        List<ConcertData> concertDataList = concertRepository.findAllDTO(concertSearchInfoDTO);
+//        loginSessionIsNotNull(concertDataList,memberId(session));
+//        return concertDataList;
+//    }
+
+    public List<ConcertData> findMyDTO(List<ConcertData> concertDatas, Long id){
+        List<ConcertData> concertData = new ArrayList<>();
+        List<String> likeList = new ArrayList<>(likeConcertService.likeConcertDTOs(id).getMt20id());
+        for (String s : likeList) {
+            for (ConcertData cd : concertDatas) {
+                if (s.equals(cd.getMt20id())) {
+                    concertData.add(cd);
+                }
+            }
+        }
+        concertData.forEach(i->i.setLikeOrNot(true));
+        return concertData;
     }
 
-    public List<ConcertData> findByConcertByArtist(ConcertSearchByTitleDTO concertByArtistDTO){
-        return concertRepository.findByConcertByArtist(concertByArtistDTO);
+    private void loginSessionIsNotNull(List<ConcertData> concertDataList,Long id){
+        if(id !=null){
+            log.info("id={}",id);
+            List<String> likeList = new ArrayList<>(likeConcertService.likeConcertDTOs(id).getMt20id());
+            for (String s : likeList) {
+                for (ConcertData c : concertDataList) {
+                    if(s.equals(c.getMt20id())){
+                        c.setLikeOrNot(true);
+                    }
+                }
+            }
+        }
     }
+//    private Long memberId(HttpSession session){
+//        return (Long)session.getAttribute(SessionValue.LOGIN_SESSION);
+//    }
 
-    public List<ConcertData> findLikeConcertDTO(ConcertSearchInfoDTO concertSearchInfoDTO,Long memberId){
-        List<String> mt20idLists = likeConcertRepository.likeConcertList(memberId);
-        List<ConcertData> concertDataLists = findAllDTO(concertSearchInfoDTO);
-        mt20idLists.stream().filter(str->concertDataLists.stream().filter
-                (str::equals).anyMatch(Predicate.isEqual(concertDataLists))).collect(Collectors.toList());
-        return concertDataLists.stream().filter(i->mt20idLists.stream().anyMatch(j->j.equals(i.getMt20id()))).collect(Collectors.toList());
+    public List<ConcertData> findAllDTO(ConcertSearchByTitleDTO concertByArtistDTO,Long id){
+        List<ConcertData> concertDataList = concertRepository.findAllDTO(concertByArtistDTO);
+        loginSessionIsNotNull(concertDataList,id);
+        return concertDataList;
     }
 
 

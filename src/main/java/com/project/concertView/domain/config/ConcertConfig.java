@@ -1,7 +1,7 @@
 package com.project.concertView.domain.config;
 
 import com.project.concertView.domain.config.aop.ConcertAspect;
-import com.project.concertView.domain.dao.member.annotation.log.LogRecordAop;
+import com.project.concertView.domain.annotation.log.LogRecordAop;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -94,7 +94,6 @@
                        $("#emailAccountWrite").val("");
                        $("#emailDuplicateCheck").val(false);
                       }
-<!--                      if(data.email!="" && data.email!=null){-->
                         else{
                          alert('등록가능한 메일계정 입니다.'+data.email);
                          $("#email").val(data.email);
@@ -143,14 +142,13 @@
 
                function mailClick(val){
                let emailAccountWrite = document.getElementById("emailAccountWrite");
-               if(val=="" || val==null){
+               if(val=="@"){
                   emailAccountWrite.value= "";
                     emailAccountWrite.type= "text";
                }
                else{
                 let email2 = document.getElementById("email2").value;
                   emailAccountWrite.value = email2;
-                  console.log(emailAccountWrite);
                    emailAccountWrite.type= "hidden";
                }
                 };

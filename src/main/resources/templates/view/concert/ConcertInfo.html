@@ -33,19 +33,18 @@
   th:first-child, td:first-child {
     border-left: none;
   }
-
 </style>
 <script src = "https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script th:inline = "javascript">
-  /*<![CDATA[*/
-  $(document).ready(function () {
-            $("#menuHeaders").load("/menuBar", function () {
-                document.getElementById("menuHeaders").classList.add("show");
-            });
-        })
-  /*]]>*/
-</script>
+      /*<![CDATA[*/
+      $(document).ready(function () {
+                $("#menuHeaders").load("/menuBar", function () {
+                    document.getElementById("menuHeaders").classList.add("show");
+                });
+            })
 
+      /*]]>*/
+</script>
 
 <script th:inline = "javascript">
         /*<![CDATA[*/
@@ -58,7 +57,6 @@
         {
        location.href= "/concert/like/"+data;
         }
-
         };
 
     function deleteLikeConcertClick(data){
@@ -69,11 +67,54 @@
         {
         location.href= "/concert/like/delete/"+data;
         }
+
         };
 
+               function titleSearch(){
+               let checkedValue = document.getElementById("titleSearch").checked;
+               let shprfnm= document.getElementById('shprfnm');
+                let concertSearchByTitleDTO=document.getElementById('concertSearchByTitleDTO');
+                   if(checkedValue==true){
+                        shprfnm.type= "text";
+                         concertSearchByTitleDTO.style.width="1100px";
+                   }
+                   else{
+                     shprfnm.type= "hidden";
+                         concertSearchByTitleDTO.style.width="1000px";
+
+                   }
+               };
+
+               function recordSizeSetting(){
+               let checkedValue = document.getElementById("recordSizeSetting").checked;
+               let recordSize= document.getElementById('rows');
+               if(checkedValue==true){
+                    recordSize.type= "text";
+               }
+               else{
+                 recordSize.type= "hidden";
+               }
+               };
+
+
+               function cpageSetting(){
+               let checkedValue = document.getElementById("cpageSetting").checked;
+               let cpageBtn = document.getElementsByClassName("cpageBtn");
+               let cpage= document.getElementById('cpage');
+               if(checkedValue==true){
+                    cpage.type="text";
+                    cpageBtn[0].type="image";
+                    cpageBtn[1].type="image";
+               }
+               else{
+                 cpage.type="hidden";
+                 cpageBtn[0].type="hidden";
+                 cpageBtn[1].type="hidden";
+                  }
+             };
+
+
          /*]]>*/
-
-
 </script>
 
 
@@ -89,67 +130,72 @@
             let url ="/concert/detailView/img?mt20id="+id;
              openWin = window.open(url, "childForm", "width=500, height=800, resizable = no, scrollbars = no, left="+popupX+',top='+popupY);
             }
-
-        function onClick(){
-               document.getElementById('stDate').addEventListener('change',function(){
-               let stDate = document.getElementById('stDate');
-               document.getElementById('edDate').value = stDate.value;
-               })};
-
     /*]]>*/
+
 
 </script>
 <script src = "https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin = "anonymous"></script>
 </head>
 
 <body class = "bg-primary">
+
 <div id = "layoutAuthentication">
     <div id = "layoutAuthentication_content">
         <div id="menuHeaders"></div>
         <main>
-
             <div id = "layoutSidenav_content">
                 <div class = "container-fluid px-4">
                     <h1 class = "mt-4"></h1>
                     <div class = "card mb-4">
                         <div class = "card-header">
                             <i class = "fas fa-table me-1"></i>
-                            공연 정보 조회(일자별)
+                            공연 정보 조회
                         </div>
                         <div style = "margin-top:5px; margin-left:5px;">
-                            <span>[
-                                <span th:if = "${session.MEMBER_ID_SESSION} != '' or ${session.MEMBER_ID_SESSION} != null">[[${session.MEMBER_LOGIN_ID_SESSION}]]</span>
+                        <span>[
+                                <span th:if = "${session.MEMBER_ID_SESSION} != '' or ${session.MEMBER_ID_SESSION} != null">[[${loginId}]]</span>
                                 <span th:if = "${session.MEMBER_ID_SESSION} == '' or ${session.MEMBER_ID_SESSION} == null" th:text="'GUEST'"></span>
                                   ]님 환영합니다.</span>
-                            <span  th:if = "${session.MEMBER_ID_SESSION} != null">
+                            <span th:if = "${session.MEMBER_ID_SESSION!=null}">
                                 <button type = "button" class = "btn btn-primary mb-2"
                                         th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
+                                  <input type="checkbox" id="myConcert" name="scales" th:onclick="'location.href=\'' + @{/concert/like/detailView} + '\''">
+                                  <label for="myConcert">좋아요 목록만 보기</label>
                             </span>
-                            <span  th:if = "${session.MEMBER_ID_SESSION} == null">
+                            <span th:if = "${session.MEMBER_ID_SESSION==null}">
                                 <button type = "button" class = "btn btn-primary mb-2"
                                         th:onclick = "'location.href=\'' + @{/member/login} + '\''">로그인</button>
-                            </span>
+                          </span>
                         </div>
                         <div id = "dtoSearch">
-                            <form th:object = "${concertSearchInfoDTO}"
-                                  class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                            <div>
+                                <input type="checkbox" id="titleSearch" name="titleSearch"  th:onclick="titleSearch();" checked>
+                                <label for="titleSearch">제목 조회</label>
+                                <input type="checkbox" id="recordSizeSetting" name="recordSizeSetting"  th:onclick="recordSizeSetting();">
+                                <label for="recordSizeSetting">화면에 보여지는 갯수</label>
+                                <input type="checkbox" id="cpageSetting" name="cpageSetting"  th:onclick="cpageSetting();">
+                                <label for="cpageSetting">페이지 설정</label>
+                            </div>
+                            <form th:object = "${concertSearchByTitleDTO}"
+                                  class = "d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"  id = "concertSearchByTitleDTO"
+                            style="width:1000px;">
                                 <div class = "input-group">
-                                    <input type = "date" class = "form-control" th:field = "*{stDate}"
-                                           th:onclick = "onClick()"/>
-                                    <input type = "date" class = "form-control" id = "edDate" th:field = "*{edDate}"
-                                           placeholder = "조회 순번"/>
-                                    <input type = "text" class = "form-control" id = "cpage" th:field = "*{cpage}"/>
-                                    <input type = image src = "/image/plus.jpg" th:class="cpageBtn" width="10px"  style = "left: 415px;" th:onclick="plusCpage();">
-                                    <input type = image src = "/image/minus.jpg" th:class="cpageBtn" width="10px" style = "left: 450px;" th:onclick="downCpage();">
-                                    <select th:field = "*{signgucode}" class = "form-control" style="text-align:center;">
-                                        <option value = "">지역선택</option>
-                                        <option th:each = "signgucode : ${signgucode}"
-                                                th:value = "${signgucode.getValue()}"
-                                                th:text = "${signgucode.getKey()}">OPT
-                                        </option>
-                                    </select>
-                                    <button type = "submit" class = "btn btn-primary" id = "btnNavbarSearch"><i
-                                            class = "fas fa-search"></i></button>
+                                    <input type = "text" class = "form-control" th:field = "*{shprfnm}" style="width:350px;"/>
+                                    <label th:for = "shprfnm" style="position: absolute; padding:5px; font-size:12px; color:#646970;">검색하고 싶은 공연 제목 입력</label>
+                                    <input type = "hidden" class = "form-control" th:field = "*{rows}" style="width:30px;" />
+                                    <input type = "date" class = "form-control" th:field = "*{stDate}"/>
+                                    <input type = "date" class = "form-control" th:fieldX = "*{edDate}"/>
+                                        <select th:field = "*{signgucode}" class = "form-control" style="text-align-last:center;">
+                                            <option value = "">　지역선택▼　</option>
+                                            <option th:each = "signgucode : ${signgucode}"
+                                                    th:value = "${signgucode.getValue()}"
+                                                    th:text = "${signgucode.getKey()}" style="text-align:center; width:20px;">OPT
+                                            </option>
+                                        </select>
+                                    <input type = "hidden" class = "form-control" th:field = "*{cpage}"    style = "padding: 0 8px; width:25px;"/>
+                                    <input type = "hidden" src = "/image/plus.jpg" th:class="cpageBtn" width="10px"  style = "right: 73px;" th:onclick="plusCpage();">
+                                    <input type = "hidden" src = "/image/minus.jpg" th:class="cpageBtn" width="10px" style = "right: 43px;" th:onclick="downCpage();">
+                                    <button type = "submit" class = "btn btn-primary" id = "btnNavbarSearch"><i class = "fas fa-search"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -197,6 +243,8 @@
                                                     </td>
                                                 </span>
                             </tr>
+
+
                         </div>
                         </tbody>
                         </table>
@@ -205,18 +253,13 @@
                             <h2>데이터가 존재하지 않습니다.</h2>
                         </div>
                         <br>
-<!--                        <button type = "button" class = "btn btn-primary mb-2"-->
-<!--                                th:onclick = "'location.href=\'' + @{/concert/place} + '\''">공연장 정보-->
-<!--                        </button>-->
+                        <div>
+
+                        </div>
                     </div>
         </main>
     </div>
 </div>
-<script>
-
-
-</script>
-
 <footer class = "py-4 bg-light mt-auto">
     <div class = "container-fluid px-4">
         <div class = "d-flex align-items-center justify-content-between small">
@@ -229,14 +272,6 @@
     </div>
 </footer>
 
-<script th:inline = "javascript">
-    /*<![CDATA[*/
-
-
-
-    /*]]>*/
-
-</script>
 
 </div>
 </div>

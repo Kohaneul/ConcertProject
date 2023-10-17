@@ -19,13 +19,14 @@ import java.util.List;
 public interface MemberRepository {
 
     List<Member> findAll();
-
     Member findOne(Long id);
     Long findById(String loginId);
     @Transactional
     void saveInfo(SaveMember member);
+    @Transactional
+    void deleteAll(Long id);
     String findLoginId(String loginId);
-    String findByLoginId(Long id);
+    Long findByLoginId(String loginId);
     String findEmail(String mail);
     String findPhoneNumber(String phoneNumber);
     Long loginMember(LoginMemberDTO loginMember);

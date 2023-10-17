@@ -34,16 +34,17 @@
 <button type = "button" th:class = "collapsible" id = "mainCollaps">
     <input type = image src = "/image/cursor.png" style="width:50px;" placeholder="클릭"/></button>
 <div class = "content">
-    <button type = "button" th:class = "collapsible">▼ 콘서트정보 조회</button>
+    <button type = "button" th:class = "collapsible">▼ 공연 정보 조회
+    </button>
     <div class = "content">
         <div class = "contentLink">
             <div class = "contentLinkA">
-                <a th:href = "@{/concert/detailView/title}" th:class="menuA">제목별 공연조회</a>
+                <a th:href = "@{/concert/detailView}" th:class="menuA">공연 조회</a>
             </div>
         </div>
         <div class = "contentLink">
             <div class = "contentLinkA">
-                <a th:href = "@{/concert/detailView}" th:class="menuA">일자별 공연조회</a>
+                <a th:href = "@{/concert/place}" th:class="menuA">지역별 공연 시설</a>
             </div>
         </div>
     </div>
@@ -57,7 +58,6 @@
             <div class = "contentLink">
                   <div class = "contentLinkA">
                       <a th:onclick="openMyInfo();" th:class="menuA">내 정보</a>
-<!--                    <a th:href = "@{/member/info/{memberId}(memberId=${session.LOGIN_PK_ID_SESSION})}" >내 정보</a>-->
                   </div>
             </div>
         </div>
