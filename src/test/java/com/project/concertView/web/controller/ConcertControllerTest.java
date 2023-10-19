@@ -2,6 +2,7 @@ package com.project.concertView.web.controller;
 
 import com.project.concertView.domain.dao.concert.ConcertData;
 import com.project.concertView.domain.dto.ConcertSearchByTitleDTO;
+import com.project.concertView.web.StringChange;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.web.service.LikeConcertService;
 import com.project.concertView.web.service.MemberService;
@@ -63,6 +64,12 @@ class ConcertControllerTest {
         Assertions.assertThat(allDTO).isNotNull();
     }
 
+    @Test
+    @DisplayName("메소드 테스트")
+    void test3(){
+        String change = StringChange.change( "테 스 트");
+        log.info("str ={}",change);
+    }
 
     String blankChange(String title){
         title.trim();

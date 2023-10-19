@@ -6,6 +6,7 @@ import com.project.concertView.domain.annotation.log.LogRecord;
 import com.project.concertView.domain.dto.*;
 import com.project.concertView.domain.entity.SessionValue;
 import com.project.concertView.domain.entity.Signgucode;
+import com.project.concertView.web.StringChange;
 import com.project.concertView.web.service.ConcertService;
 import com.project.concertView.web.service.LikeConcertService;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +15,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -43,31 +42,12 @@ public class ConcertController {
     @GetMapping("/detailView")
     @LogRecord
     public String concertInfoView(@ModelAttribute("concertSearchByTitleDTO") ConcertSearchByTitleDTO concertSearchByTitleDTO, Model model, HttpSession session, HttpServletResponse response){
-        List<ConcertData> concertDataList = null;
-        Exception exceptionHolder = null;
         Long id = (Long) session.getAttribute(SessionValue.LOGIN_SESSION);
-        try{
-            concertDataList = concertService.findAllDTO(concertSearchByTitleDTO,id);
-            if(concertSearchByTitleDTO.getShprfnm().contains(" ")){
-
-            }
-        }
-        catch(RuntimeException e2) {
-            log.info("에러바랭");
-        }
-            finally{
-            try {
-                response.sendRedirect("/");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-
-        //DTO 클래스에 부합하는 정보만 LIST로 반환하여
+        String change = StringChange.change(concertSearchByTitleDTO.getShprfnm());
+        log.info("change={}",change);
+        concertSearchByTitleDTO.setShprfnm(change);
+        List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchByTitleDTO,id);
         model.addAttribute("concertDataList",concertDataList);
-        model.addAttribute("loginId",session.getAttribute(SessionValue.LOGIN_ID_SESSION));
         return "view/concert/ConcertInfo";
     }
 
