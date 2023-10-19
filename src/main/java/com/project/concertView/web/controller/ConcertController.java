@@ -44,7 +44,6 @@ public class ConcertController {
     public String concertInfoView(@ModelAttribute("concertSearchByTitleDTO") ConcertSearchByTitleDTO concertSearchByTitleDTO, Model model, HttpSession session, HttpServletResponse response){
         Long id = (Long) session.getAttribute(SessionValue.LOGIN_SESSION);
         String change = StringChange.change(concertSearchByTitleDTO.getShprfnm());
-        log.info("change={}",change);
         concertSearchByTitleDTO.setShprfnm(change);
         List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchByTitleDTO,id);
         model.addAttribute("concertDataList",concertDataList);
@@ -129,14 +128,12 @@ public class ConcertController {
     public String likeConcert(@PathVariable("mt20id")String mt20id,
                               @SessionAttribute(SessionValue.LOGIN_SESSION)Long memberId){
         likeConcertService.addLikeConcert(new UpdateLikeConcert(memberId,mt20id));
-        log.info("저장완료={} : {}",memberId, mt20id);
         return "redirect:/concert/detailView";
     }
     //좋아요 취소시 likeConcert 테이블에 현재 session값으로 있는 member 테이블의 id값과 공연정보를 담은 pk 값이 제거됨
     @RequestMapping("/like/delete/{mt20id}")
     public String deleteLikeConcert(@PathVariable("mt20id")String mt20id,  @SessionAttribute(SessionValue.LOGIN_SESSION)Long memberId){
         likeConcertService.deleteLikeConcert(new UpdateLikeConcert(memberId,mt20id));
-        log.info("좋아요 취소 완료={} : {}",memberId, mt20id);
         return "redirect:/concert/detailView";
     }
 
