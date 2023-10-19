@@ -14,8 +14,11 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,31 +36,35 @@ public class ConcertController {
     private final LikeConcertService likeConcertService;
 
     /**1. 공연 정보 조회 클래스
-        1)  파라미터
-          - ConcertSearchInfoDTO : 일자별 공연 정보 조회 DTO 클래스
-          - Model : 해당 DTO를 적용한 객체를 화면단에 보내주는 model 클래스
-     */
-//    @GetMapping("/detailView")
-//    @LogRecord
-//    public String concertInfoView(@ModelAttribute("concertSearchInfoDTO")ConcertSearchInfoDTO concertSearchInfoDTO, Model model, HttpSession session){
-//        Long id = (Long) session.getAttribute(SessionValue.LOGIN_SESSION);
-//        List<ConcertData> concertDataList = concertService.findAllDTO(concertSearchInfoDTO,session);
-//        //Model 객체를 통하여 화면단 표시
-//        model.addAttribute("concertDataList",concertDataList);
-//        model.addAttribute("loginId",session.getAttribute(SessionValue.LOGIN_ID_SESSION));
-//        return "view/concert/ConcertInfo";
-//    }
-    /**5. 공연 정보 조회 클래스
      1)  파라미터
      - ConcertSearchByTitleDTO : 공연 시설 조회하는 DTO 클래스
      - Model :  id 값과 부합하는 객체를 화면단에 보내주는 model 클래스
      */
     @GetMapping("/detailView")
     @LogRecord
-    public String concertInfoView(@ModelAttribute("concertSearchByTitleDTO") ConcertSearchByTitleDTO concertSearchByTitleDTO, Model model, HttpSession session){
+    public String concertInfoView(@ModelAttribute("concertSearchByTitleDTO") ConcertSearchByTitleDTO concertSearchByTitleDTO, Model model, HttpSession session, HttpServletResponse response){
+        List<ConcertData> concertDataList = null;
+        Exception exceptionHolder = null;
         Long id = (Long) session.getAttribute(SessionValue.LOGIN_SESSION);
-        List<ConcertData> concertDataList= concertService.findAllDTO(concertSearchByTitleDTO,id);
-        log.info("size={}",  concertDataList.size());
+        try{
+            concertDataList = concertService.findAllDTO(concertSearchByTitleDTO,id);
+            if(concertSearchByTitleDTO.getShprfnm().contains(" ")){
+
+            }
+        }
+        catch(RuntimeException e2) {
+            log.info("에러바랭");
+        }
+            finally{
+            try {
+                response.sendRedirect("/");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+
         //DTO 클래스에 부합하는 정보만 LIST로 반환하여
         model.addAttribute("concertDataList",concertDataList);
         model.addAttribute("loginId",session.getAttribute(SessionValue.LOGIN_ID_SESSION));

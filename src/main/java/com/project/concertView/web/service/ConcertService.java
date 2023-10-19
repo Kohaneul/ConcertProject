@@ -6,6 +6,9 @@ import com.project.concertView.web.repository.ConcertRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,9 +63,10 @@ public class ConcertService {
 //        return (Long)session.getAttribute(SessionValue.LOGIN_SESSION);
 //    }
 
-    public List<ConcertData> findAllDTO(ConcertSearchByTitleDTO concertByArtistDTO,Long id){
-        List<ConcertData> concertDataList = concertRepository.findAllDTO(concertByArtistDTO);
+    public List<ConcertData> findAllDTO(ConcertSearchByTitleDTO concertSearchByTitleDTO, Long id){
+        List<ConcertData> concertDataList = concertRepository.findAllDTO(concertSearchByTitleDTO);
         loginSessionIsNotNull(concertDataList,id);
+
         return concertDataList;
     }
 

@@ -33,13 +33,13 @@ public class ConcertSearchByTitleDTO {
         this.shprfnm="";
         this.signgucode = Signgucode.valueOf("SEOUL").getValue();
     }
-//    public ConcertSearchByTitleDTO(String stDate,String edDate,int rows, int cpage,String shprfnm){
-//        this.stDate = stDate;
-//        this.edDate =edDate;
-//        this.rows = rows;
-//        this.cpage = cpage;
-//        this.shprfnm=shprfnm;
-//    }
+    public ConcertSearchByTitleDTO(String stDate,String edDate,int rows, int cpage,String shprfnm){
+        this.stDate = stDate;
+        this.edDate = edDate;
+        this.rows = rows;
+        this.cpage = cpage;
+        this.shprfnm=shprfnm;
+    }
 
 
 

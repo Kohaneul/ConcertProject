@@ -29,6 +29,8 @@ public class ConcertRepository {
      */
     public List<ConcertData> findAllDTO(ConcertSearchByTitleDTO concertSearchByTitleDTO){
         XmlDataParser xmlDataParser = new XmlDataParser(concertSearchByTitleDTO);
+        concertSearchByTitleDTO.setStDate( xmlDataParser.getStDate());
+        concertSearchByTitleDTO.setEdDate(xmlDataParser.getEdDate());
         return xmlDataParser.setting(3);
     };
 

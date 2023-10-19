@@ -29,11 +29,11 @@ IN name TEXT, IN loginId varchar(20), IN address TEXT,IN email varchar(30),IN pa
 IN joinDay datetime,IN birth varchar(8),IN phoneNumber varchar(30),IN detailAddress TEXT
 )
 BEGIN
-	INSERT INTO  MEMBER (name,loginId,address,email,password,joinDay,birth,phoneNumber,detailAddress)
-	values(name,loginId,address,email,password,joinDay,birth,phoneNumber,detailAddress);
-	SELECT @memberId := MAX(id) from member;
-    INSERT likeConcert(memberId, mt20id)
-    VALUES(@memberId,JSON_ARRAY());
+INSERT INTO  member (name,loginId,address,email,password,joinDay,birth,phoneNumber,detailAddress)
+values(name,loginId,address,email,password,joinDay,birth,phoneNumber,detailAddress);
+SELECT @memberId := MAX(id) from member;
+INSERT likeConcert(memberId, mt20id)
+VALUES(@memberId,JSON_ARRAY());
 END ;;
 DELIMITER ;
 

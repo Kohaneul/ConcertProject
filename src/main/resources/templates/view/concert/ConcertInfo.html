@@ -184,7 +184,7 @@
                                     <label th:for = "shprfnm" style="position: absolute; padding:5px; font-size:12px; color:#646970;">검색하고 싶은 공연 제목 입력</label>
                                     <input type = "hidden" class = "form-control" th:field = "*{rows}" style="width:30px;" />
                                     <input type = "date" class = "form-control" th:field = "*{stDate}"/>
-                                    <input type = "date" class = "form-control" th:fieldX = "*{edDate}"/>
+                                    <input type = "date" class = "form-control" th:field = "*{edDate}"/>
                                         <select th:field = "*{signgucode}" class = "form-control" style="text-align-last:center;">
                                             <option value = "">　지역선택▼　</option>
                                             <option th:each = "signgucode : ${signgucode}"

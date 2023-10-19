@@ -129,12 +129,12 @@
                                                 th:text = "${signgucode.getKey()}" style="text-align:center;">OPT
                                         </option>
                                     </select>
-                                    <span th:if = "${session.MEMBER_ID_SESSION!=null}">
-                                        <button type = "button" class = "btn btn-primary mb-2"
-                                                th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>
-                                         <input type="checkbox" id="myConcert" name="scales" th:onclick="'location.href=\'' + @{/concert/like/detailView} + '\''">
-                                         <label for="myConcert">좋아요 목록만 보기</label>
-                                     </span>
+<!--                                    <span th:if = "${session.MEMBER_ID_SESSION!=null}">-->
+<!--                                        <button type = "button" class = "btn btn-primary mb-2"-->
+<!--                                                th:onclick = "'location.href=\'' + @{/member/logOut} + '\''">로그아웃</button>-->
+<!--                                         <input type="checkbox" id="myConcert" name="scales" th:onclick="'location.href=\'' + @{/concert/like/detailView} + '\''">-->
+<!--                                         <label for="myConcert">좋아요 목록만 보기</label>-->
+<!--                                     </span>-->
                                     <input type = "hidden" class = "form-control" placeholder = "화면에 출력되는 갯수" id = "rows"
                                            th:field = "*{rows}"/>
                                     <input type = "text" class = "form-control" placeholder = "조회장소" id = "shprfnmfct"
